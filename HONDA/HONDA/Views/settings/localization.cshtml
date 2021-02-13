@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "localization";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+
+@{ Html.RenderPartial("_SettingsMenu"); }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a[href$="' + "/localization" + '"]').closest("li").addClass('active');
+    });
+    function CurrencyCode(T) {
+        if (T == "INR") {
+            $("#txtCurrencySymbol").val("₹");
+        }
+        if (T == "Ngultrum") {
+            $("#txtCurrencySymbol").val("Nu.");
+        }
+        if (T == "USD") {
+            $("#txtCurrencySymbol").val("$");
+        }
+        if (T == "EURO") {
+            $("#txtCurrencySymbol").val("€");
+        }
+        if (T == "AUD") {
+            $("#txtCurrencySymbol").val("A$");
+        }
+        if (T == "Singapore dollar") {
+            $("#txtCurrencySymbol").val("S$");
+        }
+    }
+</script>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <form>
+            <h3 class="page-title">Localization</h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Default Country</label>
+                        <select disabled class="form-control">
+                            <option >India</option> 
+                            <option selected="selected"> Bhutan</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Date Format</label>
+                        <select  disabled class="form-control">
+                        
+                            <option selected="selected"  value="d M Y">15-May-2016</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Timezone</label>                       
+                            <select disabled id="ddltimezome" class="form-control">
+                                <option value="0">--Select--</option>
+                                  <option selected="selected"> UTC +6 Bhutan Time </option>
+                                
+                            </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Default Language</label>
+                        <select disabled class="form-control"">
+                            <option selected="selected">English</option>
+                           
+                             
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Currency Code</label>
+                    
+                        <select disabled  class="form-control"">
+                            <option >INR</option>
+                            <option  selected="selected">Ngultrum</option>
+                            <option>USD</option>
+                            <option>EURO</option>
+                            <option>AUD</option>
+                            <option>Singapore dollar</option>
+                          
+                           
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Week Start Day</label>
+                        <input class="form-control" id="txtCurrencySymbol"  readonly value="Monday" type="text">
+                    </div>
+                </div>
+@*@if (ViewBag.event_permission.Create == 1 || ViewBag.event_permission.Update == 1)
+{
+                <div class="row">
+                    <div class="col-sm-12 text-center m-t-20">
+                        <button type="button" class="btn btn-primary">Save &amp; Update</button>
+                        
+                        <button type="button" class="btn btn-primary">Reset</button>
+                    </div>
+                </div>
+
+}*@
+            </div>
+        </form>
+    </div>
+</div>

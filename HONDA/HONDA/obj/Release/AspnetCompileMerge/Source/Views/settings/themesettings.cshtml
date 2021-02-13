@@ -1,0 +1,290 @@
+﻿@model HONDA.Models.ThemeModel
+@{ Html.RenderPartial("_SettingsMenu"); 
+<style>
+    .crr {
+        color: green;
+    }
+
+    .er {
+        color: red;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a[href$="' + "/themesettings" + '"]').closest("li").addClass('active');
+
+        var _URL = window.URL || window.webkitURL;
+
+        
+        $("#UploadBtnLogo").click(function () {
+           
+            var data = new FormData();
+            var files = $("#logo").get(0).files;
+            if (files.length > 0) {
+                if (files.length <= 3) {
+                    var filenamelist = [];
+                    for (var i = 0; i < files.length; i++) {
+                        filenamelist.push(files[i].name);
+                        data.append(files[i].name, files[i]);
+                        var isize = (files[i].size / 1024);
+                        isize = (Math.round((isize / 1024) * 100) / 100);
+                        if (isize > 2) {
+                            alert("File must be less than 2MB");
+                            return false;
+                        }
+                    }
+                    for (var i = 0; i < filenamelist.length; i++) {
+                        var extension = filenamelist[i].split('.').pop().toUpperCase();
+                        if (extension != "PNG") {
+                            alert("Invalid file format." + "(." + extension.toLowerCase() + ")");
+                            $("#logo").val('');
+                            return false;
+                        }
+                    }
+                    //$('#btn_CreateExpense').prop("disabled", true);
+                    $('#btn_Reset').prop("disabled", true);
+                    //$('#btn_addClose').prop("disabled", true);
+                    $.ajax({
+                        url: '/settings/UploadFiles',
+                        type: "POST",
+                        processData: false,
+                        data: data,
+                        dataType: 'json',
+                        contentType: false,
+                        async: false,
+                        success: function (result) {
+                            $("#hdlogo").val(result);
+                            alert("Upload Image successfully ."); 
+                            $("#srclogo").attr("src", "/ThemeImg/" + result); 
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                        }
+                    });
+                }
+                else {
+                    alert("No Of Files 3 can be Uploaded at a Time.")
+                    // setTimeout(function () { $('#uploadfile').focus(); });
+                    $("#logo").val('');
+                }
+            }
+            else {
+                alert("Please Check files to upload.")
+                setTimeout(function () { $('#logo').focus(); });
+                $("#logo").val('');
+            }
+
+        })
+        $("#UploadBtnFavicon").click(function () {
+           
+            var data = new FormData();
+            var files = $("#favicon").get(0).files;
+            if (files.length > 0) {
+                if (files.length <= 3) {
+                    var filenamelist = [];
+                    for (var i = 0; i < files.length; i++) {
+                        filenamelist.push(files[i].name);
+                        data.append(files[i].name, files[i]);
+                        var isize = (files[i].size / 1024);
+                        isize = (Math.round((isize / 1024) * 100) / 100);
+                        if (isize > 2) {
+                            alert("File must be less than 2MB");
+                            return false;
+                        }
+                    }
+                    for (var i = 0; i < filenamelist.length; i++) {
+                        var extension = filenamelist[i].split('.').pop().toUpperCase();
+                        if (extension != "PNG") {
+                            alert("Invalid file format." + "(." + extension.toLowerCase() + ")");
+                            $("#favicon").val('');
+                            return false;
+                        }
+                    }
+                    //$('#btn_CreateExpense').prop("disabled", true);
+                    $('#btn_Reset').prop("disabled", true);
+                    //$('#btn_addClose').prop("disabled", true);
+                    $.ajax({
+                        url: '/settings/UploadFiles',
+                        type: "POST",
+                        processData: false,
+                        data: data,
+                        dataType: 'json',
+                        contentType: false,
+                        async: false,
+                        success: function (result) {
+                            $("#hdFavicon").val(result);
+                            alert("Upload Image successfully .");
+                            $("#srcfavicon").attr("src", "/ThemeImg/" + result); 
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                        }
+                    });
+                }
+                else {
+                    alert("No Of Files 3 can be Uploaded at a Time.")
+                    // setTimeout(function () { $('#uploadfile').focus(); });
+                    $("#logo").val('');
+                }
+            }
+            else {
+                alert("Please Check files to upload.")
+                setTimeout(function () { $('#favicon').focus(); });
+                $("#favicon").val('');
+            }
+
+        });
+        $("#btnSave").click(function () {
+           
+            var ThemeModel = {
+                'THEME_ID': $("#hdn_THEME_ID").val(),
+                'COMPANY_NAME': $("#txtWebsite_name").val(),
+                'LOGO': $("#hdlogo").val(),
+                'FAVICON': $("#hdFavicon").val()
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/settings/AddInsertUpdateCreateTheme',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(ThemeModel),
+                dataType: 'json',
+                success: function (data) {
+                    //alert(Msg);
+                    var succ = data.SuccessMsg;
+                    var err = data.ErrorMsg;
+                    if (succ != null && err == null) {
+                        alert(succ);
+                        window.location.href = "/Home/Logout";
+                    }
+                    else {
+                        alert(err);
+                    }
+                }
+            });
+        });
+        $("#btnReset").click(function () {
+            //$("#txtWebsite_name").val('');
+            //$("#logo").val('');
+            //$("#favicon").val('');
+            //$("#srclogo").attr('src','');
+            //$("#srcfavicon").removeAttr('src');
+            window.location.reload();
+        });
+        $('#logo').change(function () {
+            var val = $(this).val().toLowerCase(),
+                regex = new RegExp("(.*?)\.(png|jpg|jepg|gif)$");
+            if (!(regex.test(val))) {
+                $(this).val('');
+                alert('Please select correct file format');
+            }
+        });
+        $('#favicon').change(function () {
+            var val = $(this).val().toLowerCase(),
+                regex = new RegExp("(.*?)\.(png|jpg|jepg|gif)$");
+            if (!(regex.test(val))) {
+                $(this).val('');
+                alert('Please select correct file format');
+            }
+        });
+    });
+    function LoadProgressBar(result) {
+        var markup = "<tr><td>" + result + "</td><td><a href='javascript:void(0);' data_file='" + result + "' id='btn_delete'><span class='glyphicon glyphicon-remove red'></span></a></td></tr>"; // Binding the file name
+        $("#ListofFiles tbody").append(markup);
+        $('.glyphicon-remove').prop('disabled', true);
+        var progressbar = $("#progressbar-5");
+        var progressLabel = $(".progress-label");
+        progressbar.show();
+        $("#progressbar-5").progressbar({
+            //value: false,
+            change: function () {
+                progressLabel.text(
+                    progressbar.progressbar("value") + "%");  // Showing the progress increment value in progress bar
+            },
+            complete: function () {
+                progressLabel.text("Loading Completed!");
+                progressbar.progressbar("value", 0);  //Reinitialize the progress bar value 0
+                progressLabel.text("");
+                progressbar.hide(); //Hiding the progress bar
+                $('#Files').val('');
+                $('#FileBrowse').find("*").prop("disabled", false);
+                $('#btn_CreateExpense').prop("disabled", false);
+                $('.glyphicon-remove').prop('disabled', false);
+                $('#btn_Reset').prop("disabled", false);
+                $('#btn_addClose').prop("disabled", false);
+            }
+        });
+        function progress() {
+            var val = progressbar.progressbar("value") || 0;
+            progressbar.progressbar("value", val + 1);
+            if (val < 99) {
+                setTimeout(progress, 25);
+            }
+        }
+        setTimeout(progress, 100);
+    }
+    function fileValidation() {        
+        var ext = file.substr(file.lastIndexOf('.') + 1);
+        var allow = ["png"];
+        if (allow.lastIndexOf(ext) == -1) {
+            $(".err").html("Please upload image only").addClass("er").removeClass("crr");
+            $("#logo").val("");
+        }
+        else {
+            $(".err").html("Correct image only").addClass("crr").removeClass("er");
+        }
+    }
+
+</script>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <form class="form-horizontal">
+            <h4 class="page-title">Theme Settings</h4>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Company Name</label>
+                <div class="col-lg-9">
+                    @*<input name="website_name" class="form-control"  value="website_name" type="text" id="txtWebsite_name">*@
+                    @Html.TextBoxFor(m => m.COMPANY_NAME, new { @Value=Model.COMPANY_NAME,@class= "form-control",@id= "txtWebsite_name" , @disabled= "disabled"  })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label"> Logo</label>
+                <div class="col-lg-5">
+                    <input class="form-control File" type="file" id="logo" />
+                    <p class="err"></p>
+                    <span class="help-block">Recommended image size is 140 x 40 px</span>
+                </div>
+                <div class="col-lg-1">
+                    <input type="button" id="UploadBtnLogo"   class="btn btn-primary" value="Upload" style="margin-left:-25px" />
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="img-thumbnail pull-left"><img src="/ThemeImg/@Model.LOGO" class="img-responsive" alt="" width="140" height="40" id="srclogo"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Favicon</label>
+                <div class="col-lg-5">
+                    <input class="form-control File" type="file" id="favicon">
+                    <span class="help-block">Recommended image size is 16 x 16 px</span>
+                </div>
+                <div class="col-lg-1">
+                    <input type="button" id="UploadBtnFavicon" class="btn btn-primary" value="Upload" style="margin-left:-25px" />
+                </div>
+                <div class="col-lg-3">
+                    <div class="settings-image img-thumbnail pull-left"><img src="/ThemeImg/@Model.FAVICON" class="img-responsive" width="16" height="16" alt="" id="srcfavicon"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center m-t-20">
+    <input type="button" class="btn btn-primary" id="btnSave" value="Save & Update" />
+    <input type="button" class="btn btn-primary" id="btnReset" value="Reset" />
+    <input type="hidden" id="hdn_THEME_ID" value="@Model.THEME_ID" />
+    <input type="hidden" id="hdlogo" />
+    <input type="hidden" id="hdFavicon" />
+</div>
+
+}

@@ -1,0 +1,287 @@
+﻿
+@{
+    ViewBag.Title = "Create_Customer";
+}
+
+<style type="text/css">
+    .required {
+        color: red;
+    }
+
+    .myclass {
+        text-transform: capitalize;
+    }
+
+    .form-group {
+        margin: 4px !important;
+    }
+
+    .form-control {
+        height: 10% !important;
+    }
+</style>
+
+<script type="text/javascript">
+   
+        $(document).ready(function () {
+            $('ul.list-unstyled  li a[href$="' + "/CustomerList" + '"]').addClass('active');
+    });
+
+    function CancelOnClick() {
+        if (confirm("Are you sure you want to cancel the form ?")) {
+            window.location.href = "/Master/CustomerList";
+        }
+    }
+
+</script>
+
+
+
+<div class="row">
+    <div class="col-sm-10">
+        <h4 class="page-title">Create Customer</h4>
+    </div>
+
+    <div class="col-sm-2 text-right m-b-30">
+      
+    </div>
+    @*<div class="col-sm-3 text-right m-b-30" id="buttons">
+        </div>*@
+</div>
+<div class="row" style="width:100%;margin-left:0px; margin-top:0px">
+    <div class="panel">
+        @*<div class="panel-heading" style="background-color:lightsalmon;"><h4 align="left" style="font-size:15px;">Create Customer</h4></div>*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>No:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_No" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Description:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_Description" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Farmer Location:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_FarmerLocation" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Customer Type:</label>
+                            <input type="text" class="form-control" id="txt_CustomerType" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Address:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_Address" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Address2:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_Address2" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" class="form-control" id="txt_City" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Country/Region Code:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_Country" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Post Code:</label>
+                            @*<select class="form-control" id="ddl_PostCode">
+                                <option value="0">---Select---</option>
+                                <option value="1">Post Code1</option>
+                                <option value="2">Post Code2</option>
+                            </select>*@
+                            @Html.DropDownList("ddl_PostCode", (IEnumerable<SelectListItem>)ViewBag.PostCode, "-- Select --",new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Phone No:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_PhoneNo" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Email ID:</label>
+                            <input type="text" class="form-control" id="txt_Email_id" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Language Code:</label>
+                            @*<select class="form-control" id="ddl_LnCode">
+                                <option value="0">---Select---</option>
+                                <option value="1">Language Code1</option>
+                                <option value="2">Language Code2</option>
+                            </select>*@
+                            @Html.DropDownList("ddl_LnCode", (IEnumerable<SelectListItem>)ViewBag.Language_code, "-- Select --", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Currency Code:<span class="required">*</span></label>
+                            @*<select class="form-control" id="ddl_CurrencyCode">
+                                <option value="0">---Select---</option>
+                                <option value="1">CurrencyCode1</option>
+                                <option value="2">CurrencyCode2</option>
+                            </select>*@
+
+                            @Html.DropDownList("ddl_CurrencyCode", (IEnumerable<SelectListItem>)ViewBag.Currencies_Code, "-- Select --", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Location Code:</label>
+                            @*<select class="form-control" id="ddl_LocationCode">
+                                <option value="0">---Select---</option>
+                                <option value="1">LocationCode1</option>
+                                <option value="2">LocationCode2</option>
+                            </select>*@
+                            @Html.DropDownList("ddl_LocationCode",(IEnumerable<SelectListItem>)ViewBag.LocationCode, "-- Select --", new { @class="form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Sales Person Code:<span class="required">*</span></label>
+                            @*<select class="form-control" id="ddl_SalesPersonCode">
+                                <option value="0">---Select---</option>
+                                <option value="1">Sale Person Code1</option>
+                                <option value="2">Sale Person Code2</option>
+                            </select>*@
+
+                            @Html.DropDownList("ddl_SalesPersonCode", (IEnumerable<SelectListItem>)ViewBag.Sales_Person_Code, "-- Select --", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Vat Registration No:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_VatRegistrationNo" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Gen. Bus. Posting Setup:</label>
+                            @*<select class="form-control" id="ddl_GenBus">
+                                <option value="0">---Select---</option>
+                                <option value="1">GenBus1</option>
+                                <option value="2">GenBus2</option>
+                            </select>*@
+                            @Html.DropDownList("ddl_GenBus", (IEnumerable<SelectListItem>)ViewBag.GenBusinessPosting, "-- Select --",new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Vat. Bus. Posting Setup:</label>
+                            @*<select class="form-control" id="ddl_VatBus">
+                                <option value="0">---Select---</option>
+                                <option value="1">VatBus1</option>
+                                <option value="2">VatBus2</option>
+                            </select>*@
+
+                            @Html.DropDownList("ddl_VatBus", (IEnumerable<SelectListItem>)ViewBag.VatBusinessPosting, "-- Select --",new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Customer Posting Setup:<span class="required">*</span></label>
+                            @*<select class="form-control" id="ddl_CustomerPostingSetup">
+                                <option value="0">---Select---</option>
+                                <option value="1">Customer Posting Setup1</option>
+                                <option value="2">Customer Posting Setup2</option>
+                            </select>*@
+                            @Html.DropDownList("ddl_CustomerPostingSetup", (IEnumerable<SelectListItem>)ViewBag.CustomerPosting_SetUp, "-- Select --", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>GLN:<span class="required">*</span></label>
+                            <input type="text" class="form-control" id="txt_GLN" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Credit Limit:</label>
+                            <input type="text" class="form-control" id="txt_CrLimit" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Remaining Cr. Limit:</label>
+                            <input type="text" class="form-control" id="txt_RemainingCrLimit" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Balance(LCY):</label>
+                            <input type="text" class="form-control" id="txt_Department" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Blocked:</label>
+                            <input type="text" class="form-control" id="txt_Blocked" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" id="btn_Submit">Create</button>
+            <button type="button" class="btn btn-primary" id="btn_Cancel" onclick="CancelOnClick()">Cancel</button>
+            <button type="button" class="btn btn-primary" id="btn_Reset">Reset</button>
+        </div>
+    </div>
+</div>
+

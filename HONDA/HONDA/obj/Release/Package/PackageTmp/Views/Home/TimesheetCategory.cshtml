@@ -1,0 +1,169 @@
+﻿
+@model IEnumerable<HONDA.Models.AnnualAppraisalModel>
+<style type="text/css">
+    .required {
+        color: red;
+    }
+
+    .myclass {
+        text-transform: capitalize;
+    }
+
+    #content {
+        height: 900px;
+    }
+
+    .btn-default {
+        color: #333;
+        background-color: #fff;
+        border: none;
+    }
+</style>
+
+
+<div class="row">
+    <div class="panel">
+        <div class="panel-heading" style="background-color:#00bff9;"><h4 align="left" style="font-size:15px;"> Timesheet Category</h4></div>
+        <div class="panel-body">
+      
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">                        
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">                        
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">                        
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">                        
+                        <input type="button" id="openTimesheetCategory" class="btn btn-primary" value="GO TO TEMPLATE SETTINGS" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Field Description:<span class="required">*</span></label>
+                        <select class="form-control" id="temp">
+                            <option value="0">Select Fields</option>
+                            <option value="1">Project Code</option>
+                            <option value="2">Job Category</option>
+                            <option value="3">Job Item</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="seqno">Text for add fields<span class="required">*</span></label>
+                        <input type="text" id="addItem" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">                        
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary" style="margin-top:22px; width:241.75px; height:40px; text-align:left">Mandatory</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>                           
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="seqno">Sequence No.<span class="required">*</span></label>
+                        <input type="text" id="seqno"  class="form-control"/>
+                    </div>
+                </div>
+            </div>                        
+        </div>
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-sm-5">
+                <div class="form-group">
+
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="form-group form-group-toggle" data-toggle="buttons">
+                    @*onclick="ClearText()"*@
+                    <button type="button" class="btn btn-primary" id="btn_Add">Add</button>
+                    <button type="button" class="btn btn-primary" id="btnReset" onclick="ClearText()">Reset</button>
+                    <button type="button" class="btn btn-primary" onclick="CancelOnClick()">Cancel</button>
+                    <input type="hidden" id="hdn_Appraisal_id" value="@ViewBag.Exit_idType" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.button-checkbox').each(function () {
+
+            // Settings
+            var $widget = $(this),
+                $button = $widget.find('button'),
+                $checkbox = $widget.find('input:checkbox'),
+                color = $button.data('color'),
+                settings = {
+                    on: {
+                        icon: 'glyphicon glyphicon-check'
+                    },
+                    off: {
+                        icon: 'glyphicon glyphicon-unchecked'
+                    }
+                };
+
+            // Event Handlers
+            $button.on('click', function () {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+                $checkbox.triggerHandler('change');
+                updateDisplay();
+            });
+            $checkbox.on('change', function () {
+                updateDisplay();
+            });
+
+            // Actions
+            function updateDisplay() {
+                var isChecked = $checkbox.is(':checked');
+
+                // Set the button's state
+                $button.data('state', (isChecked) ? "on" : "off");
+
+                // Set the button's icon
+                $button.find('.state-icon')
+                    .removeClass()
+                    .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                // Update the button's color
+                if (isChecked) {
+                    $button
+                        .removeClass('btn-default')
+                        .addClass('btn-' + color + ' active');
+                }
+                else {
+                    $button
+                        .removeClass('btn-' + color + ' active')
+                        .addClass('btn-default');
+                }
+            }
+
+            // Initialization
+            function init() {
+
+                updateDisplay();
+
+                // Inject the icon if applicable
+                if ($button.find('.state-icon').length == 0) {
+                    $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                }
+            }
+            init();
+        });
+    });
+</script>
+
+
+

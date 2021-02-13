@@ -1,0 +1,424 @@
+﻿<link href="~/assets/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="~/assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
+
+<style type="text/css">
+    .multiselect-container {
+        width: 100% !important;
+        border-radius: 1px !important;
+      
+    }
+
+    .multiselect {
+        height: 40px !important;
+        text-align: left !important;
+        background-color: revert;
+        width: 100%;
+       
+    }
+    .multiselect-selected-text {
+    color:gray;
+    }
+    .top-buffer {
+        margin-top: 3px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('a[href$="' + "/MasterSetting" + '"]').closest("li").addClass('active');
+        $("#ddl_workcategory").attr('disabled', true);
+        FunTest(0);
+    })
+    $(function () {
+        $('#ddl_ProjectList').multiselect({
+            includeSelectAllOption: true,
+            buttonWidth: '100%'
+        });
+        $('#ddl_JobCategoryList').multiselect({
+            includeSelectAllOption: true,
+            buttonWidth: '100%'
+        });
+        $('#ddl_JobItemList').multiselect({
+            includeSelectAllOption: true,
+            buttonWidth: '100%'
+        });
+    });
+
+    function FunTest(T) {
+        
+        if (T == "projectcode") {
+            $("#lbldesc").text('Project Description :');
+            $("#ddl_workcategory").attr('disabled', true);
+            $("#ddl_ProjectFamily").attr('disabled', false);
+            $("#ddl_Projectflow").attr('disabled', false);
+            $('#datatableList1').show();
+            $('#datatableList2').hide();
+            $('#datatableList3').hide();
+        } else if (T == "jobcategory") {
+            $("#lbldesc").text('Job Category :');
+            $("#ddl_ProjectFamily").attr('disabled', true);
+            $("#ddl_Projectflow").attr('disabled', true);
+            $("#ddl_workcategory").attr('disabled', false);
+            $('#datatableList1').hide();
+            $('#datatableList2').show();
+            $('#datatableList3').hide();
+        }
+        else if (T == "jobitem") {
+            $("#lbldesc").text('Job Item :');
+            $("#ddl_ProjectFamily").attr('disabled', true);
+            $("#ddl_Projectflow").attr('disabled', true);
+            $("#ddl_workcategory").attr('disabled', false);
+            $('#datatableList1').hide();
+            $('#datatableList2').hide();
+            $('#datatableList3').show();
+        } else {
+            $("#lbldesc").text('Project Description :');
+            $("#ddl_ProjectFamily").attr('disabled', false);
+            $("#ddl_Projectflow").attr('disabled', false);
+            $("#ddl_workcategory").attr('disabled', true);
+            $('#datatableList1').show();
+            $('#datatableList2').hide();
+            $('#datatableList3').hide();
+        }
+
+    }
+
+</script>
+
+@*<div class="row">
+    <div class="col-sm-4 text-right m-b-30">
+    </div>
+</div>*@
+<div class="card-box">
+    <div class="panel panel-table">
+        <br />
+        <div class="row top-buffer" >
+            <div class="col-sm-12">
+                <span class="col-sm-1"></span>
+                <div class="col-sm-4 form-group">
+                    <input type="radio" onchange="FunTest($(this).val())" id="rdotype" name="type" value="projectcode" checked/><span style="font-size:12px;font-weight:bold">Project Code&nbsp;&nbsp;</span>
+                    <input type="radio" onchange="FunTest($(this).val())" id="rdotype1" name="type" value="jobcategory" /><span style="font-size:12px;font-weight:bold">Job Category&nbsp;&nbsp;</span>
+    <input type="radio" onchange="FunTest($(this).val())" id="rdotype2" name="type" value="jobitem" /><span style="font-size:12px;font-weight:bold">Job Item</span>
+</div>
+            </div>
+        </div>
+        <br />
+        <div class="row top-buffer">
+            <div class="col-sm-12">
+              @*  <span class="col-sm-1"></span>*@
+                <div class="col-sm-3 form-group">
+                    <label id="lbldesc">Field Description : </label>
+                    <input type="text" class="form-control" id="txt_fieldName" placeholder="Enter Name" name="name" value="" />
+                </div>
+              
+                <div class="col-sm-3 form-group">
+                    <label id="lblpro">Project Family : </label>
+                    <select class="form-control " id="ddl_ProjectFamily">
+                        <option value="0">Select</option>
+                        <option value="1">Project fam1 </option>
+                        <option value="2">Project fam2</option>
+                        <option value="3">Project fam3</option>
+                    </select>
+                </div>
+            
+                <div class="col-sm-3 form-group">
+                    <label id="lblproflow">Project Flow : </label>
+                    <select class="form-control " id="ddl_Projectflow">
+                        <option value="0">Select</option>
+                        <option value="1">Flow1 </option>
+                        <option value="2">Flow12</option>
+                        <option value="3">Flow13</option>
+                    </select>
+                </div>
+              
+                <div class="col-sm-3 form-group">
+                    <label id="lblwk">Work Category : </label>
+                    <select class="form-control " id="ddl_workcategory">
+                        <option value="0">Select</option>
+                        <option value="1">Challenging and irregular</option>
+                        <option value="2">Challenging and irregular</option>
+                    </select>
+                </div>
+            </div>
+        </div>        
+        <br />   
+        <div class="row top-buffer">
+            <div class="col-sm-12">
+                <span class="col-sm-1">Status : </span>
+                <div class="col-sm-2 form-group">
+                   <input type="checkbox" id="rdostatus" name="status" value="status" checked />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-sm-3">
+                <div class="form-group">
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="form-group form-group-toggle" data-toggle="buttons">
+                    @*onclick="ClearText()"*@
+                    <button type="button" class="btn btn-primary" id="btn_Submit">Submit</button>
+                    <button type="button" class="btn btn-primary" id="btnReset" onclick="ClearText()">Reset</button>
+                    <button type="button" class="btn btn-primary" onclick="CancelOnClick()">Cancel</button>
+                    <input type="hidden" id="hdn_Appraisal_id" value="@ViewBag.Exit_idType" />
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-striped table-responsive custom-table m-b-0 dataTable" id="datatableList1" style="font-size:12px;">
+            <thead style="font-weight:bold;font-size:12px !important">
+                <tr>
+                    <th style="font-weight:bold;font-size:12px !important">Project Code</th>
+                    <th style="font-weight:bold;font-size:12px !important">Project Family</th>
+                    <th style="font-weight:bold;font-size:12px !important">Project Flow</th>
+                    <th style="font-weight:bold;font-size:12px !important">Status</th>
+                    <th style="font-weight:bold;font-size:12px !important">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in Model)
+                    {
+
+                    }*@
+                <tr>
+                     <td>
+                        OADX
+                    </td>
+                    <td>
+                       project family1
+                    </td>
+                    <td>
+                        projectflow1
+                    </td>
+                    <td>
+                       Active
+                    </td>
+                    
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                     <td>
+                         OADXE
+                    </td>
+                    <td>
+                        project family2
+                    </td>
+                    <td>
+                        projectflow2
+                    </td>
+                    <td>
+                        Active
+                    </td>
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXF
+                    </td>
+                    <td>
+                        project family3
+                    </td>
+                    <td>
+                        projectflow1
+                    </td>
+                    <td>
+                        Active
+                    </td>
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXD
+                    </td>
+                    <td>
+                        project family4
+                    </td>
+                    <td>
+                        projectflow1
+                    </td>
+                    <td>
+                        Active
+                    </td>
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-striped table-responsive custom-table m-b-0" id="datatableList2" style="font-size:12px;">
+            <thead style="font-weight:bold;font-size:12px !important">
+                <tr>
+                    <th style="font-weight:bold;font-size:12px !important">Job Category</th>
+                    <th style="font-weight:bold;font-size:12px !important">Work Category</th>
+                    <th style="font-weight:bold;font-size:12px !important">Status</th>
+                    <th style="font-weight:bold;font-size:12px !important">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in Model)
+                    {
+
+                    }*@
+                <tr>
+                    <td>
+                        OADX
+                    </td>
+                    <td>
+                        project family1
+                    </td>
+                  
+                    <td>
+                        Active
+                    </td>
+                    
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXE
+                    </td>
+                    <td>
+                        project family2
+                    </td>
+                 
+                    <td>
+                        Active
+                    </td>
+                     
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXF
+                    </td>
+                    <td>
+                        project family3
+                    </td>
+                     
+                    <td>
+                        Active
+                    </td>
+                  
+                    <td  >
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXD
+                    </td>
+                    <td>
+                        project family4
+                    </td>
+                   
+                    <td>
+                        Active
+                    </td>
+                    
+                    <td >
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-striped table-responsive custom-table m-b-0" id="datatableList3" style="font-size:12px;">
+            <thead style="font-weight:bold;font-size:12px !important">
+                <tr>
+                    <th style="font-weight:bold;font-size:12px !important">Job Item</th>
+                    <th style="font-weight:bold;font-size:12px !important">Work Category</th>
+                    <th style="font-weight:bold;font-size:12px !important">Status</th>
+                    <th style="font-weight:bold;font-size:12px !important">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in Model)
+                    {
+
+                    }*@
+                <tr>
+                    <td>
+                        OADX
+                    </td>
+                    <td>
+                        project family1
+                    </td>
+                 
+                    <td>
+                        Active
+                    </td>
+                
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXE
+                    </td>
+                    <td>
+                        project family2
+                    </td>
+                  
+                    <td>
+                        Active
+                    </td>
+                   
+                    <td >
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXF
+                    </td>
+                    <td>
+                        project family3
+                    </td>
+                   
+                    <td>
+                        Active
+                    </td>
+                    
+                    <td>
+                            <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                        </td>
+                </tr>
+                <tr>
+                    <td>
+                        OADXD
+                    </td>
+                    <td>
+                        project family4
+                    </td>
+                  
+                    <td>
+                        Active
+                    </td>
+                    
+                    <td>
+                     <a href="javascript:void(0);" title="Edit" id="btn_edit"><i class="fa fa-pencil m-r-5"></i> <i class="fa fa-eye m-r-5"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</div>

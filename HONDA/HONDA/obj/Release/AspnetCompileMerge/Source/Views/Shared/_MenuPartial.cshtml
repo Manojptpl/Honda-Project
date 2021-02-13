@@ -1,0 +1,189 @@
+﻿<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu" style="margin-top:15px;">
+            <ul>
+                <li><a href="@Url.Content("~/Home/index")"><span> Dashboard</span></a></li>
+                <li class="submenu">
+                    <a href="#"><span> Work Structures</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/workstructure/businessunit")">Business Unit</a></li>
+                        <li><a href="@Url.Content("~/workstructure/departments")">Department</a></li>
+                        <li><a href="@Url.Content("~/workstructure/designation")"> Designation</a></li>
+                        <li><a href="@Url.Content("~/workstructure/grade")">Grade</a></li>
+                        <li><a href="@Url.Content("~/workstructure/holidays")">Holiday</a></li>
+                        <li><a href="@Url.Content("~/workstructure/geolocationstore")">Store Location Mapping</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0);"><span>Employees</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/Employees/employeelist")">Employee List</a></li>
+                    </ul>
+                </li>
+
+                <li id="myliDirectory">
+                    <a href="@Url.Content("~/Employees/directory")">Directory</a>
+                </li>
+                <li class="submenu">
+                    <a href="#"><span>  Attendance</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/Attendance/index")">Attendance History</a></li>
+                        <li><a href="@Url.Content("~/Attendance/exportforpayroll")">Export for Payroll</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#"><span>  Shift </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/shifts/shiftlist")">Shift List</a></li>
+                        <li><a href="@Url.Content("~/shifts/shiftgroup")">Shift Group</a></li>
+                        <li><a href="javascript:void(0);">Shift Roster</a></li>
+                        <li><a href="javascript:void(0);">Assign Shift</a></li>
+                        <li><a href="javascript:void(0);">Assign Shift Group</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="submenu">
+                    <a href="#"><span>  Leaves </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/leave/index")">Leave Policy</a></li>
+                        <li><a href="@Url.Content("~/leave/leavetype")">Leave Types</a></li>
+                        <li><a href="@Url.Content("~/leave/leavehistory")">Leave History</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="#"><span>  Expense </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/expense/expensetype")">Expense Type</a></li>
+                        <li><a href="@Url.Content("~/expense/expensepolicy")">Expense Policy</a></li>
+                        <li><a href="@Url.Content("~/expense/employeeexpensehistory")">Expense History</a></li>
+                        <li><a href="@Url.Content("~/expense/transferclaim")">Transfer Claim</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="/Devices/Devicelist">Devices</a></li>
+
+
+                <li class="submenu">
+                    <a href="#"><span>  Loans </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/Loan/loantype")">Loan Type</a></li>
+                        <li><a href="@Url.Content("~/Loan/loanpolicy")">Loan Policy</a></li>
+                        <li><a href="@Url.Content("~/Loan/sifa")">SIFA</a></li>
+                        @*   <li><a href="javascript:void(0);">DSA Settlement</a></li>
+                            <li><a href="javascript:void(0);">Imprest Claim </a></li>
+                            <li><a href="javascript:void(0);">Imprest Settlement </a></li>*@
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="#"><span>  Reports </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li class="submenu">
+                            <a href="#"><span>Attendance</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="@Url.Content("~/Reports/recalculateattendance")">Calculate Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/dailyattendance")">Daily Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/monthlyattendance")">Monthly Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/weeklyattendance")">Weekly Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/")">Early Coming</a></li>
+                                <li><a href="/Reports/">Late Coming</a></li>
+                                <li><a href="/Reports/">Early Going</a></li>
+                                <li><a href="/Reports/">Late Going</a></li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Over Time
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Region Wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Department Wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Business Unit/OU wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Location Wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Store wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Attendance for payroll
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Mispunch
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Top Punctual Employees
+                                    </a>
+                                </li>
+                                <li><a href="javascript:void(0);">Check In/Out Location</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><span>  Leave </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled" style="display: none;">
+                                <li><a href="javascript:void(0);"> Leave History</a></li>
+                                <li><a href="javascript:void(0);"> Leave Balances</a></li>
+                                <li><a href="javascript:void(0);"> Status of Applied Leaves</a></li>
+                                <li><a href="javascript:void(0);"> Encashment Eligibility</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><span>  Expense </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled" style="display: none;">
+                                <li><a href="javascript:void(0);"> Applied Expenses Status</a></li>
+                                <li><a href="javascript:void(0);"> Monthly/Yearly Expense</a></li>
+                                <li><a href="javascript:void(0);"> BU/OU Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Region Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Location Wise</a></li>
+                                <li><a href="javascript:void(0);"> Store wise</a></li>
+                                <li><a href="javascript:void(0);"> Manager Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Department Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Team Wise Expense</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><span>  Employee </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled" style="display: none;">
+                                <li><a href="javascript:void(0);"> New Joining Monthly / QTR/ Half Yearly / Yearly</a></li>
+                                <li><a href="javascript:void(0);"> Resigned Monthly / QTR/ Half Yearly / Yearly</a></li>
+                                <li><a href="javascript:void(0);"> On Probation</a></li>
+                                <li><a href="javascript:void(0);"> On Notice</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="/settings/companysettings">Settings</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

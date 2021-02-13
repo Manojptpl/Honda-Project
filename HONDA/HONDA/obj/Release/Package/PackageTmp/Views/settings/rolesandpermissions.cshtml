@@ -1,0 +1,466 @@
+﻿
+@{ Html.RenderPartial("_SettingsMenu"); }
+<style>
+    .myrole-action {
+        float: right;
+        margin-top: -38px;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a[href$="' + "/rolesandpermissions" + '"]').closest("li").addClass('active');
+
+        if (@ViewBag.event_permission.Update == 1) {
+            $('div.panel').css("pointer - events", "unset");
+            $('div.panel').css("opacity", "1.5");
+            $("input[type='checkbox']").prop("disabled", false);
+            $("input[type='button']").css("display", 'block');
+            
+        } else
+        {
+            $('div.panel').css("pointer - events", "none");
+            $('div.panel').css("opacity", "unset");
+            $("input[type='checkbox']").prop("disabled", true);
+            $("input[type='button']").css("display", 'none');
+        }
+
+        $('#btn_addrole').on('click', function ()
+        {
+            $('#add_role').modal('show');
+                });
+
+        $('#btn_closeRole').on('click', function () {
+            $('#txt_roleName').val("");
+            $('#add_role').modal('hide');
+            $('#chk_add').prop('checked', false);
+            window.location.reload(true);
+        });
+
+        $(document).on('click', '#btn_editRole', function (e) {
+                    var role_id = $(this).attr('data_id');
+                    if (role_id != "")
+                    {
+                $.ajax({
+                            type: 'POST',
+                    url: '/settings/GetRoleById',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(
+                        {
+                                'role_id': role_id
+                        }
+                    ),
+                    dataType: 'json',
+                    success: function (response)
+                    {
+                                var len = Object.keys(response).length;
+                                if (response != null) {
+                                    for (var i = 0; i < len; i++)
+                                    {
+                                        $('#txt_eRoleName').val(response[0].ROLE_NAME);//.prop('disabled', true);
+                                $('#hdn_EroleId').val(response[0].ROLE_ID);
+                                        if (response[0].status == "1")
+                                        {
+                                    $('#chk_edit').prop('checked', true);
+                                        }
+                                        else
+                                        {
+                                    $('#chk_edit').prop('checked', false);
+                                        }
+                                    }
+                                }
+                                else {
+                                    alert(err);
+                                }
+                            }
+                        });
+                $('#edit_role').modal('show');
+                    }
+
+                });
+
+        $('#btn_CloseEdit').on('click', function () {
+            $('#txt_eRoleName').val("");
+            $('#chk_edit').prop('checked', false);
+            $('#edit_role').modal('hide');
+                });
+        $('#btn_update').on('click', function () {
+                    var role_id = $('#hdn_EroleId').val();
+                    var role_status;
+                    if ($('#chk_edit').prop('checked') == true)
+            {
+                        role_status = '1';
+                    }
+            else
+            {
+                        role_status = '0';
+                    }
+
+                    if (role_id != "") {
+                $('#btn_update').prop('disabled', true);
+                $.ajax({
+                            type: 'POST',
+                    url: '/settings/UpdateRole',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(
+                        {
+                            'role_id': role_id, 'role_status': role_status, 'role_name': $("#txt_eRoleName").val()
+                        }
+                    ),
+                    dataType: 'json',
+                    success: function (response) {
+                                var succ = response.SuccessMsg;
+                                var err = response.ErrorMsg;
+                                if (succ != "" && err == null) {
+                                    alert(succ);
+                            $('#btn_update').prop('disabled', false);
+                            $('#txt_eRoleName').val("");
+                            $('#chk_edit').prop('checked', false);
+                            $('#edit_role').modal('hide');
+                            window.location.reload(true);
+
+                                }
+                                else {
+                                    alert(err);
+                            $('#btn_update').prop('disabled', false);
+                                }
+                            }
+                        });
+                $('#edit_role').modal('show');
+                    }
+                });
+        $('#btnSave').on('click', function () {
+               
+                    var permissions = new Array();
+
+            $("#tbodyAssignedPermission").find("tr:visible").each(function () {
+
+                $(this).find("td").each(function () {
+                            if ($(this).find("#chk_view").is(":checked") == true) {
+                                var permissionsStatus = {};
+                                permissionsStatus.ROLE_ID = $("#roleId").val();
+                                permissionsStatus.ROLE_PERMISSION_ID = $(this).find("#hdnRolePermissionId").val();
+                                permissionsStatus.CHECKED_STATUS = $(this).find("#chk_view").is(":checked");
+                                permissions.push(permissionsStatus);
+                            }
+                        });
+                    });
+
+            $.ajax({
+                        type: 'POST',
+                url: '/settings/UpdateRolePermissionModule',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(
+                    {
+                            'rolePermissions': permissions
+                    }
+                ),
+                dataType: 'json',
+                success: function (response) {
+                            var succ = response.SuccessMsg;
+                            var err = response.ErrorMsg;
+                            if (succ != "" && err == "") {
+                                alert("Add/Update successfully");
+                            }
+                            else {
+                                alert(err);
+                            }
+                        }
+                    });
+
+                });
+            });
+</script>
+<script>
+
+    function permissionAction(rolePermissionId, checkboxId) {
+        $.ajax({
+            type: 'POST',
+            url: '/settings/UpdateRolePermissionModule',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(
+                {
+                    'rollPermissionId': rolePermissionId, 'checkedStatus': $(checkboxId).is(':checked')
+                }
+            ),
+            dataType: 'json',
+            success: function (response) {
+                var succ = response.SuccessMsg;
+                var err = response.ErrorMsg;
+                if (succ != "" && err == "") {
+
+                }
+                else {
+                    $(checkboxId).prop('checked', !$(checkboxId).is(':checked'));
+                    alert(err);
+                }
+            }
+        });
+    }
+
+    
+
+    $(document).ready(function () {
+
+        //Hide show permission rows on database field
+        HideShowPermission();
+
+        //Hide show permission rows on module event
+        $(document).on('change', "[type=checkbox][id*=_module]", function () {
+            HideShowPermission();
+        });
+
+        function HideShowPermission() {
+            var isActiveModuel = 0;
+            $('input[type=checkbox][id*=_module]').each(function () {
+                var moduleId = $(this).val();
+                if ($(this).is(':checked') == false) {
+                    $('#tblPermissions tr.' + moduleId).hide();
+                }
+                else {
+                    $('#tblPermissions tr.' + moduleId).show();
+                    if (isActiveModuel == 0) {
+                        isActiveModuel = 1;
+                    }
+                }
+            });
+
+            if (isActiveModuel == 1) {
+                $("#btnSave").show();
+            }
+            else {
+                $("#btnSave").hide();
+            }
+        }
+
+        $('#btn_createRole').on('click', function () {
+            var roleName = $('#txt_roleName').val();
+            var role_status = '0';
+            if ($('#chk_add').prop('checked') == true)
+            {
+                role_status = '1';
+            }
+            else
+            {
+                role_status = '0';
+            }
+
+            if (roleName != "") {
+                $('#btn_createRole').prop('disabled', true);
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/CreateRole',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(
+                        {
+                            'roleName': roleName, 'role_status': role_status
+                        }
+                    ),
+                    dataType: 'json',
+                    success: function (response) {
+                        var succ = response.SuccessMsg;
+                        var err = response.ErrorMsg;
+                        if (succ != "" && err == "") {
+                            window.location.href = "/settings/RolesAndPermissions";
+                            $('#btn_createRole').prop('disabled', false);
+                        }
+                        else {
+                            alert(err);
+                            $('#btn_createRole').prop('disabled', false);
+                            $('#txt_roleName').val("");
+                        }
+                    }
+                });
+            }
+            else {
+                alert("Role can't be blank.");
+                setTimeout(function () { $('#txt_roleName').focus(); });
+            }
+        });
+    });
+
+</script>
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">Roles & Permissions</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        @if (ViewBag.event_permission.Create == 1)
+        {
+        <a href="javascript:void(0);" class="btn btn-primary btn-block" id="btn_addrole"><i class="fa fa-plus"></i> Add Roles</a>
+        }
+
+        <input type="hidden" id="roleId" value="@ViewBag.roleId" />
+        <div class="roles-menu" id="rolediv">
+            <ul class="nav">
+               
+                    @foreach (var item in ViewBag.roles)
+                    {
+                        <li class=@(item.ROLEACTIVEINDEX == 1 ? "active" : "")>
+                            @*<a  href="/settings/rolesandpermissions/@item.ROLE_ID">@item.ROLE_NAME*@
+                            <a style="    width: 85% !important;" href="/settings/rolesandpermissions/@item.ROLE_ID">
+                                @item.ROLE_NAME
+                            </a>
+                                @if (ViewBag.event_permission.Update == 1)
+                             {
+                                                     
+                                <span class="role-action" style="margin-top: -30px  !important;cursor: pointer  !important;display: unset !important;">
+                                    <span class="large" title="Edit" id="btn_editRole" data_id="@item.ROLE_ID">
+                                        <i class="fa fa-pencil m-r-5"></i>
+                                    </span>
+                                </span>
+                             
+                             }
+                     
+                        </li>
+                    }
+                 
+            </ul>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <h6 class="panel-title m-b-20">Module Access</h6>
+        <div class="panel">
+            <ul  id="ulmodul_access" class="list-group">
+                @if (ViewBag.modules != null)
+                {
+                    foreach (var item in ViewBag.modules)
+                    {
+                        <li class="list-group-item">
+                            @item.MODULE_NAME
+                            <div class="material-switch pull-right">
+                                <input id="@item.MODULE_ID+_module" type="checkbox" value="@item.MODULE_ID" @(item.ROLEACTIVEINDEX == 1 ? "checked" : "") />
+                                <label for="@item.MODULE_ID+_module" class="label-success"></label>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped custom-table" id="tblPermissions">
+                <thead>
+                    <tr>
+                        <th>Module Permission</th>
+                        @{int startRowCount = 0; }
+                        @foreach (System.Data.DataColumn column in((System.Data.DataTable)ViewBag.pagePermission).Columns)
+                        {
+                            startRowCount += 1;
+                            if (startRowCount > (int)ViewBag.fixedColumns)
+                            {
+                                <th class="text-center">
+                                    @column.ColumnName
+                                </th>
+                            }
+                        }
+                    </tr>
+                </thead>
+
+                <tbody id="tbodyAssignedPermission">
+                    @if (ViewBag.pagePermission != null)
+                    {
+                        foreach (System.Data.DataRow row in ((System.Data.DataTable)ViewBag.pagePermission).Rows)
+                        {
+                            <tr class=@row["MODULE_ID"]>
+                                <td class="text-left">@row["PAGE_NAME"].ToString() (@row["MODULE_NAME"].ToString())</td>
+
+                                @for (int rcount = (int)ViewBag.fixedColumns; rcount < ((System.Data.DataTable)ViewBag.pagePermission).Columns.Count; rcount++)
+                                {
+                                    <td class="text-center">
+                                        <input type="hidden" value="@(row[rcount].ToString().Split('~')[0])" id="hdnRolePermissionId" />
+                                        <input type="checkbox" class="chk_leave" id="chk_view" @(row[rcount].ToString().Split('~')[1] == "Active" ? "checked" : "")>
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+                        <tr>
+
+                            <td style="background:#eff3f6;text-align:center;" colspan="@(((((System.Data.DataTable)ViewBag.pagePermission).Columns.Count)-(int)ViewBag.fixedColumns)+1)">
+                                <input type="button" id="btnSave" class="btn btn-primary" style="min-width:300px;" value="Save/Update" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div id="add_role" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" id="btn_closeRole">&times;</button>
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Role</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @*<div class="form-group">
+                        <label>Role Name <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" id="txt_roleName">
+                    </div>*@
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Role Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="txt_roleName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Status</label>
+                            <br />
+                            <div class="material-switch">
+                                <input id="chk_add" type="checkbox" />
+                                <label for="chk_add" class="label-success"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-t-20 text-center">
+                        <button id="btn_createRole" class="btn btn-primary" type="button">Create Role</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit_role" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" id="btn_CloseEdit">&times;</button>
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Role</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Role Name <span class="text-danger">*</span></label>
+                                <input class="form-control" id="txt_eRoleName" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Status</label>
+                            <br />
+                            <div class="material-switch ">
+                                <input id="chk_edit" type="checkbox" />
+                                <label for="chk_edit" class="label-success"></label>
+                            </div>
+                        </div>
+                    </div>                   
+                    <div class="m-t-20 text-center">
+                        <button class="btn btn-primary" id="btn_update" type="submit">Save & Update</button>
+                        <input type="hidden" id="hdn_EroleId"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

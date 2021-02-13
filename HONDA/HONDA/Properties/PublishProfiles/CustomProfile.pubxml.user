@@ -1,0 +1,1594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\P0199\Desktop\Publish_Honda</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="ApplicationInsights.config">
+      <publishTime>11/21/2019 18:28:33</publishTime>
+    </File>
+    <File Include="assets/css/bootstrap-datetimepicker.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/bootstrap-multiselect.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/bootstrap.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/buttons.dataTables.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/calendarnew.css">
+      <publishTime>11/30/2019 23:55:51</publishTime>
+    </File>
+    <File Include="assets/css/dataTables.bootstrap.min - Copy.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/dataTables.bootstrap.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/font-awesome.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/fullcalendar.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/images/ui-icons_444444_256x240.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/images/ui-icons_555555_256x240.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/jquery-confirm.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/jquery-ui.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/jquery.dataTables.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/jquery.tooltip.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/monthly.css">
+      <publishTime>11/30/2019 21:21:58</publishTime>
+    </File>
+    <File Include="assets/css/select2.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css/style.css">
+      <publishTime>11/22/2019 18:38:25</publishTime>
+    </File>
+    <File Include="assets/css/styleTemplate.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css1/addons/datatables-select.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/addons/datatables-select.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/addons/datatables.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/addons/datatables.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/addons/directives.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/addons/directives.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/bootstrap.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/bootstrap.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/mdb.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/mdb.lite.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/mdb.lite.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/mdb.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/modules/animations-extended.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/modules/animations-extended.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/style.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css1/style.min.css">
+      <publishTime>01/12/2019 22:39:38</publishTime>
+    </File>
+    <File Include="assets/css_timer/index.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/css_timer/timeout-dialog.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/css/bootstrap-datetimepicker.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/css/bootstrap-datetimepicker.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/js/bootstrap-datetimepicker.fr.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/js/bootstrap-datetimepicker.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/js/bootstrap-datetimepicker.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/js/moment-with-locales.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/js/moment-with-locales.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/datetimepicker/js/moment.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/fontawesome-webfont.eot">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/fontawesome-webfont.svg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/fontawesome-webfont.ttf">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/fontawesome-webfont.woff">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/fontawesome-webfont.woff2">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/FontAwesome.otf">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/45.gif">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/ajax-loader.gif">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/attachment.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/biyinzika.png">
+      <publishTime>11/25/2019 12:54:26</publishTime>
+    </File>
+    <File Include="assets/img/biyinzika_favicon.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/calander.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/edit_img.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/favicon.ico">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/favicon.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/faviconprudence.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/G-Map.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/giphy.gif">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/giphy_new.gif">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/Logo-Prudence.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/logo.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/logo2.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/logo3.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/logotashi.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/placeholder.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/tashicell.png">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/user-02.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/user-03.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/user-04.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/user-05.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/user-06.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/user.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/img/video-call.jpg">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/app.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/bootstrap-datetimepicker.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/bootstrap-multiselect.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/bootstrap.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/buttons.html5.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/buttons.print.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/CommanJS.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/dataTables.bootstrap.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/dataTables.buttons.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/dropfiles.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/fullcalendar.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/html5shiv.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery-3.2.1.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery-confirm.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery-ui.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery.dataTables.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery.fullcalendar.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery.slimscroll.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jquery.tooltip.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/json-to-table.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/jszip.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/modernizr.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/moment.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/monthly.js">
+      <publishTime>01/12/2019 00:34:34</publishTime>
+    </File>
+    <File Include="assets/js/MonthPicker.min.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/MonthPicker.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/pdfmake.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/respond.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/select2.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/task.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/vfs_fonts.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js/year-select.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js_timer/jquery.idle-timer.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/js_timer/timeout-dialog.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/morris/morris.css">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/morris/morris.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/morris/morris.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/raphael/raphael-min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/font/summernote.eot">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/font/summernote.ttf">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/font/summernote.woff">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ar-AR.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ar-AR.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-bg-BG.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-bg-BG.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ca-ES.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ca-ES.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-cs-CZ.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-cs-CZ.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-da-DK.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-da-DK.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-de-DE.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-de-DE.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-el-GR.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-el-GR.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-es-ES.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-es-ES.min.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-es-EU.js">
+      <publishTime>11/21/2019 18:30:02</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-es-EU.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-fa-IR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-fa-IR.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-fi-FI.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-fi-FI.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-fr-FR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-fr-FR.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-gl-ES.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-gl-ES.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-he-IL.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-he-IL.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-hr-HR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-hr-HR.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-hu-HU.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-hu-HU.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-id-ID.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-id-ID.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-it-IT.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-it-IT.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ja-JP.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ja-JP.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ko-KR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ko-KR.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-lt-LT.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-lt-LT.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-lt-LV.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-lt-LV.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-mn-MN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-mn-MN.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-nb-NO.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-nb-NO.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-nl-NL.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-nl-NL.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-pl-PL.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-pl-PL.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-pt-BR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-pt-BR.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-pt-PT.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-pt-PT.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ro-RO.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ro-RO.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ru-RU.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ru-RU.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sk-SK.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sk-SK.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sl-SI.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sl-SI.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sr-RS-Latin.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sr-RS-Latin.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sr-RS.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sr-RS.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sv-SE.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-sv-SE.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ta-IN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-ta-IN.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-th-TH.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-th-TH.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-tr-TR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-tr-TR.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-uk-UA.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-uk-UA.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-vi-VN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-vi-VN.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-zh-CN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-zh-CN.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-zh-TW.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/lang/summernote-zh-TW.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote-bs4.css">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote-bs4.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote-bs4.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote-lite.css">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote-lite.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote.css">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/dist/summernote.min.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ar-AR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-bg-BG.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ca-ES.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-cs-CZ.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-da-DK.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-de-DE.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-el-GR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-es-ES.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-es-EU.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-fa-IR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-fi-FI.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-fr-FR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-gl-ES.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-he-IL.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-hr-HR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-hu-HU.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-id-ID.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-it-IT.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ja-JP.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ko-KR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-lt-LT.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-lt-LV.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-mn-MN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-nb-NO.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-nl-NL.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-pl-PL.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-pt-BR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-pt-PT.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ro-RO.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ru-RU.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-sk-SK.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-sl-SI.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-sr-RS-Latin.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-sr-RS.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-sv-SE.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-ta-IN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-th-TH.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-tr-TR.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-uk-UA.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-vi-VN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-zh-CN.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/lang/summernote-zh-TW.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/meteor/package-standalone.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/meteor/package.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/meteor/publish.sh">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/meteor/README.md">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/meteor/runtests.sh">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/meteor/test.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/plugin/databasic/summernote-ext-databasic.css">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/plugin/databasic/summernote-ext-databasic.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/plugin/hello/summernote-ext-hello.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/plugin/specialchars/summernote-ext-specialchars.js">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align-center.svg">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align-indent.svg">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align-justify.svg">
+      <publishTime>11/21/2019 18:30:03</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align-left.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align-outdent.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align-right.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/align.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrow-circle-down.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrow-circle-left.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrow-circle-right.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrow-circle-up.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrows-alt.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrows-h.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/arrows-v.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/bold.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/caret.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/chain-broken.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/circle.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/close.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/code.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/col-after.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/col-before.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/col-remove.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/eraser.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/font.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/frame.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/italic.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/link.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/magic.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/menu-check.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/minus.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/orderedlist.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/pencil.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/picture.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/question.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/redo.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/row-above.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/row-below.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/row-remove.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/special-character.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/square.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/strikethrough.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/subscript.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/summernote.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/superscript.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/table.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/templates/summernote.css">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/templates/summernote.json">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/text-height.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/trash.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/underline.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/undo.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/unorderedlist.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/icons/video.svg">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/app.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/Context.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/agent.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/async.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/dom.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/func.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/key.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/list.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/core/range.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/editing/Bullet.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/editing/History.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/editing/Style.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/editing/Table.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/editing/Typing.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/AirPopover.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/AutoLink.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/AutoSync.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Buttons.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Clipboard.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Codeview.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Dropzone.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Editor.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Fullscreen.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Handle.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/HelpDialog.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/HintPopover.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/ImageDialog.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/ImagePopover.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/LinkDialog.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/LinkPopover.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Placeholder.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Statusbar.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/TablePopover.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/Toolbar.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/module/VideoDialog.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/renderer.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/base/summernote-en-US.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/bs3/settings.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/bs3/ui.js">
+      <publishTime>11/21/2019 18:30:04</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/bs4/settings.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/bs4/ui.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/intro.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/lite/settings.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/lite/ui.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/lite/ui/dropdown.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/lite/ui/modal.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/lite/ui/popover.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/lite/ui/tooltip.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/outro.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/js/summernote.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/elements.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/elements.scss">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/all.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/btn-group.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/buttons.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/common.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/dropdown.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/form.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/mixins.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/mixins/buttons.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/modal.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/popover.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/toolbar.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/tooltip.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/lite-ui/variables.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/summernote-bs4.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/summernote-bs4.scss">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/summernote-lite.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/summernote.less">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/plugins/summernote/src/less/summernote.scss">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/SweetAlert/sweetalert.css">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/SweetAlert/sweetalert.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="assets/SweetAlert/sweetalert.min.js">
+      <publishTime>11/21/2019 18:30:05</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/22/2013 21:13:40</publishTime>
+    </File>
+    <File Include="bin/ApplicationInsights.config">
+      <publishTime>11/21/2019 18:28:33</publishTime>
+    </File>
+    <File Include="bin/HONDA.dll">
+      <publishTime>12/04/2019 10:45:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
+      <publishTime>01/12/2016 04:37:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.dll">
+      <publishTime>08/12/2016 00:15:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
+      <publishTime>08/12/2016 00:20:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
+      <publishTime>07/12/2016 03:45:48</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.dll">
+      <publishTime>08/12/2016 00:19:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.dll">
+      <publishTime>08/12/2016 00:20:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.dll">
+      <publishTime>07/12/2016 03:39:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>12/13/2016 15:40:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>05/01/2012 23:38:46</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>04/08/2014 09:03:56</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>06/28/2016 03:20:24</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/28/2015 16:34:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/28/2015 16:32:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>12/02/2014 03:56:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/28/2015 16:32:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/28/2015 16:34:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/28/2015 16:34:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/28/2015 16:34:30</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>11/09/2013 05:58:38</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>11/21/2019 18:28:04</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>11/21/2019 18:28:04</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>11/21/2019 18:28:04</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>11/21/2019 18:28:36</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>11/21/2019 18:28:13</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>11/21/2019 18:28:14</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>11/21/2019 18:28:14</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>11/21/2019 18:28:14</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>11/21/2019 18:28:27</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>11/21/2019 18:28:27</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>11/21/2019 18:28:28</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>11/21/2019 18:28:28</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>11/21/2019 18:28:26</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>11/21/2019 18:28:27</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>11/21/2019 18:28:27</publishTime>
+    </File>
+    <File Include="Views/Admin/MasterSetting.cshtml">
+      <publishTime>02/12/2019 16:36:54</publishTime>
+    </File>
+    <File Include="Views/Admin/TemplateSettings.cshtml">
+      <publishTime>02/12/2019 16:37:13</publishTime>
+    </File>
+    <File Include="Views/Admin/TimeSheetCalendar - Copy.cshtml">
+      <publishTime>11/30/2019 21:20:50</publishTime>
+    </File>
+    <File Include="Views/Admin/TimeSheetCalendar.cshtml">
+      <publishTime>02/12/2019 15:40:10</publishTime>
+    </File>
+    <File Include="Views/Home/About.cshtml">
+      <publishTime>11/21/2019 18:30:26</publishTime>
+    </File>
+    <File Include="Views/Home/activities.cshtml">
+      <publishTime>11/21/2019 18:30:26</publishTime>
+    </File>
+    <File Include="Views/Home/changepassword.cshtml">
+      <publishTime>11/25/2019 14:04:35</publishTime>
+    </File>
+    <File Include="Views/Home/Contact.cshtml">
+      <publishTime>11/21/2019 18:30:26</publishTime>
+    </File>
+    <File Include="Views/Home/forgetpassword.cshtml">
+      <publishTime>11/21/2019 18:46:52</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>12/04/2019 10:40:43</publishTime>
+    </File>
+    <File Include="Views/Home/login - Copy.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Home/login.cshtml">
+      <publishTime>11/28/2019 11:31:14</publishTime>
+    </File>
+    <File Include="Views/Home/partial_menuview.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Home/profile.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Home/ResetPassword.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Home/Settings.cshtml">
+      <publishTime>11/25/2019 15:39:48</publishTime>
+    </File>
+    <File Include="Views/Home/switchrole.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Home/test.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Home/TimesheetCategory.cshtml">
+      <publishTime>11/25/2019 15:33:15</publishTime>
+    </File>
+    <File Include="Views/Inventory/TransferOrder.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Inventory/TransferOrderList.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Master/Create.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Master/CustomerApproval.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Master/CustomerList.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Master/ItemMaster.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/POS/SaleOrderApproval.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/POS/SalesOrderCreation.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/POS/SalesOrderList.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/POS/SalesOrderReturn.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/POS/SalesOrderReturnList.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/approval_hierarchy.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/approval_rules.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/approval_rules_setting - Copy change by hare krishna.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/approval_rules_setting.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/approval_rules_setting_New.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/approval_rules_setting_old.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/companysettings.cshtml">
+      <publishTime>11/21/2019 18:31:15</publishTime>
+    </File>
+    <File Include="Views/settings/Delegation.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/edit_approval_rules_setting.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/emailsettings.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/emailtemplates.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/Hierarchy - Copy.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/Hierarchy.cshtml">
+      <publishTime>11/21/2019 18:31:15</publishTime>
+    </File>
+    <File Include="Views/settings/localization.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/notificationssettings.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/rolesandpermissions - Copy.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/rolesandpermissions.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/securitypolicy.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/systemuser.cshtml">
+      <publishTime>11/22/2019 10:33:46</publishTime>
+    </File>
+    <File Include="Views/settings/themesettings.cshtml">
+      <publishTime>11/21/2019 18:31:15</publishTime>
+    </File>
+    <File Include="Views/settings/_UserPermission.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/settings/_UserPermissionAdd.cshtml">
+      <publishTime>11/21/2019 18:30:27</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>11/21/2019 18:30:31</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout - Copy %282%29.cshtml">
+      <publishTime>01/12/2019 22:33:08</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout - Copy.cshtml">
+      <publishTime>11/29/2019 12:21:49</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>12/04/2019 10:33:32</publishTime>
+    </File>
+    <File Include="Views/Shared/_MenuPartial.cshtml">
+      <publishTime>11/21/2019 18:30:32</publishTime>
+    </File>
+    <File Include="Views/Shared/_SettingsMenu.cshtml">
+      <publishTime>11/22/2019 10:54:55</publishTime>
+    </File>
+    <File Include="Views/Shared/_UnAuthView.cshtml">
+      <publishTime>11/21/2019 18:30:32</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>11/21/2019 18:31:15</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>11/21/2019 18:30:35</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/12/2019 09:59:34</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

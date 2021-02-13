@@ -1,0 +1,1592 @@
+﻿@{ Html.RenderPartial("_SettingsMenu"); }
+<link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css"
+      rel="stylesheet" type="text/css" />
+<script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"
+        type="text/javascript"></script>
+<script src="~/assets/js/CommanJS.js"></script>
+<link href="~/assets/css/approval-rule.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () {
+        $('#ddl_Type').multiselect({
+            nonSelectedText: 'Select Type',
+            
+            includeSelectAllOption: true,
+            buttonWidth: '100%'
+        }); 
+        $('#ddl_condition_type').multiselect({
+            nonSelectedText: 'Select Type',
+
+            includeSelectAllOption: true,
+            buttonWidth: '100%'
+        });
+       
+        $(".caret").css('float', 'right');
+        $(".caret").css('margin', '8px 0'); 
+    });
+</script>
+<style type="text/css">
+    .multiselect-container {
+        width: 100% !important;
+        border-radius: 0px !important;
+    }
+
+    .multiselect {
+        height: 40px !important;
+        text-align: left !important;
+    }
+</style>
+<style>
+    .table-responsive {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    span {
+        font-weight: 200 !important;
+    }
+
+    .mybtncls.btnlast {
+        list-style-type: none;
+        float: right;
+        padding-right: 4px !important;
+        padding-left: 0px !important;
+    }
+
+    .mybtncls {
+        list-style-type: none;
+        padding-right: 4px !important;
+        padding-left: 0px !important;
+    }
+
+        .mybtncls li {
+            float: left;
+            padding-left: 5px !important;
+            padding-top: 5px !important;
+        }
+
+    .cmplitetextalign {
+        margin-left: 18px;
+    }
+    .button {
+        font: bold 11px Arial;
+        text-decoration: none;
+        color: #fff;
+        padding: 2px 6px 2px 6px;
+        /*border-top: 1px solid #CCCCCC;
+        border-right: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #CCCCCC;*/
+        background-color: #00c5fb;
+        border: 1px solid #00c5fb;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('ul li#myli10').addClass('active');
+        //$("#txt_value").hide();
+        $('#ddl_value').hide();
+       
+        var i = 0,j=0,k=0;
+        currentRow = null;
+        currentRow1 = null;
+        currentRow2 = null;
+
+        $('#btn_condition').on('click', function () {
+            $("#ddl_condition_type").multiselect("disable").css('background-color', '#eee');
+            var condition_for = $('#For option:selected').val();
+            var condition_type = $('#ddl_Type option:selected').text();
+            var condition_typeId = $('#ddl_Type option:selected').val();
+            if (condition_for != '0' && condition_type!='Select')
+            {
+                $('#txt_type').val(condition_type);
+                $('#hdn_txttype').val(condition_typeId);
+
+                //var selected_tags_arr = new Array();
+                //var selected_tags = 1,2, 4;
+                var data_selected = [];
+               
+                $.each($("#ddl_Type  option:selected"), function () {
+                    data_selected.push($(this).val());
+                });
+                var data_all = []; 
+                $.each($("#ddl_Type option"), function () {
+                    data_all.push($(this).val());
+                });
+             //   $("#ddl_condition_type").multiselect('deselect_all');
+                $('#ddl_condition_type').multiselect('deselect', data_all);
+                $('#ddl_condition_type').multiselect('select', data_selected);
+              
+                $('#modal_conditions').modal('show');
+            }
+            else if (condition_for == '0')
+            {
+                alert("For can't be blank.");
+                setTimeout(function () { $('#For').focus(); });
+            }
+            else {
+                alert("Type can't be blank.");
+                setTimeout(function () { $('#ddl_Type').focus(); });
+            }
+        });
+        $('#btn_formulaApprroval').on('click', function ()
+        {
+            $.ajax({
+                type: 'POST',
+                url: '',
+                contentType: '',
+                data: JSON.stringify({}),
+                dataType: 'json',
+                success: function () { },
+                error: function () { }
+            });
+            $('#modal_approval').modal('show');
+        });
+
+        $('#btn_ConditionClose').on('click', function () {
+            //currentRow = null;
+            //EnableMisText();
+            $('#modal_conditions').modal('hide');
+        });
+
+        $('#btn_ApprovalClose').on('click', function () {
+            //currentRow1 = null;
+            //EnableMilText();
+            $('#modal_approval').modal('hide');
+            $('#modal_conditions').modal('show');
+        });
+
+        $('#btn_criteria').on('click', function () {
+            var formula_count = $('#hdn_formulacount').val();
+            var leave_type = $('#ddl_Type option:selected').text();
+            var field_id = $('#ddl_fields option:selected').val();
+            var field = $('#ddl_fields option:selected').text();
+            var opertor = $('#ddl_opertor option:selected').text();
+            var value ='';
+            if (field_id == "l2" || field_id == "e2")
+            {
+                value = $('#txt_value').val();
+            }
+            else
+            {
+                value = $('#ddl_value option:selected').text();
+            }
+            
+            var html = '';
+
+            html += "<div id='formula" + formula_count + "' onclick='selectText(this)' class='celllayoutpanel' style='display: inline-block;' title='" + leave_type + '.' + field + ' ' + opertor + ' ' + value + "'>";
+            html += "<span class='cellfieldtext'>" + leave_type + '.' + field + ' ' + opertor + ' ' + value +"</span>";
+            html += "</div>";
+
+            $('.celllayoutpanelgroup').append(html);
+            formula_count = parseInt(formula_count + 1);
+            $('#hdn_formulacount').val(formula_count);
+
+
+
+            var markup = "";
+            markup += "<tr >";
+            markup += "<td  data_id='" + $("#ddl_fields").val() + "'> " + $("#ddl_fields").text() + "</td > ";
+            markup += "<td data_id='" + $("#ddl_opertor").val()+ "'> " + $("#ddl_opertor").val() + "</td > ";
+            markup += "<td data_id='" + $("#txt_value").val() + "'> " + $("#txt_value").val() + "</td > ";
+            markup += "<td data_id='" + $("#separatorDP_").val() + "'> " + $("#separatorDP_").val() + "</td > ";
+            markup += "</tr>";
+
+            $("#tblCreateformula").find("tbody").append(markup);
+        });
+
+        $('#btn_opertorAdd').on('click', function () {
+            var symbol = $('#separatorDP option:selected').text();
+            var count = $('#hdn_symbolcount').val();
+
+            var html = '';
+            html += "<div title='Titlehiddentlabel' onclick='selectText(this)' id='logicOrperatorField" + count +"' class='celllayoutpanel' style='display: inline-block;'>";
+            html += "<span class='celltext'>" + symbol +"</span>";
+            html += "</div>";
+
+            $('.celllayoutpanelgroup').append(html);
+            count = parseInt(parseInt(count) + 1);
+            $('#hdn_symbolcount').val(count);
+        });
+
+        $('#btn_delformula').on('click', function () {
+            $('.celllayoutpanelselected').remove();
+        });
+
+        $('#moveleft').click(function () {
+            $('.celllayoutpanelselected').animate({
+                'marginLeft': "-=30px" //moves left
+            });
+        });
+        $('#moveright').click(function () {
+            $('.celllayoutpanelselected').animate({
+                'marginLeft': "+=30px" //moves right
+            });
+        });
+
+        $(document).on('click', '.fa-trash-o', function (e) {
+            $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+        });
+
+        $('#btn_missubmit').on('click', function () {
+            var count = $('#hdn_count').val();
+            count = parseInt(count) + 1;
+            $('#hdn_count').val(count);
+            var grade = $('#ddl_misgrade option:selected').text();
+            var grade_id = $('#ddl_misgrade option:selected').val();
+            var location_id = $('#ddl_mislocation option:selected').val();
+            var location = $('#ddl_mislocation option:selected').text();
+            var country_id = $('#ddl_miscountry option:selected').val();
+            var country = $('#ddl_miscountry option:selected').text();
+            var currency_id = $('#ddl_miscurrency option:selected').val();
+            var currency = $('#ddl_miscurrency option:selected').text();
+            var limit_amt = $('#txt_limitamt').val();
+            var start_dt = $('#txt_misstartdate').val();
+            var end_dt = $('#txt_misenddate').val();
+            var markup = "";
+            var markup1 = "";
+
+            markup += "<tr>";
+            markup1 += "<tr id='row" + i + "'>";
+
+            if (grade != "Select")
+            {
+                markup += "<th style='font-weight:400;'>Grade</th>";
+                markup1 += "<td data_id='" + grade_id + "'>" + grade + "</td>";
+            }
+            else
+            {
+                markup += "<th style='font-weight:400;display:none;'>Grade</th>";
+                markup1 += "<td data_id='" + grade_id + "' style='display:none;'>" + grade + "</td>";
+            }
+
+            if (location != "Select")
+            {
+                markup += "<th style='font-weight:400;'>Location</th>";
+                markup1 += "<td data_id='" + location_id + "'>" + location + "</td>";
+            }
+            else
+            {
+                markup += "<th style='font-weight:400;display:none;'>Location</th>";
+                markup1 += "<td data_id='" + location_id + "' style='display:none;'>" + location + "</td>";
+            }
+
+            if (country != "Select")
+            {
+                markup += "<th style='font-weight:400;'>Country</th>";
+                markup1 += "<td data_id='" + country_id + "'>" + country + "</td>";
+            }
+            else
+            {
+                markup += "<th style='font-weight:400;display:none;'>Country</th>";
+                markup1 += "<td data_id='" + country_id + "' style='display:none;'>" + country + "</td>";
+            }
+
+            if (currency!="Select")
+            {
+                markup += "<th style='font-weight:400;'>Currency</th>";
+                markup1 += "<td data_id='" + currency_id + "'>" + currency + "</td>";
+            }
+            else
+            {
+                markup += "<th style='font-weight:400;display:none;'>Currency</th>";
+                markup1 += "<td data_id='" + currency_id + "' style='display:none;'>" + currency + "</td>";
+            }
+
+            markup += "<th style='font-weight:400;'>Limit Amount</th>";
+            markup += "<th style='font-weight:400;'>Start Date</th>";
+            markup += "<th style='font-weight:400;'>End Date</th><th></th>";
+            markup += "</tr>";
+            markup1 += "<td>" + limit_amt + "</td>";
+            markup1 += "<td>" + start_dt + "</td>";
+            markup1 += "<td>" + end_dt + "</td>";
+            markup1 += "<td><a href='javascript:void(0)' class='font-18 btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a><a href='javascript:void(0)' class='text-danger font-18 btnDelete' title='Remove'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>";
+            markup1 += "</tr>";
+
+            if (currentRow)
+            {
+                $("#tblCreateLimit tbody").find($(currentRow)).replaceWith(markup1);
+                currentRow = null;
+                alert("Successfully updated row.")
+            }
+            else
+            {
+                if ($('#hdn_MisThcount').val() == "0")
+                {
+                    $("#tblCreateLimit thead").append(markup);
+                    $('#hdn_MisThcount').val("1");
+                }
+                $("#tblCreateLimit").find("tbody").append(markup1);
+                alert("Successfully added row.")
+            }
+            CearCreatelimitFromAll();
+            $('#modal_createrate').modal('hide');
+
+        });
+
+        $('#btn_milsubmit').on('click', function () {
+            var count = $('#hdn_MilCount').val();
+            count = parseInt(count) + 1;
+            $('#hdn_MilCount').val(count);
+            var uom_id = $('#ddlMilunitmeasure option:selected').val();
+            var uom = $('#ddlMilunitmeasure option:selected').text();
+            var travel_mode = $('#ddlMiltravelmode option:selected').text();
+            var travel_mode_id = $('#ddlMiltravelmode option:selected').val();
+            var grade_id = $('#ddlMilGrade option:selected').val();
+            var grade = $('#ddlMilGrade option:selected').text();
+            var location_id = $('#ddlMilLocation option:selected').val();
+            var location = $('#ddlMilLocation option:selected').text();
+            var country_id = $('#ddlMilCountry option:selected').val();
+            var country = $('#ddlMilCountry option:selected').text();
+            var currency_id = $('#ddlMilCurrency option:selected').val();
+            var currency = $('#ddlMilCurrency option:selected').text();
+            var limit_amt = $('#txtMilRate').val();
+            var start_dt = $('#txtMilStartdate').val();
+            var end_dt = $('#txtMilEnddate').val();
+            var markup = "";
+            var markup1 = "";
+
+            markup += "<tr>";
+            markup1 += "<tr id='row" + i + "'>";
+            if (grade != "Select") {
+                markup += "<th style='font-weight:400;'>Grade</th>";
+                markup1 += "<td data_id='" + grade_id + "'>" + grade + "</td>";
+            }
+            else
+            {
+                markup += "<th style='font-weight:400;display:none;'>Grade</th>";
+                markup1 += "<td data_id='" + grade_id + "' style='display:none;'>" + grade + "</td>";
+            }
+            if (location != "Select") {
+                markup += "<th style='font-weight:400;'>Location</th>";
+                markup1 += "<td data_id='" + location_id + "'>" + location + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Location</th>";
+                markup1 += "<td data_id='" + location_id + "' style='display:none;'>" + location + "</td>";
+            }
+            if (country != "Select") {
+                markup += "<th style='font-weight:400;'>Country</th>";
+                markup1 += "<td data_id='" + country_id + "'>" + country + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Country</th>";
+                markup1 += "<td data_id='" + country_id + "' style='display:none;'>" + country + "</td>";
+            }
+            if (currency != "Select") {
+                markup += "<th style='font-weight:400;'>Currency</th>";
+                markup1 += "<td data_id='" + currency_id + "'>" + currency + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Currency</th>";
+                markup1 += "<td data_id='" + currency_id + "' style='display:none;'>" + currency + "</td>";
+            }
+            markup += "<th style='font-weight:400;'>Unit Of Measure</th>";
+            markup += "<th style='font-weight:400;'>Travel Model</th>";
+            markup += "<th style='font-weight:400;'>Limit Amount</th>";
+            markup += "<th style='font-weight:400;'>Start Date</th>";
+            markup += "<th style='font-weight:400;'>End Date</th><th></th>";
+            markup += "</tr>";
+            markup1 += "<td data_id='" + uom_id + "'>" + uom + "</td>";
+            markup1 += "<td data_id='" + travel_mode_id + "'>" + travel_mode + "</td>";
+            markup1 += "<td>" + limit_amt + "</td>";
+            markup1 += "<td>" + start_dt + "</td>";
+            markup1 += "<td>" + end_dt + "</td>";
+            markup1 += "<td><a href='javascript:void(0)' class='font-18 btn_MilEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a><a href='javascript:void(0)' class='text-danger font-18 btnDelete' title='Remove'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>";
+            markup1 += "</tr>";
+
+            if (currentRow1)
+            {
+                $("#tbl_MilCreateLimit tbody").find($(currentRow1)).replaceWith(markup1);
+                currentRow1 = null;
+                alert("Successfully updated row.")
+            }
+            else
+            {
+                if ($('#hdn_MilThCount').val() == "0")
+                {
+                    $("#tbl_MilCreateLimit thead").append(markup);
+                    $('#hdn_MilThCount').val("1");
+                }
+                $("#tbl_MilCreateLimit").find("tbody").append(markup1);
+                alert("Successfully added row.")
+            }
+            CearCreatelimitFromAll();
+            $('#modal_create_mileagerate').modal('hide');
+
+        });
+
+        $('#btn_travelsubmit').on('click', function () {
+            var count = $('#hdn_TravelCount').val();
+            count = parseInt(count) + 1;
+            $('#hdn_TravelCount').val(count);
+
+            var grade_id = $('#ddltraGrade option:selected').val();
+            var grade = $('#ddltraGrade option:selected').text();
+            var location_id = $('#ddltraLocation option:selected').val();
+            var location = $('#ddltraLocation option:selected').text();
+            var country_id = $('#ddltraCountry option:selected').val();
+            var country = $('#ddltraCountry option:selected').text();
+            var currency_id = $('#ddltraCurrency option:selected').val();
+            var currency = $('#ddltraCurrency option:selected').text();
+            var limit_amt = $('#txttraRate').val();
+            var start_dt = $('#txttraStartdate').val();
+            var end_dt = $('#txttraEnddate').val();
+            var markup = "";
+            var markup1 = "";
+
+            markup += "<tr>";
+            markup1 += "<tr id='row" + i + "'>";
+            if (grade != "Select") {
+                markup += "<th style='font-weight:400;'>Grade</th>";
+                markup1 += "<td data_id='" + grade_id + "'>" + grade + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Grade</th>";
+                markup1 += "<td data_id='" + grade_id + "' style='display:none;'>" + grade + "</td>";
+            }
+            if (location != "Select") {
+                markup += "<th style='font-weight:400;'>Location</th>";
+                markup1 += "<td data_id='" + location_id + "'>" + location + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Location</th>";
+                markup1 += "<td data_id='" + location_id + "' style='display:none;'>" + location + "</td>";
+            }
+            if (country != "Select") {
+                markup += "<th style='font-weight:400;'>Country</th>";
+                markup1 += "<td data_id='" + country_id + "'>" + country + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Country</th>";
+                markup1 += "<td data_id='" + country_id + "' style='display:none;'>" + country + "</td>";
+            }
+            if (currency != "Select") {
+                markup += "<th style='font-weight:400;'>Currency</th>";
+                markup1 += "<td data_id='" + currency_id + "'>" + currency + "</td>";
+            }
+            else {
+                markup += "<th style='font-weight:400;display:none;'>Currency</th>";
+                markup1 += "<td data_id='" + currency_id + "' style='display:none;'>" + currency + "</td>";
+            }
+            markup += "<th style='font-weight:400;'>Limit Amount</th>";
+            markup += "<th style='font-weight:400;'>Start Date</th>";
+            markup += "<th style='font-weight:400;'>End Date</th><th></th>";
+            markup += "</tr>";
+            markup1 += "<td>" + limit_amt + "</td>";
+            markup1 += "<td>" + start_dt + "</td>";
+            markup1 += "<td>" + end_dt + "</td>";
+            markup1 += "<td><a href='javascript:void(0)' class='font-18 btn_TravelEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a><a href='javascript:void(0)' class='text-danger font-18 btnDelete' title='Remove'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>";
+            markup1 += "</tr>";
+
+            if (currentRow2) {
+                $("#tbl_TravelCreateLimit tbody").find($(currentRow2)).replaceWith(markup1);
+                currentRow2 = null;
+                alert("Successfully updated row.")
+            }
+            else
+            {
+                if ($('#hdn_TravelThCount').val() == "0")
+                {
+                    $("#tbl_TravelCreateLimit thead").append(markup);
+                    $('#hdn_TravelThCount').val("1");
+                }
+
+                $("#tbl_TravelCreateLimit").find("tbody").append(markup1);
+                alert("Successfully added row.")
+            }
+            CearCreatelimitFromAll();
+            $('#modal_create_travelrate').modal('hide');
+        });
+
+        $('#btn_createlimit').on('click', function () {
+            //var count = $('#hdn_count').val();
+            //if (count != 0)
+            //{
+            //    var msg = confirm("Do you want to change rates?");
+            //    if (msg == true) {
+            //        ClearText();
+            //        $('#tblCreateLimit thead').empty();
+            //        $('#tblCreateLimit tbody').empty();
+            //        $('#hdn_count').val("0");
+            //        $('#modal_createrate').modal('show');
+            //    }
+            //}
+            //else {
+            //    ClearText();
+            //    $('#modal_createrate').modal('show');
+            //}
+            ClearText();
+            EnableMisText();
+            CearCreatelimitFromAll();
+            $('#hdn_count').val("0");
+            $('#modal_createrate').modal('show');
+
+
+        });
+
+        $('#btn_rate_creditlimit').on('click', function ()
+        {
+            //var count = $('#hdn_MilCount').val();
+            //if (count != 0) {
+            //    var msg = confirm("Do you want to change rates?");
+            //    if (msg == true) {
+            //        ClearMilText();
+            //        $('#tbl_MilCreateLimit thead').empty();
+            //        $('#tbl_MilCreateLimit tbody').empty();
+            //        $('#hdn_MilCount').val("0");
+            //        $('#modal_create_mileagerate').modal('show');
+            //    }
+            //}
+            //else {
+            //    ClearMilText();
+            //    $('#modal_create_mileagerate').modal('show');
+            //}
+            ClearMilText();
+            EnableMilText();
+            CearCreatelimitFromAll();
+            $('#hdn_MilCount').val('0');
+            $('#modal_create_mileagerate').modal('show');
+        });
+
+        $('#btn_travel_creditlimit').on('click', function ()
+        {
+            //var count = $('#hdn_TravelCount').val();
+            //if (count != 0) {
+            //    var msg = confirm("Do you want to change rates?");
+            //    if (msg == true)
+            //    {
+            //        ClearTravelText();
+            //        $('#tbl_TravelCreateLimit thead').empty();
+            //        $('#tbl_TravelCreateLimit tbody').empty();
+            //        $('#hdn_TravelCount').val("0");
+            //        $('#modal_create_travelrate').modal('show');
+            //    }
+            //}
+            //else
+            //{
+            //    ClearTravelText();
+            //    $('#modal_create_travelrate').modal('show');
+            //}
+            ClearTravelText();
+            EnableTravelText();
+            CearCreatelimitFromAll();
+            $('#hdn_TravelCount').val('0');
+            $('#modal_create_travelrate').modal('show');
+        });
+
+        $(document).on('click', '.btnEdit', function (e) {
+            $('#hdn_count').val("1");
+            $('#hdn_TravelCount').val('1');
+            $('#hdn_MilCount').val('1');
+            currentRow = $(this).parents('tr');
+
+            $("#ddl_misgrade").val($(this).closest('tr').find('td').eq(0).attr('data_id')).prop('disabled', true);
+            $("#ddl_mislocation").val($(this).closest('tr').find('td').eq(1).attr('data_id')).prop('disabled', true);
+            $("#ddl_miscountry").val($(this).closest('tr').find('td').eq(2).attr('data_id')).prop('disabled', true);
+            $("#ddl_miscurrency").val($(this).closest('tr').find('td').eq(3).attr('data_id')).prop('disabled', true);
+            $("#txt_limitamt").val($(this).closest('tr').find('td').eq(4).html()).prop('disabled', true);
+            $("#txt_misstartdate").val($(this).closest('tr').find('td').eq(5).html()).prop('disabled', true);
+            $("#txt_misstartdate").css('background-color', '#eee');
+            $("#txt_misenddate").val($(this).closest('tr').find('td').eq(6).html());
+
+            $('#modal_createrate').modal('show');
+        });
+
+        $(document).on('click', '.btn_MilEdit', function (e) {
+            currentRow1 = $(this).parents('tr');
+
+            $("#ddlMilGrade").val($(this).closest('tr').find('td').eq(0).attr('data_id')).prop('disabled', true);
+            $("#ddlMilLocation").val($(this).closest('tr').find('td').eq(1).attr('data_id')).prop('disabled', true);
+            $("#ddlMilCountry").val($(this).closest('tr').find('td').eq(2).attr('data_id')).prop('disabled', true);
+            $("#ddlMilCurrency").val($(this).closest('tr').find('td').eq(3).attr('data_id')).prop('disabled', true);
+            $('#ddlMilunitmeasure').val($(this).closest('tr').find('td').eq(4).attr('data_id')).prop('disabled', true);
+            $('#ddlMiltravelmode').val($(this).closest('tr').find('td').eq(5).attr('data_id')).prop('disabled', true);
+            $("#txtMilRate").val($(this).closest('tr').find('td').eq(6).html()).prop('disabled', true);
+            $("#txtMilStartdate").val($(this).closest('tr').find('td').eq(7).html()).prop('disabled', true);
+            $("#txtMilStartdate").css('background-color', '#eee');
+            $("#txtMilEnddate").val($(this).closest('tr').find('td').eq(8).html());
+
+            $('#modal_create_mileagerate').modal('show');
+        });
+
+        $(document).on('click', '.btn_TravelEdit', function (e) {
+            currentRow2 = $(this).parents('tr');
+
+            $("#ddltraGrade").val($(this).closest('tr').find('td').eq(0).attr('data_id')).prop('disabled', true);
+            $("#ddltraLocation").val($(this).closest('tr').find('td').eq(1).attr('data_id')).prop('disabled', true);
+            $("#ddltraCountry").val($(this).closest('tr').find('td').eq(2).attr('data_id')).prop('disabled', true);
+            $("#ddltraCurrency").val($(this).closest('tr').find('td').eq(3).attr('data_id')).prop('disabled', true);
+            $("#txttraRate").val($(this).closest('tr').find('td').eq(4).html()).prop('disabled', true);
+            $("#txttraStartdate").val($(this).closest('tr').find('td').eq(5).html()).prop('disabled', true);
+            $("#txttraStartdate").css('background-color', '#eee');
+            $("#txttraEnddate").val($(this).closest('tr').find('td').eq(6).html());
+
+            $('#modal_create_travelrate').modal('show');
+        });
+
+        $('.rate_determinants').on('change', function () {
+            var count = $('#hdn_count').val();
+            if (count != 0) {
+                var msg = confirm("Do you want to change rates?");
+                if (msg == true) {
+                    ClearText();
+                    $('#tblCreateLimit thead').empty();
+                    $('#tblCreateLimit tbody').empty();
+                    $('#hdn_count').val("0");
+                    $('#hdn_MisThcount').val("0");
+                }
+            }
+        });
+
+        $('.Milrate_determinants').on('change', function () {
+            var count = $('#hdn_MilCount').val();
+            if (count != 0) {
+                var msg = confirm("Do you want to change rates?");
+                if (msg == true) {
+                    ClearMilText();
+                    $('#tbl_MilCreateLimit thead').empty();
+                    $('#tbl_MilCreateLimit tbody').empty();
+                    $('#hdn_MilCount').val("0");
+                    $('#hdn_MilThCount').val("0");
+                }
+            }
+        });
+
+        $('.Travelrate_determinants').on('change', function () {
+            var count = $('#hdn_TravelCount').val();
+            if (count != 0) {
+                var msg = confirm("Do you want to change rates?");
+                if (msg == true) {
+                    ClearTravelText();
+                    $('#tbl_TravelCreateLimit thead').empty();
+                    $('#tbl_TravelCreateLimit tbody').empty();
+                    $('#hdn_TravelCount').val("0");
+                    $('#hdn_TravelThcount').val("0");
+                }
+            }
+        });
+
+        $("#chkGradeMiscellaneous").on("change", function () {
+            if ($(this).is(":checked")) {
+                $("#thMisGrade").show();
+                $("#tdMisGrade").show();
+            }
+            else {
+                $("#thMisGrade").hide();
+                $("#tdMisGrade").hide();
+            }
+        });
+
+        $("#chkLocationMiscellaneous").on("change", function () {
+            $("#tableMiscellaneous").find("tr:gt(1)").remove();
+            if ($(this).is(":checked")) {
+                $("#thMisLocation").show();
+                $("#tdMisLocation").show();
+            }
+            else {
+                $("#thMisLocation").hide();
+                $("#tdMisLocation").hide();
+            }
+        });
+
+        $("#ddlCurrencyname").on("change", function () {
+            $("#tableMiscellaneous").find("tr:gt(1)").remove();
+            if ($(this).val() == "Multiple Currency") {
+                $("#thMisCurrency").show();
+                $("#thMisCountry").show();
+                $("#tdMisCurrency").show();
+                $("#tdMisCountry").show();
+            }
+            else {
+                $("#thMisCurrency").hide();
+                $("#thMisCountry").hide();
+                $("#tdMisCurrency").hide();
+                $("#tdMisCountry").hide();
+            }
+        });
+
+        $('#ddlCategory').on('change', function () {
+            var category_id = $('#ddlCategory option:selected').val();
+            var last_category = $('#hdn_lastCategory').val();
+            if (last_category == "1")
+            {
+                $("#tblCreateLimit thead").empty();
+                $("#tblCreateLimit tbody").empty();
+                $('#hdn_lastCategory').val(category_id);
+            }
+            else if (last_category == "2")
+            {
+                $("#tbl_MilCreateLimit thead").empty();
+                $("#tbl_MilCreateLimit tbody").empty();
+                $('#hdn_lastCategory').val(category_id);
+            }
+            else {
+                $("#tbl_TravelCreateLimit thead").empty();
+                $("#tbl_TravelCreateLimit tbody").empty();
+                $('#hdn_lastCategory').val(category_id);
+            }
+        });
+
+     
+
+        $('#btn_TravelClose').on('click', function () {
+            currentRow2 = null;
+            EnableTravelText();
+            $('#modal_create_travelrate').modal('hide');
+        });
+
+
+        $('#txtEffectiveStartDate').on('change', function () {
+            $('#txtEffectiveEndDate').val('');
+        });
+
+        $('#txtEffectiveEndDate').on('change', function () {
+            var start_dt = myDateFormatter($('#txtEffectiveStartDate').val());
+            var end_dt = myDateFormatter($('#txtEffectiveEndDate').val());
+            if (start_dt > end_dt) {
+                alert("End Date can't less then start date.");
+                $('#txtEffectiveEndDate').val("");
+                setTimeout(function () { $('#txtEffectiveEndDate').focus(); })
+            }
+        });
+
+        $('#txt_misstartdate').on('change', function () {
+            $('#txt_misenddate').val('');
+        });
+
+        $('#txt_misenddate').on('change', function () {
+            var start_dt = myDateFormatter($('#txt_misstartdate').val());
+            var end_dt = myDateFormatter($('#txt_misenddate').val());
+            if (start_dt > end_dt) {
+                alert("End Date can't less then start date.");
+                $('#txt_misenddate').val("");
+                setTimeout(function () { $('#txt_misenddate').focus(); })
+            }
+        });
+
+
+        $('#txtMilStartdate').on('change', function () {
+            $('#txtMilEnddate').val('');
+        });
+
+        $('#txtMilEnddate').on('change', function () {
+            var start_dt = myDateFormatter($('#txtMilStartdate').val());
+            var end_dt = myDateFormatter($('#txtMilEnddate').val());
+            if (start_dt > end_dt) {
+                alert("End Date can't less then start date.");
+                $('#txtMilEnddate').val("");
+                setTimeout(function () { $('#txtMilEnddate').focus(); })
+            }
+        });
+
+        $('#txttraStartdate').on('change', function () {
+            $('#txttraEnddate').val('');
+        });
+
+        $('#txttraEnddate').on('change', function () {
+            var start_dt = myDateFormatter($('#txttraStartdate').val());
+            var end_dt = myDateFormatter($('#txttraEnddate').val());
+            if (start_dt > end_dt) {
+                alert("End Date can't less then start date.");
+                $('#txttraEnddate').val("");
+                setTimeout(function () { $('#txttraEnddate').focus(); })
+            }
+        });
+
+
+    });
+
+    function LeaveTypeOnChg(t) {
+        var leave_type = $(t).val(); 
+        if (leave_type == "1")
+        {
+            bindLeave();  
+            $('.lav').css("display", "block");
+            $('.exp').css("display", "none");
+        }
+        else if (leave_type == "2")
+        {
+            $("#ddl_Type").html("");
+            $('#ddl_Type').multiselect('rebuild'); 
+            $('.lav').css("display", "none");
+            $('.exp').css("display", "block");
+        }
+        else
+        {
+            $("#ddl_Type").html("");
+           // $("#ddl_Type").append($('<option></option>').html("Select"));
+            $('#ddl_Type').multiselect('rebuild'); 
+            $('.lav').css("display", "none");
+            $('.exp').css("display", "none");
+        }
+
+       
+    }
+
+    function bindLeave() {
+        $.ajax({
+            type: 'POST',
+            url: '/settings/BindLeaveType',
+            contentType: 'application/json;charset=utf-8',
+            data: {},
+            dataType: 'json',
+            success: function (data) { 
+                if (data != null) {
+                    var len = Object.keys(data).length;
+                    $("#ddl_Type").html(""); 
+                    $("#ddl_condition_type").html(""); 
+                    
+                    //Append each row to dropdown 
+                    for (var i = 0; i < len; i++) {  
+                        $('#ddl_Type').append('<option value="' + data[i].leave_type_id + '">' + data[i].leave_type_name + '</option>');
+                        $('#ddl_condition_type').append('<option value="' + data[i].leave_type_id + '">' + data[i].leave_type_name + '</option>');
+                    } 
+                    $('#ddl_Type').multiselect('rebuild'); 
+                    $('#ddl_condition_type').multiselect('rebuild'); 
+                }
+                else {
+                    alert('no data found.');
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+   
+    function FieldsOnchange(t)
+    {
+        var field_id = $(t).val();
+        if (field_id == "d1")
+        {           
+            $.ajax({
+                type: 'POST',
+                url: '/settings/BindUser',
+                contentType: 'application/json;charset=utf-8',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    if (data != null) {
+                        var len = Object.keys(data).length;
+                        $("#ddl_value").html("");
+                        $("#ddl_value").append($('<option></option>').html("Select"));
+                        //Append each row to dropdown
+                        for (var i = 0; i < len; i++) {
+
+                            $("#ddl_value").append($('<option></option>').val(data[i].emp_id).html(data[i].emp_name));
+                        }
+                        $('#ddl_value').show();
+                        $('#txt_value').hide();
+                    }
+                    else {
+                        alert('no data found.');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+        else if (field_id == "d2")
+        {
+            $.ajax({
+                type: 'POST',
+                url: '/settings/BindRole',
+                contentType: 'application/json;charset=utf-8',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    if (data != null) {
+                        var len = Object.keys(data).length;
+                        $("#ddl_value").html("");
+                        $("#ddl_value").append($('<option></option>').html("Select"));
+                        //Append each row to dropdown
+                        for (var i = 0; i < len; i++) {
+
+                            $("#ddl_value").append($('<option></option>').val(data[i].role_id).html(data[i].role_name));
+                        }
+                        $('#ddl_value').show();
+                        $('#txt_value').hide();
+                    }
+                    else {
+                        alert('no data found.');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+        else {
+            $("#ddl_value").html("");
+            $("#ddl_value").append($('<option></option>').html("Select"));
+            $('#ddl_value').hide();
+            $('#txt_value').show();
+        }
+    }
+
+    function selectText(containerid)
+    {
+        if (document.selection) { // IE
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select();
+        }
+        else if (window.getSelection)
+        {
+            var id = '#' + containerid + '';
+            $(containerid).removeClass('celllayoutpanel');
+            $(containerid).addClass('celllayoutpanelselected');
+            //var range = document.createRange();
+            //range.selectNode(containerid);
+            //window.getSelection().removeAllRanges();
+            //window.getSelection().addRange(range);
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        //Initialize tooltips
+        $('.nav-tabs > li a[title]').tooltip();
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            var $target = $(e.target);
+            if ($target.parent().hasClass('disabled')) {
+                return false;
+            }
+        });
+        $(".next-step").click(function (e) {
+            debugger;
+            var catValue = $("#ddlCategory").val();
+            if (catValue == "0") {
+                alert("Please Select Category.")
+                setTimeout(function () { $('#ddlCategory').focus(); });
+                return false;
+            }
+            var $active = $('.wizard .nav-tabs li.active');
+
+            $active.next().removeClass('disabled');
+            $active.removeClass('active');
+            $active.addClass('disabled');
+            nextTab($active);
+
+
+        });
+        $(".prev-step").click(function (e) {
+            var $active = $('.wizard .nav-tabs li.active');
+            $active.prev().removeClass('disabled');
+            $active.removeClass('active');
+            $active.addClass('disabled');
+            prevTab($active);
+        });
+    });
+
+    function nextTab(elem) {
+        $(elem).next().find('a[data-toggle="tab"]').click();
+    }
+    function prevTab(elem) {
+        $(elem).prev().find('a[data-toggle="tab"]').click();
+    }
+
+    $(document).ready(function () {
+
+       // $("#thMisRole").hide();
+
+
+        //$("#chkRoleMiscellaneous").on("change", function () {
+        //    $("#tableMiscellaneous").find("tr:gt(1)").remove();
+        //    if ($(this).is(":checked")) {
+        //        $("#thMisRole").show();
+        //        $("#tdMisRole").show();
+        //    }
+        //    else {
+        //        $("#thMisRole").hide();
+        //        $("#tdMisRole").hide();
+        //    }
+        //});
+
+
+
+
+        $('#addrowMis').on('click', function () {
+            var markup = "";
+            markup += "<tr id=" + 1 + " class='retriveData'>";
+
+            //if ($("#chkRoleMiscellaneous").is(':checked') == true) {
+            //    markup += "<td> " + $("#ddlMisRole").val() + "</td > ";
+            //}
+
+            if ($("#chkGradeMiscellaneous").is(':checked') == true) {
+                markup += "<td> " + $("#ddlMisGrade").val() + "</td > ";
+            }
+
+            if ($("#chkLocationMiscellaneous").is(':checked') == true) {
+                markup += "<td> " + $("#ddlMisLocation").val() + "</td > ";
+            }
+
+            if ($("#ddlCurrencyname").val() == "Multiple Currency") {
+                markup += "<td> " + $("#ddlMisCountry").val() + "</td > ";
+                markup += "<td> " + $("#ddlMisCurrency").val() + "</td > ";
+            }
+
+            markup += "<td> " + $("#txtMisRate").val() + "</td > ";
+            markup += "<td> " + $("#txtMisStartdate").val() + "</td > ";
+            markup += "<td> " + $("#txtMisEnddate").val() + "</td > ";
+            markup += "<td>  <a href='javascript:void(0)' class='text-danger font-18 btnDelete' title='Remove'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>";
+            markup += "</tr>";
+            $("#tableMiscellaneous tbody").find("tr.trMisCategory").after(markup);
+           // $("#tableMiscellaneous").find("tbody").append(markup);
+        });
+        $(document).on('click', '.fa-trash-o', function (e) {
+            $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+        });
+    });
+
+    $(document).ready(function () {
+       // $("#thMilRole").hide();
+        $("#thMilGrade").hide();
+        $("#thMilLocation").hide();
+
+      //  $("#tdMilRole").hide();
+        $("#tdMilGrade").hide();
+        $("#tdMilLocation").hide();
+
+        $("#thMilCurrency").hide();
+        $("#thMilCountry").hide();
+        $("#tdMilCurrency").hide();
+        $("#tdMilCountry").hide();
+
+        //$("#chkRoleMil").on("change", function () {
+        //    $("#tableMileage").find("tr:gt(1)").remove();
+        //    if ($(this).is(":checked")) {
+        //        $("#thMilRole").show();
+        //        $("#tdMilRole").show();
+        //    }
+        //    else {
+        //        $("#thMilRole").hide();
+        //        $("#tdMilRole").hide();
+        //    }
+        //});
+
+        $("#chkGradeMil").on("change", function () {
+            $("#tableMileage").find("tr:gt(1)").remove();
+            if ($(this).is(":checked")) {
+                $("#thMilGrade").show();
+                $("#tdMilGrade").show();
+
+            }
+            else {
+                $("#thMilGrade").hide();
+                $("#tdMilGrade").hide();
+            }
+        });
+
+        $("#chkLocationMil").on("change", function () {
+            $("#tableMileage").find("tr:gt(1)").remove();
+            if ($(this).is(":checked")) {
+                $("#thMilLocation").show();
+                $("#tdMilLocation").show();
+            }
+            else {
+                $("#thMilLocation").hide();
+                $("#tdMilLocation").hide();
+            }
+        });
+
+        $("#ddlMilCurrencyname").on("change", function () {
+            $("#tableMileage").find("tr:gt(1)").remove();
+            if ($(this).val() == "Multiple Currency") {
+                $("#thMilCurrency").show();
+                $("#thMilCountry").show();
+                $("#tdMilCurrency").show();
+                $("#tdMilCountry").show();
+            }
+            else {
+                $("#thMilCurrency").hide();
+                $("#thMilCountry").hide();
+                $("#tdMilCurrency").hide();
+                $("#tdMilCountry").hide();
+            }
+        });
+        $('#addrowMil').on('click', function () {
+            var markup = "";
+
+            markup += "<tr id=" + 1 + " class='retriveData'>";
+          ///  markup += "<td> " + $("#ddlMilunitmeasure").val() + "</td> ";
+            markup += "<td> " + $("#ddlMiltravelmode").val() + "</td> ";
+            //if ($("#chkRoleMil").is(':checked') == true) {
+            //    markup += "<td> " + $("#ddlMilRole").val() + "</td> ";
+            // }
+
+            if ($("#chkGradeMil").is(':checked') == true) {
+                markup += "<td> " + $("#ddlMilGrade").val() + "</td > ";
+            }
+
+            if ($("#chkLocationMil").is(':checked') == true) {
+                markup += "<td> " + $("#ddlMilLocation").val() + "</td > ";
+             }
+
+            if ($("#ddlMilCurrencyname").val() == "Multiple Currency") {
+                markup += "<td> " + $("#ddlMilCountry").val() + "</td > ";
+                markup += "<td> " + $("#ddlMilCurrency").val() + "</td > ";
+
+             }
+
+            markup += "<td> " + $("#txtMilRate").val() + "</td > ";
+            markup += "<td> " + $("#txtMilStartdate").val() + "</td > ";
+            markup += "<td> " + $("#txtMilEnddate").val() + "</td > ";
+            markup += "<td>  <a href='javascript:void(0)' class='text-danger font-18 btnDelete' title='Remove'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>";
+            markup += "</tr>";
+            $("#tableMileage tbody").find("tr.trMilCategory").after(markup);
+        });
+        $(document).on('click', '.fa-trash-o', function (e) {
+            $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+        });
+    });
+
+    $(document).ready(function () {
+        //$("#thtraRole").hide();
+        $("#thtraGrade").hide();
+        $("#thtraLocation").hide();
+
+        //$("#tdtraRole").hide();
+        $("#tdtraGrade").hide();
+        $("#tdtraLocation").hide();
+
+        $("#thtraCurrency").hide();
+        $("#thtraCountry").hide();
+        $("#tdtraCurrency").hide();
+        $("#tdtraCountry").hide();
+
+        //$("#chkRoletra").on("change", function () {
+        //    $("#tableMileage").find("tr:gt(1)").remove();
+        //    if ($(this).is(":checked")) {
+        //        $("#thtraRole").show();
+        //        $("#tdtraRole").show();
+
+        //    }
+        //    else {
+        //        $("#thtraRole").hide();
+        //        $("#tdtraRole").hide();
+        //    }
+        //});
+
+        $("#chkGradetra").on("change", function () {
+            $("#tabletravel").find("tr:gt(1)").remove();
+            if ($(this).is(":checked")) {
+                $("#thtraGrade").show();
+                $("#tdtraGrade").show();
+
+            }
+            else {
+                $("#thtraGrade").hide();
+                $("#tdtraGrade").hide();
+            }
+        });
+        $("#chkLocationtra").on("change", function () {
+            $("#tabletravel").find("tr:gt(1)").remove();
+            if ($(this).is(":checked")) {
+                $("#thtraLocation").show();
+                $("#tdtraLocation").show();
+
+            }
+            else {
+                $("#thtraLocation").hide();
+                $("#tdtraLocation").hide();
+            }
+        });
+        $("#ddltraCurrencyname").on("change", function () {
+            $("#tableMileage").find("tr:gt(1)").remove();
+            if ($(this).val() == "Multiple Currency") {
+                $("#thtraCurrency").show();
+                $("#thtraCountry").show();
+                $("#tdtraCurrency").show();
+                $("#tdtraCountry").show();
+
+            }
+            else {
+                $("#thtraCurrency").hide();
+                $("#thtraCountry").hide();
+                $("#tdtraCurrency").hide();
+                $("#tdtraCountry").hide();
+            }
+        });
+        $('#addrowtra').on('click', function () {
+            var markup = "";
+
+            markup += "<tr id=" + 1 + " class='retriveData'>";
+
+            //if ($("#chkRoletra").is(':checked') == true) {
+            //    markup += "<td> " + $("#ddltraRole").val() + "</td> ";
+            //}
+
+            if ($("#chkGradetra").is(':checked') == true) {
+                markup += "<td> " + $("#ddltraGrade").val() + "</td > ";
+            }
+
+            if ($("#chkLocationtra").is(':checked') == true) {
+                markup += "<td> " + $("#ddltraLocation").val() + "</td > ";
+            }
+
+            if ($("#ddltraCurrencyname").val() == "Multiple Currency") {
+                markup += "<td> " + $("#ddltraCountry").val() + "</td > ";
+                markup += "<td> " + $("#ddltraCurrency").val() + "</td > ";
+
+            }
+
+            markup += "<td> " + $("#txttraRate").val() + "</td > ";
+            markup += "<td> " + $("#txttraStartdate").val() + "</td > ";
+            markup += "<td> " + $("#txttraEnddate").val() + "</td > ";
+            markup += "<td>  <a href='javascript:void(0)' class='text-danger font-18 btnDelete' title='Remove'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>";
+            markup += "</tr>";
+            $("#tabletravel tbody").find("tr.trtraCategory").after(markup);
+            // $("#tableMileage").find("tbody").append(markup);
+        });
+        $(document).on('click', '.fa-trash-o', function (e) {
+            $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+        });
+    });
+
+
+    function myDateFormatter(dateObject) {
+        var d = new Date(moment(dateObject, '"DD-MMM-YYYY').format());
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        var date = year + "/" + month + "/" + day;
+
+        return date;
+    };
+</script>
+<div class="row">
+    <div class="col-sm-6">
+        <h4 class="page-title">Add Approval Rule</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <section>
+                <div class="wizard card-box">                 
+                    <form id="example-form" action="#">
+                        <div class="tab-content">
+                            <div class="tab-pane active" role="tabpanel" id="step1">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group row">
+                                            <span class="col-sm-4">For<span class="text-danger">*</span></span>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="For" onchange="LeaveTypeOnChg(this);">
+                                                    <option value="0">Select</option>
+                                                    <option value="1">Leave</option>
+                                                    <option value="2">Expense</option>
+                                                    <option value="3">Loan/Advance</option>
+                                                    <option value="4">Leave Encashment</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group row">
+                                            <span class="col-sm-4">Type<span class="text-danger">*</span></span>
+                                            <div class="col-sm-8">
+                                                @*@Html.DropDownList("ddl_Type", (IEnumerable<SelectListItem>)ViewBag.value,"Select",new { @class = "form-control"  })*@
+                                                <select id="ddl_Type"   multiple class="form-control"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group row">
+                                            <span class="col-sm-4">Rule Name</span>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="txtPolicyName" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group row">
+                                            <span class="col-sm-4 ">Start Date</span>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="name" value=""  placeholder="dd-mmm-yyyy" class="form-control mycal" id="txt_approval_start_date" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>   
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group row">
+                                            <span class="col-sm-4 ">End Date</span>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="name" value="" placeholder="dd-mmm-yyyy" class="form-control mycal" id="txt_approval_end_date" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>   
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group row">
+                                            <span class="col-sm-4 ">Status</span>
+                                            <div class="col-sm-8">
+                                                <select id="ddlStatus" class="form-control">
+                                                    <option>Active</option>
+                                                    <option>In-active</option>
+                                                    <option selected>Draft</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>   
+                                <ul class="mybtncls pull-center">
+                                    <li><a href="javascript:void(0);" id="btn_condition" class="btn btn-primary">Conditions</a></li>
+                                    @*<li><a href="javascript:void(0);" id="btn_approval" class="btn btn-primary">Approval</a></li>*@
+                                </ul>
+                                <ul class="mybtncls pull-right">
+                                    <li>
+                                        <button type="button" class="btn btn-primary next-step">Save</button>
+                                    </li>
+                                    <li><a href="javascript:void(0);" class="btn btn-primary"> Cancel</a></li>
+                                </ul>
+                            </div>
+                            <div class="modal custom-modal fade" role="dialog" id="modal_conditions">
+                                <div class="modal-dialog" style="padding-right:17px !important ;padding-left:30px !important">
+                                    <button type="button" class="close" id="btn_ConditionClose">&times;</button>
+                                    <div class="modal-content">
+                                        <div class="modal-header m-b-100">
+                                            <h4 class="modal-title">Conditions</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Type<span class="text-danger">*</span></label>
+                                                        @*<input type="text" id="txt_type" readonly="readonly" class="form-control" />*@
+                                                        <select id="ddl_condition_type" multiple class="form-control" disabled></select>                                                        <input type="hidden" id="hdn_txttype"/>
+                                                    </div>                                                
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Fields<span class="text-danger">*</span></label>
+                                                        <select class="form-control" id="ddl_fields" onchange="FieldsOnchange(this);">
+                                                            <option  value="0" >Select</option>
+                                                            @*<option class="lav" value="l1">Leave Type</option>*@
+                                                            <option class="lav" value="1">No Of Days</option>
+                                                            @*<option class="exp" value="e1">Expense Type</option>*@
+                                                            <option class="exp" value="2">Amount</option>
+                                                            <option value="3">User</option>
+                                                            <option value="4">Role</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Opertor <span class="text-danger">*</span></label>
+                                                        <select class="form-control" id="ddl_opertor">
+                                                            <option selected value="0">Select</option>
+                                                            <option value="1">Is</option>
+                                                            <option value="2">Is Not</option>
+                                                            <option value="3">Is Greater than</option>
+                                                            <option value="4">Is Less than</option>
+                                                            <option value="5">Is Less than or Equal to</option>
+                                                            <option value="6">Is Greater than or Equal to</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Value<span class="text-danger">*</span></label> 
+                                                        @Html.DropDownList("ddl_value", (IEnumerable<SelectListItem>)ViewBag.value, new { @class = "form-control", })
+                                                        <input type="text" id="txt_value" class="form-control" />
+                                                    </div>
+                                                </div>                                                 
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <select id="separatorDP_" name="separatorDP" class="inputselect" size="1">
+                                                        <option value="NEW">New</option>
+                                                        <option value="AND">AND</option>
+                                                        <option value="OR">OR</option>
+                                                        <option value="NOT">Not</option>
+                                                        <option value="lparenthesis">(</option>
+                                                        <option value="rparenthesis">)</option>
+                                                    </select>
+                                                </div>
+                                                </div>
+                                            </div> 
+                                                 
+                                            <button type="button" class="btn btn-primary" id="btn_criteria">Add this criteria to formula</button>
+                                            <div class="row">
+                                                <span class="section-name">
+                                                    <table class="mastertable">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="columnfieldlabel">
+                                                                    <span id="editTemplate-editForm-content-expressionEdit-lblConfigurationTitle" class="columntitle">Formula</span><span class="hidden-audible">&nbsp;</span><span class="panellayout">
+                                                                        <span class="paneltools">
+                                                                            <span class="headerlayoutpanel">
+                                                                                <span class="actionlink">
+                                                                                    <a href="#" role="button" title="Delete selected item" class="nav-btn">
+                                                                                        <span class="nav-btn2">
+                                                                                            <span class="nav-btn3">
+                                                                                                <span class="nav-btn4">
+                                                                                                    <span class="nav-btn5" id="btn_delformula">Delete</span>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </span><span class="separator">|</span><span class="hidden-audible">&nbsp;</span>
+                                                                                <input type="hidden" id="hdn_symbolcount" value="0" />
+                                                                                <select id="separatorDP" name="separatorDP" class="inputselect" size="1">
+                                                                                <option value="AND">AND</option>
+                                                                                <option value="OR">OR</option>
+                                                                                <option value="NOT">Not</option>
+                                                                                <option value="lparenthesis">(</option>
+                                                                                <option value="rparenthesis">)</option>
+                                                                                </select>
+                                                                                <span class="actionlink">
+                                                                                <a href="javascript:void(0);" id="btn_addsymbol" role="button" title="Add symbol to formula" class="nav-btn">
+                                                                                    <span class="nav-btn2">
+                                                                                    <span class="nav-btn3">
+                                                                                        <span class="nav-btn4"><span class="nav-btn5" id="btn_opertorAdd">Add</span>
+                                                                                    </span>                                                                                    
+                                                                                    </span>
+                                                                                    </span>
+                                                                                </a>
+                                                                                    </span>
+                                                                                <span class="separator">|</span><span class="hidden-audible">&nbsp;</span>
+                                                                                <span class="actionmovelink">
+                                                                                    <a href="#" role="button" class=""><span class="2"><span class="3"><span class="4"><span class="5"><img src="~/assets/img/icons8-sort-left-48.png" id="moveleft" style="width:22px" title="Move selected item to the left" class="toolbar-separator"></span></span></span></span></a>
+                                                                                </span>
+                                                                                <span class="actionmovelink">
+                                                                                    <a href="#" role="button" class=""><span class="2"><span class="3"><span class="4"><span class="5"><img src="~/assets/img/icons8-sort-right-48.png" id="moveright" style="width:22px" title="Move selected item to the right" class="toolbar-separator"></span></span></span></span></a>
+                                                                                </span>
+                                                                                <span class="actionlink">
+                                                                                    <a href="javascript:void(0);" id="btn_formulaApprroval" role="button" title="Add Approval to formula" class="nav-btn">
+                                                                                        <span class="nav-btn2">
+                                                                                            <span class="nav-btn3">
+                                                                                                <span class="nav-btn4">
+                                                                                                    <span class="nav-btn5" id="btn_Approval">Approval</span>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </a>
+                                                                                </span>
+                                                                            </span>
+                                                                        </span><span id="editTemplate-editForm-content-expressionEdit-layout">
+                                                                            <div id="block" class="panellineselected" style="display: inline-block;">
+                                                                                <input type="hidden" id="hdn_formulacount" value="0" />
+                                                                                <div class="celllayoutpanelgroup">
+                                                                                    <br />
+                                                                                </div>
+                                                                            </div>
+                                                                        </span>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </span>
+                                            </div>    
+                                            <br />
+
+
+                                            <table id="tblCreateformula" style="width:100%" class="table table-striped custom-table m-b-0  is_informationonlyenable tblCreatePlan">
+                                                <thead>
+                                                    <tr> 
+                                                        <th>
+                                                            Fields
+                                                        </th>
+                                                        <th>
+                                                            Opertor 
+                                                        </th>
+                                                        <th>
+                                                            Value
+                                                        </th>
+                                                        <th>
+                                                             formula
+                                                        </th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                            <button type="button" class="btn btn-primary" id="btn_conditionSave">Save</button>
+                                            <button type="button" class="btn btn-primary" id="btn_conditionCancel">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="modal custom-modal fade" role="dialog" id="modal_approval">
+                                <div class="modal-dialog" style="padding-right:17px !important ;padding-left:30px !important">
+                                    <button type="button" class="close" id="btn_ApprovalClose">&times;</button>
+                                    <div class="modal-content">
+                                        <div class="modal-header m-b-100">
+                                            <h4 class="modal-title">Approval</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <input type="radio" id="rd_supervisor" class="fromcheck" name="optradiocancelfrom">Supervisor
+                                                        </label>  
+                                                        @Html.DropDownList("ddl_hierarchy", (IEnumerable<SelectListItem>)ViewBag.hierarchy, new { @class="form-control"});
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <input type="radio" id="rd_single" class="fromcheck" value="First Half" name="optradiocancelfrom">Singel User
+                                                        </label> 
+                                                        @Html.DropDownList("ddl_employee", (IEnumerable<SelectListItem>)ViewBag.Employee, new { @class = "form-control" });
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>
+                                                        <input type="radio" id="rd_auto" class="fromcheck" value="First Half" name="optradiocancelfrom">Auto
+                                                        </label>
+                                                    </div>
+                                                </div>                                             
+                                            </div>
+                                            <button type="button" class="btn btn-primary" id="btn_missubmit">Save</button>
+                                            <button type="button" class="btn btn-primary" id="btn_misreset">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+

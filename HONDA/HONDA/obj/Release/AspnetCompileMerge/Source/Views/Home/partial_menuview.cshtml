@@ -1,0 +1,275 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.check').click(function () {
+            $('.check').not(this).prop('checked', false);
+        });
+    });
+
+   
+</script>
+
+<style>
+    .modal-content {
+        margin-top: 190px;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu" style="margin-top:15px;">
+            <ul>
+                <li id="mylidashboard"><a href="@Url.Content("~/Home/index")"><span> Dashboard</span></a></li>
+                <li class="submenu">
+                    <a href="javascript:void(0);"><span> Work Structures</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        @*<li><a href="@Url.Content("~/workstructure/businessunit")">Business Unit</a></li>*@
+                        <li><a href="@Url.Content("~/workstructure/businessunit")">Business Unit</a></li>
+                        <li><a href="@Url.Content("~/workstructure/geography")">Geography</a></li>
+                        <li><a href="@Url.Content("~/workstructure/departments")">Department</a></li>
+                        <li><a href="@Url.Content("~/workstructure/designation")"> Designation</a></li>
+                        <li><a href="@Url.Content("~/workstructure/grade")">Grade</a></li>
+                        <li><a href="@Url.Content("~/workstructure/holidays")">Holiday </a></li>
+                        <li><a href="@Url.Content("~/workstructure/geolocationstore")">Store Geo-Tagging</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0);"><span>Employees</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/employees/employeelist")">Employee List</a></li>
+                        <li><a href="@Url.Content("~/employees/employeeleavemapping")">Employee Leave Mapping</a></li>
+                    </ul>
+                </li>
+
+                <li id="myliDirectory">
+                    <a href="@Url.Content("~/Employees/directory")">Directory</a>
+                </li>
+                <li class="submenu">
+                    <a href="#"><span>  Attendance</span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/attendance/attendanceentry")">Attendance Entry</a></li>
+                        <li><a href="@Url.Content("~/attendance/attendanceregister")">Attendance Register</a></li>                       
+                        <li><a href="@Url.Content("~/attendance/exportforpayroll")">Export for Payroll</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#"><span>  Shift </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/shifts/shiftlist")">Shift List</a></li>
+                        <li><a href="@Url.Content("~/shifts/shiftgroup")">Shift Group</a></li>
+                       <li><a href="@Url.Content("~/assign/assignshift")">Assign Shift</a></li>
+                       @* <li><a href="javascript:void(0);">Assign Shift</a></li>
+    <li><a href="javascript:void(0);">Assign Shift Group</a></li>*@
+                    </ul>
+                </li>
+
+
+                <li class="submenu">
+                    <a href="#"><span>  Leaves </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+
+                        <li><a href="@Url.Content("~/leave/leavetype")">Leave Types</a></li>
+                        <li><a href="@Url.Content("~/leave/index")">Leave Policy</a></li>
+                        <li><a href="@Url.Content("~/leave/leavehistory")"> Leave Application </a></li>
+                        <li><a href="@Url.Content("~/leave/leaveapproval")">Leave Approval</a></li>
+                      <!--  <li><a href="@Url.Content("~/leave/Leavecancelhistory")">Leave Cancellation History</a></li>-->
+                               <!--cancelLeave-->
+                        <li><a href="@Url.Content("~/leave/cancelLeave")">Leave Cancel</a>
+                         <li><a href="@Url.Content("~/leave/leavehistorylist")">Leave History</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="submenu">
+                    <a href="#"><span>  Expense </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="@Url.Content("~/expense/expensetype")">Expense Type</a></li>
+                        <li><a href="@Url.Content("~/expense/expensepolicyhistory")">Expense Policy</a></li>
+                        <li><a href="@Url.Content("~/expense/employeeexpensehistory")">Add Expense </a></li>
+                        <li><a href="@Url.Content("~/expense/transferclaim")">Transfer Claim</a></li>
+                        <li><a href="@Url.Content("~/expense/advance")">Advance / Loan</a></li>
+                        <li><a href="@Url.Content("~/expense/expense_approval")">Expense Approval</a></li>
+                    </ul>
+                </li>
+
+                <li id="mylidevicelist"><a href="/devices/devicelist">Devices</a></li>
+
+<!--
+                <li class="submenu">
+                    <a href="#"><span>  Loans </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        @*<li><a href="@Url.Content("~/Loan/loantype")">Loan Type</a></li>
+                        <li><a href="@Url.Content("~/Loan/loanpolicy")">Loan Policy</a></li>*@
+                        <li><a href="@Url.Content("~/Loan/sifa")">SIFA</a></li>
+                        @*   <li><a href="javascript:void(0);">DSA Settlement</a></li>
+                            <li><a href="javascript:void(0);">Imprest Claim </a></li>
+                            <li><a href="javascript:void(0);">Imprest Settlement </a></li>*@
+                    </ul>
+                </li>
+
+                -->
+
+                <li class="submenu">
+                    <a href="#"><span>  Reports </span> <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled" style="display: none;">
+                        <li><a href="~/otsreports/index">Expense </a></li>
+                        <li><a href="~/otsreports/leavesummary">Leave </a></li>
+                        @*<li class="submenu">
+                            <a href="#"><span>Attendance</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="@Url.Content("~/Reports/recalculateattendance")">Calculate Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/dailyattendance")">Daily Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/monthlyattendance")">Monthly Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/weeklyattendance")">Weekly Attendance</a></li>
+                                <li><a href="@Url.Content("~/Reports/")">Early Coming</a></li>
+                                <li><a href="/Reports/">Late Coming</a></li>
+                                <li><a href="/Reports/">Early Going</a></li>
+                                <li><a href="/Reports/">Late Going</a></li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Over Time
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Region Wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Department Wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Business Unit/OU wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Location Wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Store wise
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Attendance for payroll
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Mispunch
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Reports/">
+                                        Top Punctual Employees
+                                    </a>
+                                </li>
+                                <li><a href="javascript:void(0);">Check In/Out Location</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><span>  Leave </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled" style="display: none;">
+                                <li><a href="javascript:void(0);"> Leave History</a></li>
+                                <li><a href="javascript:void(0);"> Leave Balances</a></li>
+                                <li><a href="javascript:void(0);"> Status of Applied Leaves</a></li>
+                                <li><a href="javascript:void(0);"> Encashment Eligibility</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><span>  Expense </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled" style="display: none;">
+                                <li><a href="javascript:void(0);"> Applied Expenses Status</a></li>
+                                <li><a href="javascript:void(0);"> Monthly/Yearly Expense</a></li>
+                                <li><a href="javascript:void(0);"> BU/OU Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Region Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Location Wise</a></li>
+                                <li><a href="javascript:void(0);"> Store wise</a></li>
+                                <li><a href="javascript:void(0);"> Manager Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Department Wise Expense</a></li>
+                                <li><a href="javascript:void(0);"> Team Wise Expense</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><span>  Employee </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled" style="display: none;">
+                                <li><a href="javascript:void(0);"> New Joining Monthly / QTR/ Half Yearly / Yearly</a></li>
+                                <li><a href="javascript:void(0);"> Resigned Monthly / QTR/ Half Yearly / Yearly</a></li>
+                                <li><a href="javascript:void(0);"> On Probation</a></li>
+                                <li><a href="javascript:void(0);"> On Notice</a></li>
+                            </ul>
+                        </li>*@
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="/settings/companysettings">Settings</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*<div id="switchrole" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4 class="modal-title"> Switch Role</h4>
+            </div>
+            <div class="modal-body card-box">
+                <form>
+                    <div class="form-group">
+                        
+                    </div>
+
+                    <input type="button" class="btn btn-primary" name="Apply" value="Submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Switch Role</h4>
+            </div>
+            <div class="modal-body" style="padding-left:20px">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="skill" class="check" value="male">Manager</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" name="skill" class="check" value="male">Admin</label>
+                </div>
+                <div class="checkbox">
+                    <label>  <input type="checkbox" name="skill" class="check" checked value="female">Employee</label>
+                </div>
+                <div class="checkbox">
+                    <label>  <input type="checkbox" name="skill" class="check" value="other">HR</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-primary" >Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>

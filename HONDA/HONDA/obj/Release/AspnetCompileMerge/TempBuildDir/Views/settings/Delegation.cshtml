@@ -1,0 +1,692 @@
+﻿@{ Html.RenderPartial("_SettingsMenu"); }
+<script src="~/assets/js/CommanJS.js"></script>
+<script>
+    $(document).ready(function () {
+         
+        $('a[href$="' + "/Delegation" + '"]').closest("li").addClass('active');
+        //var table = $(".tbl_transferclaimlist").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [7], "orderable": false }
+        //        ],
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+
+        //var buttons = new $.fn.dataTable.Buttons(table, {
+        //    buttons: [
+        //        {
+        //            extend: 'excelHtml5',
+        //            text: '<i class="fa fa-file-excel-o fa-lg"></i> ',
+        //            title: 'Device List',
+        //            titleAttr: 'Excel'
+        //        },
+        //        {
+        //            extend: 'csvHtml5',
+        //            text: '<i class="fa fa-file-text-o fa-lg"></i> ',
+        //            title: 'Device List',
+        //            titleAttr: 'CSV'
+        //        },
+        //        {
+        //            extend: 'pdfHtml5',
+        //            text: '<i class="fa fa-file-pdf-o fa-lg"></i> ',
+        //            title: 'Device List',
+        //            titleAttr: 'PDF'
+        //        },
+        //        {
+        //            extend: 'print',
+        //            text: '<i class="fa fa-print fa-lg"></i> ',
+        //            title: 'Device List',
+        //            titleAttr: 'Print'
+        //        }
+        //    ]
+        //}).container().appendTo($('#buttons'));
+        var dt = new Date();
+        var currentdate = new Date(myDateFormatter(dt));
+
+        $('#txt_fromdate').datepicker("destroy");
+        $('#txt_fromdate').datepicker({
+            dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeMonth: true, minDate: new Date(currentdate), onClose: function () {
+                var event = arguments.callee.caller.caller.arguments[0];
+                // If "Clear" gets clicked, then really clear it
+                if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                    $(this).val('');
+                }
+            }
+        }).attr('readonly', true).css('background-color', 'White');
+
+        $('#txt_todate').datepicker("destroy");
+        $('#txt_todate').datepicker({
+            dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeMonth: true, minDate: new Date(currentdate), onClose: function () {
+                var event = arguments.callee.caller.caller.arguments[0];
+                // If "Clear" gets clicked, then really clear it
+                if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                    $(this).val('');
+                }
+            }
+        }).attr('readonly', true).css('background-color', 'White');
+
+
+        $('#txt_fromdate_e').datepicker("destroy");
+        $('#txt_fromdate_e').datepicker({
+            dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeMonth: true, minDate: new Date(currentdate), onClose: function () {
+                var event = arguments.callee.caller.caller.arguments[0];
+                // If "Clear" gets clicked, then really clear it
+                if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                    $(this).val('');
+                }
+            }
+        }).attr('readonly', true).css('background-color', 'White');
+
+        $('#txt_todate_e').datepicker("destroy");
+        $('#txt_todate_e').datepicker({
+            dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeMonth: true, minDate: new Date(currentdate), onClose: function () {
+                var event = arguments.callee.caller.caller.arguments[0];
+                // If "Clear" gets clicked, then really clear it
+                if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                    $(this).val('');
+                }
+            }
+        }).attr('readonly', true).css('background-color', 'White');
+
+        $("#btnsubmit").on("click", function () {
+            if ($("#ddl_employee").val() == '0') {
+                alert("Please Select Delegate To !");
+                $("#ddl_employee").focus();
+                return false;
+            }
+            if ($("#txt_fromdate").val() == '') {
+                alert("From Date Can't be blank !");
+                $("#txt_fromdate").focus();
+                return false;
+            }
+            if ($("#txt_todate").val() == '') {
+                alert("To Date Can't be blank !");
+                $("#txt_todate").focus();
+                return false;
+            }
+            if ($("#ddltype").val() == '0') {
+                alert("Please Select Type !");
+                $("#ddltype").focus();
+                return false;
+            }
+
+            if ($("#ddlstatus").val() == '0') {
+                alert("Please Select Status !");
+                $("#ddlstatus").focus();
+                return false;
+            }
+            
+            var delegation = {}; 
+            delegation.ID = "0";
+            delegation.employee_id = $("#ddl_employee").val();
+            delegation.fromdate = $("#txt_fromdate").val();
+            delegation.todate = $("#txt_todate").val();
+            delegation.type = $("#ddltype").val();
+            delegation.status = $("#ddlstatus").val();  
+            $.ajax({
+                type: 'POST',
+                url: '/settings/adddelegation',
+                contentType: 'application/json;charset-8;',
+                data: JSON.stringify({ delegation }),
+                dataType: 'json',
+                success: function (data) {
+                    var msg = [];
+                    msg=data.split(',');
+                    alert(msg[1]);
+                    ClearText();
+                    Gettablebind();
+                    $("#add_newtransfer").modal('hide');
+                }
+
+            })
+
+          
+        })
+
+ 
+      
+
+        $(document).on("click", '.viewrecored', function () {
+
+            $("#view_fuel").modal("show");
+            var id = $(this).closest('tr').find('td').eq(0).attr('data_id');
+         
+            $.ajax({
+                type: 'POST',
+                url: '/settings/get_delegationbyid',
+                contentType: 'application/json;charset-8;',
+                dataType: 'json',
+                data: JSON.stringify({ 'id': id }),
+                success: function (data) {
+                    var mydata = JSON.parse(data);
+                    $("#ddl_employee_v").val(mydata[0].EMPLOYEE_ID);
+                    $("#txt_fromdate_v").val(mydata[0].FROM_DATE);
+                    $("#txt_todate_v").val(mydata[0].TO_DATE);
+                    $("#ddltype_v").val(mydata[0].DELEGATION_TYPE);
+                    $("#ddlstatus_v").val(mydata[0].DELEGATION_Status);
+                }
+            })
+        });
+
+        
+
+        $(document).on("click", '.editrecord', function () {
+            debugger;
+            $("#ddlstatus_e").prop('disabled', false);
+            $("#hdeditrowid").val("");
+            var id = $(this).closest('tr').find('td').eq(0).attr('data_id');
+            $("#hdeditrowid").val(id); 
+            $.ajax({
+                type: 'POST',
+                url: '/settings/get_delegationbyid',
+                contentType: 'application/json;charset-8;',
+                dataType: 'json',
+                data: JSON.stringify({ 'id': id }),
+                success: function (data) {
+                   
+                    var mydata = JSON.parse(data);
+                    debugger;
+                    $("#ddl_employee_e").val(mydata[0].EMPLOYEE_ID);
+                 //   BindUserEdit(mydata[0].DELEGATION_TYPE, id, mydata[0].EMPLOYEE_ID);
+                    //$("#ddl_employee_e").val();
+                    $("#txt_fromdate_e").val(mydata[0].FROM_DATE);
+                    $("#txt_todate_e").val(mydata[0].TO_DATE);
+                    $("#ddltype_e").val(mydata[0].DELEGATION_TYPE);
+                    $("#ddlstatus_e").val(mydata[0].DELEGATION_Status);
+                    if (mydata[0].DELEGATION_Status == 'In-Active') {
+                        $("#ddlstatus_e").prop('disabled', true);
+                    }
+                
+                }
+            })
+        })
+
+       $("#btnupdatereset").on('click', function () {
+           
+     
+        $.ajax({
+            type: 'POST',
+            url: '/settings/get_delegationbyid',
+            contentType: 'application/json;charset-8;',
+            dataType: 'json',
+            data: JSON.stringify({ 'id': $("#hdeditrowid").val() }),
+            success: function (data) {
+                var mydata = JSON.parse(data);
+                $("#ddl_employee_e").val(mydata[0].EMPLOYEE_ID);
+                $("#txt_fromdate_e").val(mydata[0].FROM_DATE);
+                $("#txt_todate_e").val(mydata[0].TO_DATE);
+                $("#ddltype_e").val(mydata[0].DELEGATION_TYPE);
+                $("#ddlstatus_e").val(mydata[0].DELEGATION_Status);
+            }
+        })
+        })
+
+       $("#btnupdate").on("click", function () {
+
+            if ($("#ddl_employee_e").val() == '0') {
+                alert("Please Select Delegate To !");
+                $("#ddl_employee").focus();
+                return false;
+            }
+            if ($("#txt_fromdate_e").val() == '') {
+                alert("From Date Can't be blank !");
+                $("#txt_fromdate").focus();
+                return false;
+            }
+            if ($("#txt_todate_e").val() == '') {
+                alert("To Date Can't be blank !");
+                $("#txt_todate").focus();
+                return false;
+            }
+            if ($("#ddltype_e").val() == '0') {
+                alert("Please Select Type !");
+                $("#ddltype").focus();
+                return false;
+            }
+
+            if ($("#ddlstatus_e").val() == '0') {
+                alert("Please Select Status !");
+                $("#ddlstatus").focus();
+                return false;
+            }
+
+            var delegation = {};
+            delegation.ID = $("#hdeditrowid").val();
+            delegation.employee_id = $("#ddl_employee_e").val();
+            delegation.fromdate = $("#txt_fromdate_e").val();
+            delegation.todate = $("#txt_todate_e").val();
+            delegation.type = $("#ddltype_e").val();
+            delegation.status = $("#ddlstatus_e").val();
+            $.ajax({
+                type: 'POST',
+                url: '/settings/adddelegation',
+                contentType: 'application/json;charset-8;',
+                data: JSON.stringify({ delegation }),
+                dataType: 'json',
+                success: function (data) {
+                    var msg = [];
+                    msg = data.split(',');
+                    alert(msg[1]);
+                    ClearText();
+                    Gettablebind();
+                    $("#edit_fuel").modal('hide');
+                }
+
+            })
+
+        
+        })
+         
+       $(".close").on('click', function () {
+           ClearText();
+       });
+
+       $('#txt_fromdate').on('change', function () {
+           $('#txt_todate').val("");          
+       });
+       $('#txt_todate').on('change', function () {
+           var start_dt = myDateFormatter($('#txt_fromdate').val());
+           var end_dt = myDateFormatter($('#txt_todate').val());
+           if (start_dt > end_dt) {
+               alert("End Date can't less then start date.");
+               $('#txt_todate').val("");
+               setTimeout(function () { $('#txt_todate').focus(); })
+           }
+       });
+
+       $('#txt_fromdate_e').on('change', function () {
+           $('#txt_todate_e').val("");
+       });
+       $('#txt_todate_e').on('change', function () {
+           var start_dt = myDateFormatter($('#txt_fromdate_e').val());
+           var end_dt = myDateFormatter($('#txt_todate_e').val());
+           if (start_dt > end_dt) {
+               alert("End Date can't less then start date.");
+               $('#txt_todate_e').val("");
+               setTimeout(function () { $('#txt_todate_e').focus(); })
+           }
+       });
+       $("#ddl_employee").on("click", function () {
+           if ($("#ddltype").val() == 0) {
+               alert("Please Select Type !");
+               $("#ddltype").focus();
+               return false;
+           }
+       });
+
+       $("#ddltype").on("change", function () {
+           if ($("#ddltype").val() != 0) {
+               BindUser($(this).val());
+           }
+       })
+
+       Gettablebind();
+
+    });
+    function BindUser(TYPE) {
+ 
+        //$.ajax({
+        //    type: 'POST',
+        //    url: '/settings/binduserontype',
+        //    contentType: 'application/json;charset=utf-8',
+        //    data: JSON.stringify({ 'TYPE': TYPE }),
+        //    dataType: 'json',
+        //    success: function (data) {
+        //        if (data != null) {
+        //            var len = Object.keys(data).length;
+                   
+        //            $("#ddl_employee").html("");
+        //            $("#ddl_employee").append($('<option></option>').val(0).html("Select"));                    
+        //            for (var i = 0; i < len; i++) {
+
+        //                $("#ddl_employee").append($('<option></option>').val(data[i].emp_id).html(data[i].emp_name));
+        //            }
+                  
+        //        }
+        //        else {
+        //            alert('no data found.');
+        //        }
+        //    },
+        //    error: function (data) {
+        //        alert(data.responseText);
+        //    }
+        //});
+    }
+    function BindUserEdit(TYPE,delegation_apply_emp_id,emp_id) {
+        //debugger;
+        //$.ajax({
+        //    type: 'POST',
+        //    url: '/settings/binduserontype_edit',
+        //    contentType: 'application/json;charset=utf-8',
+        //    data: JSON.stringify({ 'TYPE': TYPE, delegation_apply_emp_id: delegation_apply_emp_id}),
+        //    dataType: 'json',
+        //    success: function (data) {
+        //        if (data != null) {
+        //            var len = Object.keys(data).length;
+
+        //            $("#ddl_employee_e").html("");
+        //            $("#ddl_employee_e").append($('<option></option>').val(0).html("Select"));
+        //            for (var i = 0; i < len; i++) {
+
+        //                $("#ddl_employee_e").append($('<option></option>').val(data[i].emp_id).html(data[i].emp_name));
+        //            }
+        //            $("#ddl_employee_e").val(emp_id);
+        //        }
+        //        else {
+        //            alert('no data found.');
+        //        }
+        //    },
+        //    error: function (data) {
+        //        alert(data.responseText);
+        //    }
+        //});
+    }
+    function ClearText() {
+        $("#ddl_employee").val('0');
+        $("#txt_fromdate").val('');
+        $("#txt_todate").val('');
+        $("#ddltype").val('0');
+        $("#ddlstatus").val('0');
+
+        $("#ddl_employee_e").val('0');
+        $("#txt_fromdate_e").val('');
+        $("#txt_todate_e").val('');
+        $("#ddltype_e").val('0');
+        $("#ddlstatus_e").val('0');
+        
+
+    }
+ 
+    function myDateFormatter(dateObject) {
+        var d = new Date(moment(dateObject, '"DD-MMM-YYYY').format());
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        var date = year + "/" + month + "/" + day;
+
+        return date;
+    };
+
+    function Gettablebind() {
+
+        $.ajax({
+            type: 'POST',
+            url: '/settings/binddelegationintable',
+            contentType: 'application/json;charset-8;',
+            dataType: 'json',
+            success: function (data) {
+                var mydata = JSON.parse(data);
+                if (Object.keys(mydata).length > 0) {
+                    $("#tblfuel_list tbody").empty();
+                    for (var i = 0; i < Object.keys(mydata).length; i++) {
+                        var markup = "";
+                  
+                      
+                    markup += "<tr  class='retriveData'>";
+                    markup += "<td data_id='" + mydata[i].Delegation_ID + "' >" + mydata[i].SrNo + "</td>";
+                    markup += "<td >" + mydata[i].DELEGATION_TYPE + "</td>";
+                    markup += "<td >" + mydata[i].EMPLOYEE_NAME + "</td>";
+                    markup += "<td >" + mydata[i].FROM_DATE + "</td>";
+                    markup += "<td >" + mydata[i].TO_DATE + "</td>";
+                    markup += "<td >" + mydata[i].DELEGATION_Status + "</td>";
+                    markup += "<td>";
+                    if (mydata[i].DELEGATION_Status =='Active') {
+                        markup += "<a href='#' data-toggle='modal' class='editrecord' data-target='#edit_fuel' title='Edit'><i class='fa fa-pencil m-r-5'></i></a><a href= '#'data- toggle='modal' class='viewrecored' data- target='#view_fuel' title= 'View' > <i class='fa fa-eye m-r-5'></i></a > ";
+                    } else {
+                        markup += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'  class='viewrecored'   title= 'View' > <i class='fa fa-eye m-r-5'></i></a > ";
+
+                    }
+                    
+                    markup += "</td ></tr>";
+                    $("#tblfuel_list tbody").append(markup);
+                }
+            }
+            }
+        })
+
+    }
+
+
+</script>
+<div class="row">
+    <div class="col-sm-11">
+        <h4 class="page-title">Delegation</h4>
+    </div>
+    <div class="col-sm-1  text-right m-b-30">
+        <a href="#" class="btn btn-primary pull-right rounded" data-toggle="modal" data-target="#add_newtransfer"><i class="fa fa-plus"></i> Add New</a>
+    </div>
+    @*<div class="col-sm-3 text-right m-b-30" id="buttons">
+
+    </div>*@
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive" style="overflow-x:auto">
+            <table id="tblfuel_list" class="table table-striped custom-table tbl_transferclaimlist m-b-0  dataTable">
+                <thead>
+                    <tr>
+                        <th width="75px">Sr.No.</th>
+                        <th>Type</th>
+                        <th>Delegate To</th>
+
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Status</th>
+                        <th class="text-center"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="add_newtransfer" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Delegation</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-b-30">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Type<span class="text-danger">*</span></label>
+                                <select id="ddltype" class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="Leave">Leave</option>
+                                    <option value="Expense">Expense</option>
+                                    <option value="Loan_Advance">Loan/Advance</option>
+                                    <option value="Leave_Encashment">Leave Encashment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">From Date<span class="text-danger">*</span></label>
+                                <input class="form-control mycal" placeholder="dd-mmm-yyyy" id="txt_fromdate" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label"> To Date<span class="text-danger">*</span></label>
+                                <input class="form-control mycal" type="text" id="txt_todate" placeholder="dd-mmm-yyyy">
+                            </div>
+                        </div>
+                      
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Delegate To <span class="text-danger">*</span></label>
+                                @Html.DropDownList("ddl_employee", (IEnumerable<SelectListItem>)ViewBag.employeelist, new { @class = "form-control" })
+                                @*<select id="ddl_employee" class="form-control">
+
+                                </select>*@
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Status <span class="text-danger">*</span></label>
+                                <select id="ddlstatus" class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="Active">Active</option>
+                                    <option value="In-Active">In-Active</option>
+                                </select>
+                            </div>
+                        </div> 
+                    </div>
+
+                     
+
+                    <div class="m-t-20 text-center">
+                        <input type="button" class="btn btn-primary" id="btnsubmit" value="Submit" />
+                        <input type="button" class="btn btn-primary" id="btnaddreset" value="Reset" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="edit_fuel" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Delegation</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-b-30">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Type<span class="text-danger">*</span></label>
+                                <select id="ddltype_e"  disabled  class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="Leave">Leave</option>
+                                    <option value="Expense">Expense</option>
+                                    <option value="Loan_Advance">Loan/Advance</option>
+                                    <option value="Leave_Encashment">Leave Encashment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">From Date<span class="text-danger">*</span></label>
+                                <input class="form-control mycal" placeholder="dd-mmm-yyyy" id="txt_fromdate_e" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label"> To Date<span class="text-danger">*</span></label>
+                                <input class="form-control mycal" type="text" id="txt_todate_e" placeholder="dd-mmm-yyyy">
+                            </div>
+                        </div>
+                       
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Delegate To <span class="text-danger">*</span></label>
+                                @Html.DropDownList("ddl_employee_e", (IEnumerable<SelectListItem>)ViewBag.employeelist_edit, new { @class = "form-control" })
+                                @*<select id="ddl_employee_e" class="form-control">
+                                    
+                                </select>*@
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Status <span class="text-danger">*</span></label>
+                                <select id="ddlstatus_e" class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="Active">Active</option>
+                                    <option value="In-Active">In-Active</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="m-t-20 text-center">
+                        <input type="hidden"    id="hdeditrowid"  value="" />
+                        <input type="button" class="btn btn-primary" id="btnupdate" value="Update" />
+                        <input type="button" class="btn btn-primary" id="btnupdatereset" value="Reset" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view_fuel" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4 class="modal-title">View Delegation</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-b-30">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Delegate To  </label>
+                                @Html.DropDownList("ddl_employee_v", (IEnumerable<SelectListItem>)ViewBag.employeelist_edit, new { @class = "form-control",@disabled= "disabled" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">From Date </label>
+                                <input class="form-control  " placeholder="dd-mmm-yyyy" id="txt_fromdate_v" disabled type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label"> To Date </label>
+                                <input class="form-control  " type="text" id="txt_todate_v" disabled placeholder="dd-mmm-yyyy">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Type </label>
+                                <select id="ddltype_v" disabled class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="Leave">Leave</option>
+                                    <option value="Expense">Expense</option>
+                                    <option value="Loan_Advance">Loan/Advance</option>
+                                    <option value="Leave_Encashment">Leave Encashment</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Status  </label>
+                                <select id="ddlstatus_v" disabled class="form-control">
+                                    <option value="0">Select</option>
+                                    <option value="Active">Active</option>
+                                    <option value="In-Active">In-Active</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,431 @@
+﻿@model HONDA.Models.BusinessUnit  
+@{
+    ViewBag.Title = "companysettings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ Html.RenderPartial("_SettingsMenu");
+}
+<link href="~/assets/js/MonthPicker.min.css" rel="stylesheet" />
+ <script src="~/assets/js/MonthPicker.min.js"></script>
+<script src="~/assets/js/CommanJS.js"></script>
+<script type="text/javascript">
+
+    //$(function () {
+    //    $('.mycal_new').prop('readonly', true);
+    //    $(".mycal_new").css("background-color", "white");
+    //    $(".mycal_new").datepicker({
+    //        dateFormat: "MM", changeMonth: true,
+    //        onClose: function () {
+    //            var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+    //            var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+    //            $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+    //        },
+    //        beforeShow: function () {
+    //            if ((selDate = $(this).val()).length > 0) {
+    //                iYear = selDate.substring(selDate.length - 4, selDate.length);
+    //                iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
+    //                $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+    //                $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+    //            }
+    //        }
+
+
+    //    });
+    //});
+
+    $(function () {
+        $('.mycal_cal').prop('readonly', true);
+        $(".mycal_cal").css("background-color", "white");
+        $(".mycal_cal").datepicker({ dateFormat: "dd-M-yy", changeMonth: true, changeYear: true, yearRange: '1945:' + (new Date).getFullYear() });
+        if (@ViewBag.event_permission.Update == 1 ||@ViewBag.event_permission.Create == 1) {
+            $("input[type='text']").prop("readonly", false);
+            $("input[type='email']").prop("readonly", false);
+            $("select").prop("disabled", false);
+            $("input[type='button']").css("display", 'block');
+            $("input[type='text']").css("background-color", "#ffffff");
+        }else
+        {
+          $("input[type='text']").prop("readonly", true);
+        $("input[type='email']").prop("readonly", true);
+        $("select").prop("disabled", true);
+        $("input[type='button']").css("display", 'none');
+        $("input[type='text']").css("background-color", "#eee");
+        }
+
+
+        //$('.mycal_month').MonthPicker({
+        //    Button: false
+        //});
+    });
+    $(document).ready(function () {
+
+        $('#btn_submit').on('click', function () {
+
+
+
+
+            var CompanyName = $("#txtcompanyname");
+            var companysortname = $("#txtcompanysortname");
+            var incorporationdate = $("#txtincorporationdate");
+            var panno = $("#txtpannumber");
+            var tanno = $("#txttannumber");
+            var address = $("#txtaddress");
+            var countryid = $("#ddl_Country");
+            var zoneid = $("#ddl_Zone");
+            var stateid = $("#ddl_State");
+            var cityid = $("#ddl_City");
+            var postalcode = $("#txtpostalcode");
+            var companyemail = $("#txtcompanyemail");
+            var phonenumber = $("#txtphonenumber");
+            var contectperson = $("#txtcontectperson");
+            var contectemail = $("#txtcontectemail");
+            var mobileno = $("#txtmobileNumber");
+            var website = $("#txtwebsite");
+            var FinancialYearFrom = $("#txtfinancialyearformdate");
+            var FinancialYearTo = $("#txtfinancialyeartodate");
+            var CalendarYearFrom = $("#txtcalenderyearfromdate");
+            var CalendarYearTo = $("#txtcalenderyeartodate");
+
+
+            if (incorporationdate.val() == "") {
+                alert("Incorporation Date Can't be blank !");
+                $("#txtincorporationdate").focus();
+                return false;
+            }
+
+            if (countryid.val() == "") {
+                alert("Please Select Country  !");
+                $("#ddl_Country").focus();
+                return false;
+            }
+            if (zoneid.val() == "") {
+                alert("Please Select Region  !");
+                $("#ddl_Zone").focus();
+                return false;
+            }
+            if (stateid.val() == "") {
+                alert("Please Select Dzongkhag  !");
+                $("#ddl_State").focus();
+                return false;
+            }
+            if (cityid.val() == "") {
+                alert("Please Select Location  !");
+                $("#ddl_City").focus();
+                return false;
+            }
+            if ($("#txtfinancialyearformdate").val() == "") {
+                alert("Financial Year From Date Can't be blank !");
+                $("#txtfinancialyearformdate").focus();
+                return false;
+            }
+
+            if ($("#txtfinancialyeartodate").val() == "") {
+                alert("Financial Year To From Date Can't be blank !");
+                $("#txtfinancialyeartodate").focus();
+                return false;
+            }
+            if ($("#txtcalenderyearfromdate").val() == "") {
+                alert("Calendar Year From Date Can't be blank !");
+                $("#txtcalenderyearfromdate").focus();
+                return false;
+            }
+            if ($("#txtcalenderyeartodate").val() == "") {
+                alert("Calendar Year To Date Can't be blank !");
+                $("#txtcalenderyeartodate").focus();
+                return false;
+            }
+            var id = $("#hiddenID");
+            var addupdatebusinessunit = {
+                'ID': id.val(),
+                'CompanyName': CompanyName.val(),
+                'CompanyShortName': companysortname.val(),
+                'IncorporationDate': incorporationdate.val(),
+                'PANNumber': panno.val(),
+                'TANNumber': tanno.val(),
+                'Address': address.val(),
+                'CountryID': countryid.val(),
+                'ZoneID': zoneid.val(),
+                'State_ProvinceID': stateid.val(),
+                'CityID': cityid.val(),
+                'PostalCode': postalcode.val(),
+                'CompanyEmail': companyemail.val(),
+                'PhoneNumber': phonenumber.val(),
+                'ContactPerson': contectperson.val(),
+                'ContactEmail': contectemail.val(),
+                'MobileNumber': mobileno.val(),
+                'Website': website.val(),
+                'FinancialYearFrom': FinancialYearFrom.val(),
+                'FinancialYearTo': FinancialYearTo.val(),
+                'CalendarYearFrom': CalendarYearFrom.val(),
+                'CalendarYearTo': CalendarYearTo.val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/WorkStructure/addupdatebusinessunit',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(addupdatebusinessunit),
+                dataType: 'json',
+                success: function (response) {
+                    var succ = response.SuccessMsg;
+                    var err = response.ErrorMsg;
+                    if (succ != "" && err == "") {
+                        alert(succ);
+                    }
+                    else {
+                        alert(err);
+                    }
+
+                    location.reload(true);
+                }
+            });
+        });
+        $('#btn_reset').on('click', function () {
+            location.reload(true);
+        });
+    });
+
+</script>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('a[href$="' + "/companysettings" + '"]').closest("li").addClass('active');
+
+
+        $('#txtfinancialyearformdate').on('change', function () {
+            $('#txtfinancialyeartodate').val('');
+        });
+
+
+        $('#txtfinancialyeartodate').on('change', function () {
+
+            var start_dt = myDateFormatter($('#txtfinancialyearformdate').val());
+            var end_dt = myDateFormatter($('#txtfinancialyeartodate').val());
+            if (start_dt > end_dt) {
+                alert("To Date can't less then from date.");
+                $('#txtfinancialyeartodate').val("");
+                setTimeout(function () { $('#txtfinancialyeartodate').focus(); })
+            }
+        });
+
+
+        $('#txtcalenderyearfromdate').on('change', function () {
+            $('#txtcalenderyeartodate').val('');
+        });
+
+
+        $('#txtcalenderyeartodate').on('change', function () {
+            var start_dt = myDateFormatter($('#txtcalenderyearfromdate').val());
+            var end_dt = myDateFormatter($('#txtcalenderyeartodate').val());
+            if (start_dt > end_dt) {
+                alert("To Date can't less then from date.");
+                $('#txtcalenderyeartodate').val("");
+                setTimeout(function () { $('#txtcalenderyeartodate').focus(); })
+            }
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <form>
+            <h3 class="page-title"> Company Settings</h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Company Name <span class="text-danger">*</span></label>
+                        <input class="form-control  myinput"  type="text"    id="txtcompanyname" value="@Model.CompanyName">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4 ">
+                    <div class="form-group">
+                        <label>Company Short Name</label>
+                        <input class="form-control myinput " id="txtcompanysortname"   value="@Model.CompanyShortName" type="text">
+                    </div>
+                </div>
+
+                <div class="col-sm-4 ">
+                    <div class="form-group">
+                        <label>Incorporation Date</label>
+                        <div class="cal-icon"><input class="form-control  mycal  myinput"  id="txtincorporationdate"   value="@Model.IncorporationDate" type="text"></div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-6 col-lg-3" style="display:none">
+                    <div class="form-group">
+                        <label>PAN Number</label>
+                        <input class="form-control myinput"  value="@Model.PANNumber"   id="txtpannumber" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @*<label>TAN Number</label> change to TPN number *@ 
+                        <label>TPN Number</label>
+                        <input class="form-control myinput" value="@Model.TANNumber"   id="txttannumber" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input class="form-control  myinput"  id="txtaddress"   value="@Model.Address" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Country</label>
+                        @*<input class="form-control " id="ddl_Country"   value="@Model.Countryname" type="text">*@
+
+                        @Html.DropDownListFor(m =>m.Countryname, (IEnumerable<SelectListItem>)ViewBag.countrylist, "select", new { @id = "ddl_Country", @class = "form-control myinput" })
+
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Region</label>
+                        @*<input class="form-control " id="ddl_Zone"   value="@Model.ResionName" type="text">*@
+                        @Html.DropDownListFor(m => m.ResionName, (IEnumerable<SelectListItem>)ViewBag.zonelist, "select", new { @id = "ddl_Zone", @class = "form-control myinput" })
+
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Dzongkhag</label>
+                        @*<input class="form-control " id="ddl_State"   value="@Model.Dzongkhagname" type="text">*@
+                        @Html.DropDownListFor(m => m.Dzongkhagname, (IEnumerable<SelectListItem>)ViewBag.Statelist, "select", new { @id = "ddl_State", @class = "form-control myinput" })
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Location</label>
+                        @*<input class="form-control " id="ddl_City"   value="@Model.Locationname" type="text">*@
+                        @Html.DropDownListFor(m => m.Locationname, (IEnumerable<SelectListItem>)ViewBag.Citylist,"select", new { @id = "ddl_City", @class = "form-control myinput" })
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input class="form-control advanceloanmynumval myinput" id="txtpostalcode"   value="@Model.PostalCode" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label>Company Email</label>
+                        <input class="form-control myinput" id="txtcompanyemail "   value="@Model.CompanyEmail" type="email">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input class="form-control myinput" id="txtphonenumber"   value="@Model.PhoneNumber" type="text">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Contact Person</label>
+                        <input class="form-control myinput " id="txtcontectperson" value="@Model.ContactPerson" type="text">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label>Contact Email</label>
+                        <input class="form-control myinput" id="txtcontectemail" value="@Model.ContactEmail" type="email">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="hidden"  id="hiddenfieldmobileNo" />
+                        <input class="form-control myinput" id="txtmobileNumber" value="@Model.MobileNumber" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+
+                    <div class="form-group row">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>Financial Year From</label>
+                                <div class="cal-icon">
+                                    @*<input class="form-control  mycal_month"   id="txtfinancialyearformdate" placeholder="dd-mmm-yyyy" type="text">*@
+                                    @Html.DropDownListFor(m => m.FinancialYearFrom, (IEnumerable<SelectListItem>)ViewBag.Months, new { @id = "txtfinancialyearformdate", @class = "form-control myinput" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>Financial Year To</label>
+                                <div class="cal-icon">
+                                    @*<input class="form-control  mycal_month" value="@Model.FinancialYearTo" id="txtfinancialyeartodate" placeholder="dd-mmm-yyyy" type="text">*@
+
+                                    @Html.DropDownListFor(m => m.FinancialYearTo, (IEnumerable<SelectListItem>)ViewBag.Months,  new { @id = "txtfinancialyeartodate", @class = "form-control myinput" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               <div class="col-sm-6 col-md-6 col-lg-6">
+
+                   <div class="form-group row">
+                       <div class="col-sm-6 col-md-6 col-lg-6">
+                           <div class="form-group">
+                               <label>Calendar Year From</label>
+                               <div class="cal-icon">
+                                   @*<input class="form-control  mycal_new" value="@Model.CalendarYearFrom" id="txtcalenderyearfromdate" placeholder="dd-mmm-yyyy" type="text">*@
+                             @Html.DropDownListFor(m => m.CalendarYearFrom, (IEnumerable<SelectListItem>)ViewBag.Months,   new { @id = "txtcalenderyearfromdate", @class = "form-control myinput" })
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-sm-6 col-md-6 col-lg-6">
+                           <div class="form-group">
+                               <label>Calendar Year To</label>
+                               <div class="cal-icon">
+                                   @*<input class="form-control  mycal_new" value="@Model.FinancialYearTo" id="txtcalenderyeartodate" placeholder="dd-mmm-yyyy" type="text">*@
+
+
+                                   @Html.DropDownListFor(m => m.CalendarYearTo, (IEnumerable<SelectListItem>)ViewBag.Months,   new { @id = "txtcalenderyeartodate", @class = "form-control myinput" })
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Website </label>
+                        <input class="form-control myinput" id="txtwebsite"   value="@Model.Website" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12   text-center m-t-20 ">
+                    <input type="hidden" id="hiddenID" value="@Model.ID" />
+                    <button type="button" class="btn btn-primary myinput" id="btn_submit"> Save &amp; Update </button>
+                @*</div>
+                <div class="col-sm-2 text-left ">*@
+
+                    <button type="button" class="btn btn-primary myinput" id="btn_reset">Reset</button>
+                </div>  
+                <div class="col-sm-8">
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

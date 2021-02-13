@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "emailsettings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+
+ @{ Html.RenderPartial("_SettingsMenu"); }
+<style type="text/css">
+    .field-icon {
+        float: right;
+        margin-right: 15px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .container {
+        padding-top: 50px;
+        margin: auto;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+         
+
+        $('a[href$="' + "/emailsettings" + '"]').closest("li").addClass('active');
+    });
+</script>
+<script>
+
+    function funShowPwd(T,T1) {
+
+        var x = document.getElementById(T);
+        $("#"+T1).toggleClass("fa-eye fa-eye-slash");
+        if (x.type == "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    </script>
+@*<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+        <h3 class="page-title">E-mail Setting</h3>
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>*@
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="form-group">
+
+            @*<label class="radio-inline">
+                <input type="radio"> SMTP
+            </label>*@
+
+            <h3 class="page-title">E-mail Setting</h3>
+        </div>
+
+        <form>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input class="form-control" placeholder="user@example.com" type="email">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input class="form-control" placeholder="Name" type="text">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <h4 class="page-title m-t-30">SMTP Settings</h4>
+        <form>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>SMTP HOST</label>
+                        <input class="form-control" placeholder="domain.example.com" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>SMTP USER</label>
+                        <input class="form-control" placeholder="username@example.com" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>SMTP PASSWORD</label>
+                        <input class="form-control floating" placeholder="******" type="password" id="txtPassword">
+                        <span id="pwdshow" class="fa fa-fw fa-eye field-icon toggle-password" onclick="funShowPwd('txtPassword','pwdshow');"></span>
+                    </div>
+                </div>
+                <div class="col-sm-6">      
+                    <div class="form-group">
+                        <label>SMTP PORT</label>
+                        @*<input class="form-control" placeholder="25" type="number">*@
+                        <select class="form-control" >
+                            <option>587</option>
+                            <option>465</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>SMTP Security</label>
+                        <select class="select">
+                            <option>None</option>
+                            <option>SSL</option>
+                            <option>TLS</option>
+                        </select>
+                    </div>
+                </div>
+                @*<div class="col-sm-6">
+                    <div class="form-group">
+                        <label>SMTP Authentication Domain</label>
+                        <input class="form-control" type="text">
+                    </div>
+                </div>*@
+            </div>
+            <div class="col-sm-12 m-t-20 text-center">
+                <button type="button" class="btn btn-primary">Save &amp; Update</button>
+                <button type="button" class="btn btn-primary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

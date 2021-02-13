@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@*<style>
+
+
+    .myclose {
+        border-radius: 50%;
+        height: 50px;
+        left: -15px;
+        opacity: 1;
+        position: relative;
+        top: 15px;
+        width: 50px;
+        text-shadow: inherit;
+        color: #fff;
+        z-index: 99;
+        background: linear-gradient(to right, #ff9b44 0%, #fc6075 100%);
+        background: #ff9b44;
+        float:right;
+       
+    }
+    
+</style>*@
+<script>
+    $(document).ready(function () {
+        $('.check').click(function () {
+            $('.check').not(this).prop('checked', false);
+        });
+    });
+</script>
+@*<button type="button" class=" myclose" data-dismiss="modal">&times;</button>*@
+<div id="edit_LeaveType"  class="" role="dialog">
+    <div class="modal-dialog">
+     
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4 class="modal-title"> Switch Role</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="skill" class="check" value="male"> Admin</label>
+                        </div>
+                        <div class="checkbox">
+                            <label>  <input type="checkbox" name="skill" class="check" value="female"> Employee</label>
+                        </div>
+                        <div class="checkbox">
+                            <label>  <input type="checkbox" name="skill" class="check" value="other"> HR</label>
+                        </div>
+                    </div>
+
+                    <input type="button" class="btn btn-primary" name="Apply" value="Submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

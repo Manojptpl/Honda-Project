@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "ItemHistory";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('ul.list-unstyled  li a[href$="' + "/ItemMaster" + '"]').addClass('active');
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetItemList",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                var result = data;
+                if (result) {
+                    $('#tblBody').empty();
+                    var html = "";
+                    $.each(result, function (txt, val) {
+                        html += "<tr>";
+                        html += "<td data_id ='" + val.Item_No + "' >" + val.Item_No + "</td>";
+                        html += "<td>" + val.Description + "</td>";
+                        html += "<td>" + val.Blocked + "</td>";
+                        html += "<td>" + val.Type + "</td>";
+                        html += "<td>" + val.BUOM + "</td>";
+                        html += "<td>" + val.ItemCategory + "</td>";
+                        html += "<td>" + val.SUOM + "</td>";
+                        html += "<td>" + val.ItemTrackingCode + "</td>";
+                        html += "<td>" + val.ExpirationCalculation + "</td>";
+                        html += "<td>" + val.ItemType + "</td>";
+                        html += "<td>" + val.Inventory + "</td>";
+                        //html += "<td><a href='javascript:void(0)' class='myitemview' title='View' ><i class='fa fa-eye m-r-5' ></i></a></td>";
+                        html += "</tr>";
+                    })
+                    $('#tblBody').append(html);
+                    $(".tbl_item").DataTable(
+                        {
+                            "order": [[0, "desc"]],
+                            "language": {
+                                "search": "",
+                                "searchPlaceholder": "Search"
+                            }
+                        });
+                }
+            }
+        });
+    });
+
+</script>
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">Item List</h4>
+    </div>
+    <div class="col-sm-1 text-right m-b-30">
+        @*<a href="javascript:void(0);" class="btn btn-primary rounded" id="btn_addnew"><i class="fa fa-plus"></i> Add New</a>*@
+    </div>
+    <div class="col-sm-3" id="buttons">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped custom-table table-responsive m-b-0 tbl_item">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Description</th>
+                        <th>Blocked</th>
+                        <th>Type</th>
+                        <th>Basic Unit of Measure</th>
+                        <th>Item Category</th>
+                        <th>Sales Unit Of Measure</th>
+                        <th>Item Tracking Code</th>
+                        <th>Expiration Calculation</th>
+                        <th>Item Type</th>
+                        <th>Inventory</th>
+                        @*<th>Action</th>*@
+                    </tr>
+                </thead>
+                <tbody id="tblBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

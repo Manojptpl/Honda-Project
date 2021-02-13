@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/assets/css/jquery.tooltip.css">
+
+    <style>
+        label {
+            display: inline-block;
+            width: 5em;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <p>A Form example with Tooltip</p>
+    <div>
+        <label>Your Name</label>: <input id="name" data-tooltip data-options='{"direction":"left", "content": "Enter your name", "title": "Tooltip in a form"}' /><br /><br />
+        <div>
+            <label>Email</label>: <input id="email" data-tooltip data-options='{"direction":"left", "content": "Enter your Email", "title": "Your Email"}' /><br /><br />
+            <div>
+                <label>Password:</label>: <input id="password" data-tooltip data-options='{"direction":"left", "content": "<b>Enter password that must be </b></br>(i) 6-24 characters long </br>(ii) Must contain a number </br>(iii) Must contain a capital letter", "title": "Password"}' />
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="~/assets/js/jquery.tooltip.js"></script>
+
+</body>
+</html>

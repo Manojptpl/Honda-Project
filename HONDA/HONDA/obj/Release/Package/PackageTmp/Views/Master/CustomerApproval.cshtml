@@ -1,0 +1,322 @@
+﻿
+@{
+    ViewBag.Title = "CustomerApproval";
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('ul.list-unstyled  li a[href$="' + "/CustomerApproval" + '"]').addClass('active');
+        //$("#fromfirsthalf").prop("disabled", true);
+        //$("#fromsecondhalf").prop("disabled", true);
+        //$("#tofirsthalf").prop("disabled", true);
+        //$("#tosecondhalf").prop("disabled", true);
+
+        $(".tbl_leavecancelhistory #checkall").click(function () {
+            if ($(".tbl_leavecancelhistory #checkall").is(':checked')) {
+                $(".tbl_leavecancelhistory input[type=checkbox]").each(function () {
+                    $(this).closest('tr').find('.checkthis').prop("checked", true);
+                });
+
+            } else {
+                $(".tbl_leavecancelhistory input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+        //var table = $(".tbl_leavecancelhistory").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [0, 8], "orderable": false }
+        //        ],
+
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+        //$(".tbl_leavecancelhistory th:first-child").removeClass();
+
+
+      //  $("#btn_approved").on("click", function () {
+      //      if ($(this).is(":disabled") == true) {
+      //          return false;
+      //      }
+      //      var data = [], applydate = [], remarks = "", status = "", mydata = "";
+      //      status = $(this).attr("data-value");
+      //      if (status == "approve") {
+      //          $("#text").val('');
+      //      } else if (status == "reject") {
+      //          remarks = $("#text").val();
+      //      }
+      //      $('#leavecancelapply tbody tr').each(function (i, row) {
+      //          var $actualrow = $(row);
+
+      //          $checkbox = $actualrow.find(':checkbox:checked');
+      //          if ($checkbox.val() > 0) {
+
+      //              var strval = {
+      //                  "ID": $checkbox.val(),
+      //                  "Status": $actualrow.find(':checkbox:checked').attr('data-status'),
+      //                  "Approval_Level": $actualrow.find(':checkbox:checked').attr('data-approval-level'),
+      //                  "Remarks": remarks,
+      //                  "Max_Level": $actualrow.find(':checkbox:checked').attr('data-level')
+      //              }
+      //              data.push(strval);
+
+      //              var str = {
+      //                  "EMP_ID": $actualrow.find('td').eq(1).attr('emp_id'),
+      //                  "From_Date": $actualrow.find('td').eq(4).html(),
+      //                  "To_Date": $actualrow.find('td').eq(5).html(),
+      //                  "Type": $actualrow.find('td').eq(3).html()
+      //              }
+      //              applydate.push(str);
+
+
+      //          }
+
+      //      });
+
+
+      //      if (data.length <= 0) {
+      //          alert('Please Select At-least One Record !');
+      //          return false;
+      //      } else {
+
+      //          $("#myloader").css("visibility", 'visible');
+      //          $("#ddlapproval_status").prop("disabled", true);
+      //          $("#btn_approved").prop("disabled", true);
+      //          $("#btn_reject").prop("disabled", true);
+      //          $("input:checkbox").prop("disabled", true);
+      //          $.ajax({
+      //              type: 'POST',
+      //              url: '/leave/leaveapproveal',
+      //              contentType: 'application/json;charset=utf-8',
+      //              data: JSON.stringify({ data, status: status, "emp_apply_date": applydate }),
+      //              dataType: 'json',
+      //              success: function (response) {
+      //                  var succ = response.SuccessMsg;
+      //                  var err = response.ErrorMsg;
+      //                  if (succ != "" && err == "") {
+      //                      alert(succ);
+      //                  }
+      //                  else {
+      //                      alert(err);
+      //                  }
+
+      //                  Bind_History_List("pending");
+      //                  data.push([]);
+      //              }
+      //          });
+      //      }
+      //  });
+
+      //  $("#btn_reject").on("click", function () {
+      //      if ($(this).is(":disabled") == true) {
+      //          return false;
+      //      }
+      //      var data = [], applydate = [], remarks = "", status = "", mydata = "";
+      //      status = $(this).attr("data-value");
+      //      //if (status == "approve") {
+      //      //    $("#text").val('');
+      //      //} else if (status == "reject") {
+      //      //    remarks = $("#text").val();
+      //      //}
+      //      swal({
+
+
+      //          title: "<p  style='font-size:15px !important; float:left !important'>Remarks</p>",
+      //          text: "<textarea class='form-control' style='border-radius: 3px;' id='text'></textarea>",
+      //          // --------------^-- define html element with id
+      //          html: true,
+      //          showCancelButton: true,
+      //          cancelButtonText: 'Cancel ',
+      //          confirmButtonText: 'Ok ',
+      //          cancelButtonClass: 'btn btn-sm btn-danger',
+      //          confirmButtonClass: 'btn btn-sm btn-primary',
+      //      }, function (inputValue) {
+
+      //          if (inputValue == true) {
+
+      //              if (status == "approve") {
+      //                  $("#text").val('');
+      //              } else {
+      //                  remarks = $("#text").val();
+      //              }
+      //              $('#leavecancelapply tbody tr').each(function (i, row) {
+      //                  var $actualrow = $(row);
+
+      //                  $checkbox = $actualrow.find(':checkbox:checked');
+      //                  if ($checkbox.val() > 0) {
+
+      //                      var strval = {
+      //                          "ID": $checkbox.val(),
+      //                          "Status": $actualrow.find(':checkbox:checked').attr('data-status'),
+      //                          "Approval_Level": $actualrow.find(':checkbox:checked').attr('data-approval-level'),
+      //                          "Remarks": remarks,
+      //                          "Max_Level": $actualrow.find(':checkbox:checked').attr('data-level')
+      //                      }
+      //                      data.push(strval);
+
+      //                      var str = {
+      //                          "EMP_ID": $actualrow.find('td').eq(1).attr('emp_id'),
+      //                          "From_Date": $actualrow.find('td').eq(4).html(),
+      //                          "To_Date": $actualrow.find('td').eq(5).html(),
+      //                          "Type": $actualrow.find('td').eq(3).html()
+      //                      }
+      //                      applydate.push(str);
+      //                  }
+
+      //              });
+      //              if (data.length <= 0) {
+      //                  alert('Please Select At-least One Record !');
+      //                  return false;
+      //              }
+      //              $("#myloader").css("visibility", 'visible');
+      //              $("#ddlapproval_status").prop("disabled", true);
+      //              $("#btn_approved").prop("disabled", true);
+      //              $("#btn_reject").prop("disabled", true);
+      //              $("input:checkbox").prop("disabled", true);
+      //              $.ajax({
+      //                  type: 'POST',
+      //                  url: '/leave/leaveapproveal',
+      //                  contentType: 'application/json;charset=utf-8',
+      //                  data: JSON.stringify({ data, status: status, "emp_apply_date": applydate }),
+      //                  dataType: 'json',
+      //                  success: function (response) {
+      //                      var succ = response.SuccessMsg;
+      //                      var err = response.ErrorMsg;
+      //                      if (succ != "" && err == "") {
+      //                          alert(succ);
+      //                      }
+      //                      else {
+      //                          alert(err);
+      //                      }
+
+      //                      Bind_History_List("pending");
+      //                      data.push([]);
+      //                  },
+      //                  error: function () {
+
+      //                      Bind_History_List("pending");
+      //                      data.push([]);
+      //                  }
+      //              });
+
+      //              $("#text").val('');
+      //          } else {
+      //              $("#text").val('');
+      //          }
+      //      });
+
+      //  });
+
+
+      ////  Bind_History_List("pending");
+      //  $("#ddlapproval_status").on("change", function () {
+      //      if ($(this).val() == "done") {
+      //          $("#checkall").css("display", 'none');
+      //      } else {
+
+      //          $("#checkall").css("display", 'block');
+      //      }
+      //      $("#leavecancelapply").DataTable().rows().remove().draw();
+
+      //      Bind_History_List($(this).val());
+
+      //  });
+    });
+        </script>
+
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">Customer Approval</h4>
+    </div>
+
+    <div class="col-sm-1 text-right m-b-30">
+
+    </div>
+    <div class="col-sm-3 text-right m-b-30" id="buttons">
+    </div>
+</div>
+
+<div class="row ">
+
+    <div class="col-sm-6">
+        <input class="btn btn-success buttonsubmit" type="button" id="btn_approved" data-value="approve" value="Approve" />
+        <input class="btn  buttonsubmit " style="background-color:red;color:white;" data-value="reject" type="button" value="Reject" id="btn_reject">
+        <input type="hidden" id="hdn_roleId" value="@Session["role_id"]" />
+        <input type="hidden" id="hdn_managerId" value="@Session["manager_id"]" />
+    </div>
+
+    <div class="col-sm-4 text-right"><br /><label>Approval Status :</label></div>
+    <div class="col-sm-2 text-right">
+
+        @Html.DropDownList("ddlapproval_status", new SelectList(new List<SelectListItem> { new SelectListItem { Text = "Pending", Value = "pending" }, new SelectListItem { Text = "Approved", Value = "done" } }, "Value", "Text"), new { @class = "form-control myclass" })
+        @*<div id="myloader" class="myloader">Loading<span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span></div>*@
+
+    </div>
+</div>
+<br />
+<!--Leave Approval List-->
+
+<div class="row">
+    <div>
+        <div class="col-md-12">
+            <div class="table-responsive">
+
+                <table id="leavecancelapply" class="table table-striped custom-table m-b-0 tbl_leavecancelhistory">
+                    <thead>
+                        <tr>
+                            <th><input style='@(ViewBag.done != "done" ? "display:block" : "display:none")' type="checkbox" id="checkall" /></th>
+                            <th><strong> No </strong></th>
+                            <th  width="200px"><strong> Description </strong></th>
+                            <th><strong> Sales Person Code </strong></th>
+                            <th><strong>Location Code</strong></th>
+                            @*<th><strong>Address </strong></th>
+                            <th><strong>Email ID</strong> </th>
+                            <th><strong>Phone </strong> </th>*@
+                            <th><strong>Credit Limit</strong></th>
+                            <th width="20px"><b>Action</b></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    <tbody>
+
+                        <tr>
+                            <th><input style='@(ViewBag.done != "done" ? "display:block" : "display:none")' type="checkbox" id="checkall" /></th>
+                            <td>OC-0030</td>
+                            <td>GRACE AND MERCY CO. LTD</td>
+                            <td></td>
+                            @*<td></td>
+                            <td></td>
+                            <td></td>*@
+                            <td></td>
+                            <td>0</td>
+                            <td class="text-center"> <a style="visibility:visible" href="javascript:void(0);" class="lnkActionView" data_id="2"><i class="fa fa-eye m-r-5"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th><input style='@(ViewBag.done != "done" ? "display:block" : "display:none")' type="checkbox" id="checkall" /></th>
+                            <td>TZE-0001</td>
+                            <td>GRACE AND MERCY CO. LTD</td>
+                            <td></td>
+                            @*<td></td>
+                            <td></td>
+                            <td></td>*@
+                            <td></td>
+                            <td>0</td>
+                            <td class="text-center"> <a style="visibility:visible" href="javascript:void(0);" class="lnkActionView" data_id="2"><i class="fa fa-eye m-r-5"></i></a></td>
+                        </tr>
+                    </tbody>
+
+                 
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

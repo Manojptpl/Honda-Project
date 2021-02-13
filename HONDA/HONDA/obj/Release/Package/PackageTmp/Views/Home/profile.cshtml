@@ -1,0 +1,181 @@
+﻿@model TashiOTS.Models.Employee
+
+@{
+    ViewBag.Title = "profile";
+}
+ 
+<style>
+    .border-left {
+        padding: 0 0 0 20px;
+        border-left: 2px dashed #ccc !important;
+    }
+
+    .border-bottom {
+        border-bottom: 2px dashed #ccc;
+    }
+
+
+</style>
+ 
+<script>
+    $(document).ready(function () {
+        $(".upload").on("change", function () {
+
+            var data = new FormData();
+            var files = $(".upload").get(0).files;
+            if (files.length > 0) {
+                if (files.length <= 3) {
+                    var filenamelist = [];
+                    for (var i = 0; i < files.length; i++) {
+                        filenamelist.push(files[i].name);
+                        data.append(files[i].name, files[i]);
+                        var isize = (files[i].size / 1024);
+                        isize = (Math.round((isize / 1024) * 100) / 100);
+                        if (isize > 2) {
+                            alert("File must be less than 2MB");
+                            return false;
+                        }
+                    }
+                    for (var i = 0; i < filenamelist.length; i++) {
+                        var extension = filenamelist[i].split('.').pop().toUpperCase();
+                        if (extension != "PNG" && extension != "JPG"  && extension != "JPEG" ) {                      
+                            alert("Invalid file format." + "(." + extension.toLowerCase() + ")");
+                            $(".upload").val('');
+                            return false;
+                        }
+                    }
+                    //$('#btn_CreateExpense').prop("disabled", true);
+                  //  $('#btn_Reset').prop("disabled", true);
+                    //$('#btn_addClose').prop("disabled", true);
+                    $.ajax({
+                        url: '/home/UploadFiles',
+                        type: "POST",
+                        processData: false,
+                        data: data,
+                        dataType: 'json',
+                        contentType: false,
+                        async: false,
+                        success: function (result) {  
+
+                            //$("#hdFavicon").val(result);
+                            alert("Upload Image successfully .");
+                            $(".avatar").attr("src", "/ThemeImg/" + result);
+
+                            window.location.reload(true);
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                        }
+                    });
+                }
+                else {
+                    alert("No Of Files 3 can be Uploaded at a Time.")
+                    // setTimeout(function () { $('#uploadfile').focus(); });
+                    $(".upload").val('');
+                }
+            }
+            else {
+                alert("Please Check files to upload.")
+                setTimeout(function () { $('#favicon').focus(); });
+                $(".upload").val('');
+            }
+
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">My Profile</h4>
+    </div>
+
+    @*<div class="col-sm-4 text-right m-b-30">
+        <a href="javascript:void(0);" class="btn btn-primary rounded"><i class="fa fa-plus"></i> Edit Profile</a>
+    </div>*@
+</div>
+<div class="card-box">   
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-view">
+                <div class="profile-img-wrap">
+                    <div class="profile-img">
+                        <a href="javascript:;"><img class="avatar" src="@Model.Profile_Img" alt=""></a>
+                        <div class="fileupload btn " style="background-color:unset !important">    
+                            @*<span class="btn-text">Edit</span>*@
+                         
+                            <img style="width:38px; height:38px"  src="~/assets/img/edit_img.png" />
+                            @*<i class="fa fa-pencil m-r-5"></i>*@
+                            <input class="upload" type="file">
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-basic">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="">
+                                <h3 class="user-name m-t-0 m-b-0">@Model.Name</h3>
+                                <b> <small class="text-muted">@Model.Designation_Name</small></b>
+                              <div class="staff-id"><b> Employee ID : @Model.Empcode</b></div> 
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <ul class="personal-info border-left ">
+                                <li>
+                                    <span class="title">Role:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">  <span class="text">@Model.ROLE_NAME</span> </label>
+                                </li>
+                                <li>
+                                    <span class="title">Department:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">  <span class="text">@Model.Department_Name</span> </label>
+                                </li>
+                                <li>
+                                    <span class="title">Manager:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">     <span class="text" id="empmanager">@Model.Manager_Name</span>  </label>
+                                </li>
+
+                                <li>
+                                    <span class="title">Section:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">   <span class="text">@Model.Section_Name</span> </label>
+                                </li>
+
+                                <li>
+                                    <span class="title">Employment Type:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">  <span class="text">@Model.Employment_Type</span> </label>
+                                </li>
+                                <li class="personal-info border-bottom"></li>
+
+                                <li>
+                                    <span class="title">Email:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">  <span class="text"> @Model.Email</span> </label>
+                                </li>
+                                <li>
+                                    <span class="title">Birthday:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">   <span class="text">@Model.Dob</span> </label></li>
+                                <li>
+                                    <span class="title">DOJ:</span>
+                                    <label style="font-weight: 400 ;width: 60%; ">   <span class="text" id="empdoj"> @Model.Doj</span> </label>
+
+                                </li>
+                                <li>
+                                    <span class="title">Region:</span>
+                                    <label style="font-weight: 400  ;width: 60%;">    <span class="text" id="empaddr">@Model.Location </span>  </label>
+
+                                </li> 
+                                <li> 
+                                    <span class="title">Gender:</span>
+                                    <label style="font-weight: 400 ;width: 60%;">  <span class="text">@Model.Gender</span> </label></li>
+                               
+                             
+                                <li>
+                                    <span class="title">Grade:</span>
+                                    <label style="font-weight: 400  ;width: 60%;">     <span class="text" id="empGrade">@Model.Grade</span>  </label>
+                                </li>
+                               
+                            </ul> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 

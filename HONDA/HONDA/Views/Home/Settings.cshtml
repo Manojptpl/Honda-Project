@@ -1,0 +1,821 @@
+﻿
+@model IEnumerable<HONDA.Models.AnnualAppraisalModel>
+<style type="text/css">
+    .required {
+        color: red;
+    }
+
+    .myclass {
+        text-transform: capitalize;
+    }
+
+    #content {
+        height: 900px;
+    }
+    .btn-default {
+    color: #333;
+    background-color: #fff;
+    border:none;    
+}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {        
+        $('input[type="text"]').each(function(){
+            $(this).on('keypress',function(event){
+                var letters = /^[1-5]+$/;
+                var key = String.fromCharCode(!event.fromCharCode ? event.which : event.charCode);
+                if (!letters.test(key)) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+        $("#btnReset").on('click',function(){
+            //$(':input').each(function(){
+            //    $(this).val("");
+            //});
+            //$('#txt_CURRENTROLL_SELFRATING').val("");
+            //$('#txt_CURRENTROLL_SELFEXP').val("");
+            //$('#txt_CURRENTROLL_MGRRATING').val("");
+            //$('#txt_CURRENTROLL_MGREXP').val("");
+            //$('#txt_QUALITYWORK_SELFRATING').val("");
+            //$('#txt_QUALITYWORK_SELFEXP').val("");
+            //$('#txt_QUALITYWORK_MGRRATING').val("");
+            //$('#txt_QUALITYWORK_MGREXP').val("");
+            //$('#txt_ORGWORK_SELFRATING').val("");
+            //$('#txt_ORGWORK_SELFEXP').val("");
+            //$('#txt_ORGWORK_MGRRATING').val("");
+            //$('#txt_ORGWORK_MGREXP').val("");
+            //$('#txt_INITIATE_SELFRATING').val("");
+            //$('#txt_INITIATE_SELFEXP').val("");
+            //$('#txt_INITIATE_MGRRATING').val("");
+            //$('#txt_INITIATE_MGREXP').val("");
+            //$('#txt_PERSONAL_SELFRATING').val("");
+            //$('#txt_PERSONAL_SELFEXP').val("");
+            //$('#txt_PERSONAL_MGRRATING').val("");
+            //$('#txt_PERSONAL_MGREXP').val("");
+            //$('#txt_VSKILL_SELFRATING').val("");
+            //$('#txt_VSKILL_SELFEXP').val("");
+            //$('#txt_VSKILL_MGRRATING').val("");
+            //$('#txt_VSKILL_MGREXP').val("");
+            //$('#txt_WSKILL_SELFRATING').val("");
+            //$('#txt_WSKILL_SELFEXP').val("");
+            //$('#txt_WSKILL_MGRRATING').val("");
+            //$('#txt_WSKILL_MGREXP').val("");
+            //$('#txt_TEAM_SELFRATING').val("");
+            //$('#txt_TEAM_SELFEXP').val("");
+            //$('#txt_TEAM_MGRRATING').val("");
+            //$('#txt_TEAM_MGREXP').val("");
+            //$('#txt_CONFIDENTIALITY_SELFRATING').val("");
+            //$('#txt_CONFIDENTIALITY_SELFEXP').val("");
+            //$('#txt_CONFIDENTIALITY_MGRRATING').val("");
+            //$('#txt_CONFIDENTIALITY_MGREXP').val("");
+            //$('#txt_ATTENDANCE_SELFRATING').val("");
+            //$('#txt_ATTENDANCE_SELFEXP').val("");
+            //$('#txt_ATTENDANCE_MGRRATING').val("");
+            //$('#txt_ATTENDANCE_MGREXP').val("");
+            //$('#txt_SECTION_SECOND_TOTALRATING').val("");
+
+            //$('#txt_SECTION_ONE_OVERALL_TOTALRATING').val("");
+            //$("#txt_SECTION_2_OVERALL_TOTALRATING").val("");
+            //$("#txt_SUBTOTAL").val("");
+            //$("#txt_OVERALL_RATING").val("");
+        });
+        $("#btn_Submit").on('click', function () {
+            var APPRAISAL_ID = $("#hdn_Appraisal_id").val();
+            var Emp_id = @Session["EMP_ID"];
+            var EMP_NAME = $('#txt_EmpName').val();
+            var MANAGER_NAME =$("#txt_ManagerName").val();
+            var POSITION_TITLE =$("#txt_PositionTitle").val();
+            var CUR_DATE=$("#txt_ReviewDate").val();
+            var FROM_DATE=$("#txt_FromDate").val();
+            var TO_DATE=$("#txt_ToDate").val();
+            var DEPARTMENT=$("#txt_Department").val();
+            var GOAL_QUARTER=$("#txt_KeyResponsibility").val();
+            var FINAL_RATING=$("#txt_FinalRating").val();
+
+            var CURRENTROLL_SELFRATING =$("#txt_CURRENTROLL_SELFRATING").val();
+            var CURRENTROLL_SELFEXP =$("#txt_CURRENTROLL_SELFEXP").val();
+            var CURRENTROLL_MGRRATING =$("#txt_CURRENTROLL_MGRRATING").val();
+            var CURRENTROLL_MGREXP =$("#txt_CURRENTROLL_MGREXP").val();
+            var QUALITYWORK_SELFRATING =$("#txt_QUALITYWORK_SELFRATING").val();
+            var QUALITYWORK_SELFEXP =$("#txt_QUALITYWORK_SELFEXP").val();
+            var QUALITYWORK_MGRRATING =$("#txt_QUALITYWORK_MGRRATING").val();
+            var QUALITYWORK_MGREXP =$("#txt_QUALITYWORK_MGREXP").val();
+            var ORGWORK_SELFRATING =$("#txt_ORGWORK_SELFRATING").val();
+            var ORGWORK_SELFEXP =$("#txt_ORGWORK_SELFEXP").val();
+            var ORGWORK_MGRRATING =$("#txt_ORGWORK_MGRRATING").val();
+            var ORGWORK_MGREXP =$("#txt_ORGWORK_MGREXP").val();
+            var INITIATE_SELFRATING =$("#txt_INITIATE_SELFRATING").val();
+            var INITIATE_SELFEXP =$("#txt_INITIATE_SELFEXP").val();
+            var INITIATE_MGRRATING =$("#txt_INITIATE_MGRRATING").val();
+            var INITIATE_MGREXP =$("#txt_INITIATE_MGREXP").val();
+            var PERSONAL_SELFRATING =$("#txt_PERSONAL_SELFRATING").val();
+            var PERSONAL_SELFEXP =$("#txt_PERSONAL_SELFEXP").val();
+            var PERSONAL_MGRRATING =$("#txt_PERSONAL_MGRRATING").val();
+            var PERSONAL_MGREXP =$("#txt_PERSONAL_MGREXP").val();
+            var VSKILL_SELFRATING =$("#txt_VSKILL_SELFRATING").val();
+            var VSKILL_SELFEXP =$("#txt_VSKILL_SELFEXP").val();
+            var VSKILL_MGRRATING =$("#txt_VSKILL_MGRRATING").val();
+            var VSKILL_MGREXP =$("#txt_VSKILL_MGREXP").val();
+            var WSKILL_SELFRATING =$("#txt_WSKILL_SELFRATING").val();
+            var WSKILL_SELFEXP =$("#txt_WSKILL_SELFEXP").val();
+            var WSKILL_MGRRATING =$("#txt_WSKILL_MGRRATING").val();
+            var WSKILL_MGREXP =$("#txt_WSKILL_MGREXP").val();
+            var TEAM_SELFRATING =$("#txt_TEAM_SELFRATING").val();
+            var TEAM_SELFEXP =$("#txt_TEAM_SELFEXP").val();
+            var TEAM_MGRRATING =$("#txt_TEAM_MGRRATING").val();
+            var TEAM_MGREXP =$("#txt_TEAM_MGREXP").val();
+            var CONFIDENTIALITY_SELFRATING =$("#txt_CONFIDENTIALITY_SELFRATING").val();
+            var CONFIDENTIALITY_SELFEXP =$("#txt_CONFIDENTIALITY_SELFEXP").val();
+            var CONFIDENTIALITY_MGRRATING =$("#txt_CONFIDENTIALITY_MGRRATING").val();
+            var CONFIDENTIALITY_MGREXP =$("#txt_CONFIDENTIALITY_MGREXP").val();
+            var ATTENDANCE_SELFRATING =$("#txt_ATTENDANCE_SELFRATING").val();
+            var ATTENDANCE_SELFEXP =$("#txt_ATTENDANCE_SELFEXP").val();
+            var ATTENDANCE_MGRRATING =$("#txt_ATTENDANCE_MGRRATING").val();
+            var ATTENDANCE_MGREXP =$("#txt_ATTENDANCE_MGREXP").val();
+            var SECTION_SECOND_TOTALRATING =$("#txt_SECTION_SECOND_TOTALRATING").val();
+
+            var SECTION_ONE_OVERALL_TOTALRATING =$("#txt_SECTION_ONE_OVERALL_TOTALRATING").val();
+            var SECTION_2_OVERALL_TOTALRATING =$("#txt_SECTION_2_OVERALL_TOTALRATING").val();
+            var SUBTOTAL =$("#txt_SUBTOTAL").val();
+            var OVERALL_RATING =$("#txt_OVERALL_RATING").val();
+
+            var ObjResponsibility = {
+                'EMP_ID': Emp_id,
+                'NAME': EMP_NAME,
+                'MANAGER_NAME':MANAGER_NAME,
+                'DESIGNATION':POSITION_TITLE,
+                'CURRENT_DATE':CUR_DATE,
+                'FROM_DATE':FROM_DATE,
+                'TO_DATE':TO_DATE,
+                'DEPARTMENT':DEPARTMENT,
+                'GOAL_QUARTER':GOAL_QUARTER,
+                'FINAL_RATING' :FINAL_RATING
+            };
+            var ObjPerformance={'APPRAISAL_ID':APPRAISAL_ID,
+                'CURRENTROLL_SELFRATING':CURRENTROLL_SELFRATING,
+                'CURRENTROLL_SELFEXP':CURRENTROLL_SELFEXP,
+                'CURRENTROLL_MGRRATING':CURRENTROLL_MGRRATING,
+                'CURRENTROLL_MGREXP':CURRENTROLL_MGREXP,
+                'QUALITYWORK_SELFRATING':QUALITYWORK_SELFRATING,
+                'QUALITYWORK_SELFEXP':QUALITYWORK_SELFEXP,
+                'QUALITYWORK_MGRRATING':QUALITYWORK_MGRRATING,
+                'QUALITYWORK_MGREXP':QUALITYWORK_MGREXP,
+                'ORGWORK_SELFRATING':ORGWORK_SELFRATING,
+                'ORGWORK_SELFEXP':ORGWORK_SELFEXP,
+                'ORGWORK_MGRRATING':ORGWORK_MGRRATING,
+                'ORGWORK_MGREXP':ORGWORK_MGREXP,
+                'INITIATE_SELFRATING':INITIATE_SELFRATING,
+                'INITIATE_SELFEXP':INITIATE_SELFEXP,
+                'INITIATE_MGRRATING':INITIATE_MGRRATING,
+                'INITIATE_MGREXP':INITIATE_MGREXP,
+                'PERSONAL_SELFRATING':PERSONAL_SELFRATING,
+                'PERSONAL_SELFEXP':PERSONAL_SELFEXP,
+                'PERSONAL_MGRRATING':PERSONAL_MGRRATING,
+                'PERSONAL_MGREXP':PERSONAL_MGREXP,
+                'VSKILL_SELFRATING':VSKILL_SELFRATING,
+                'VSKILL_SELFEXP':VSKILL_SELFEXP,
+                'VSKILL_MGRRATING':VSKILL_MGRRATING,
+                'VSKILL_MGREXP':VSKILL_MGREXP,
+                'WSKILL_SELFRATING':WSKILL_SELFRATING,
+                'WSKILL_SELFEXP':WSKILL_SELFEXP,
+                'WSKILL_MGRRATING':WSKILL_MGRRATING,
+                'WSKILL_MGREXP':WSKILL_MGREXP,
+                'TEAM_SELFRATING':TEAM_SELFRATING,
+                'TEAM_SELFEXP':TEAM_SELFEXP,
+                'TEAM_MGRRATING':TEAM_MGRRATING,
+                'TEAM_MGREXP':TEAM_MGREXP,
+                'CONFIDENTIALITY_SELFRATING':CONFIDENTIALITY_SELFRATING,
+                'CONFIDENTIALITY_SELFEXP':CONFIDENTIALITY_SELFEXP,
+                'CONFIDENTIALITY_MGRRATING':CONFIDENTIALITY_MGRRATING,
+                'CONFIDENTIALITY_MGREXP':CONFIDENTIALITY_MGREXP,
+                'ATTENDANCE_SELFRATING':ATTENDANCE_SELFRATING,
+                'ATTENDANCE_SELFEXP':ATTENDANCE_SELFEXP,
+                'ATTENDANCE_MGRRATING':ATTENDANCE_MGRRATING,
+                'ATTENDANCE_MGREXP':ATTENDANCE_MGREXP,
+                'SECTION_SECOND_TOTALRATING':SECTION_SECOND_TOTALRATING
+            };
+            var ObjRating={'APPRAISAL_ID':APPRAISAL_ID,
+                'SECTION_ONE_OVERALL_TOTALRATING':SECTION_ONE_OVERALL_TOTALRATING,
+                'SECTION_2_OVERALL_TOTALRATING':SECTION_2_OVERALL_TOTALRATING,
+                'SUBTOTAL':SUBTOTAL,
+                'OVERALL_RATING':OVERALL_RATING
+            };
+            var ObjCommonAppraisal={
+                'ObjResponsibility':ObjResponsibility,
+                'ObjPerformance':ObjPerformance,
+                'ObjRating':ObjRating
+            };
+            if (CURRENTROLL_SELFRATING !='' && CURRENTROLL_SELFEXP !='' && CURRENTROLL_MGRRATING !='' && CURRENTROLL_MGREXP !='' && QUALITYWORK_SELFRATING !='' && QUALITYWORK_SELFEXP !='' && QUALITYWORK_MGRRATING !='' && QUALITYWORK_MGREXP !='' && ORGWORK_SELFRATING !='' && ORGWORK_SELFEXP !='' && ORGWORK_MGRRATING !='' && ORGWORK_MGREXP !='' && INITIATE_SELFRATING !='' && INITIATE_SELFEXP !='' && INITIATE_MGRRATING !='' && INITIATE_MGREXP !='' && PERSONAL_SELFRATING !='' && PERSONAL_SELFEXP !='' && PERSONAL_MGRRATING !='' && PERSONAL_MGREXP !=''
+                && VSKILL_SELFRATING !='' && VSKILL_SELFEXP !='' && VSKILL_MGRRATING !='' && VSKILL_MGREXP !='' && WSKILL_SELFRATING !='' && WSKILL_SELFEXP !='' && WSKILL_MGRRATING !='' && WSKILL_MGREXP!='' && TEAM_SELFRATING !='' && TEAM_SELFEXP !='' && TEAM_MGRRATING !='' && TEAM_MGREXP !='' && CONFIDENTIALITY_SELFRATING !='' && CONFIDENTIALITY_SELFEXP !='' && CONFIDENTIALITY_MGRRATING !=''
+                && CONFIDENTIALITY_MGREXP !='' && ATTENDANCE_SELFRATING !='' && ATTENDANCE_SELFEXP !='' && ATTENDANCE_MGRRATING !='' && ATTENDANCE_MGREXP !='') {
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/Annual/CreateAnnualAppraisal/',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(ObjCommonAppraisal),
+                    dataType: 'json',
+                    success: function (data) {
+                        var a = data.SuccessMsg;
+                        var b = data.ErrorMsg;
+                        if (data != null && a != null) {
+                            alert(a);
+                        }
+                        else {
+                            alert(b);
+                        }
+                        ClearText();
+                    },
+                    error: function (data) {
+
+                    }
+                });
+            }
+            else if (CURRENTROLL_SELFRATING =="") {
+                alert('Self Rating cannot be left blank in PROFICIENCY IN CURRENT ROLE.');
+                $("#txt_CURRENTROLL_SELFRATING").focus();
+            }
+            else if (CURRENTROLL_SELFEXP =="") {
+                alert('Self Explanation cannot be left blank in PROFICIENCY IN CURRENT ROLE.');
+                $("#txt_CURRENTROLL_SELFEXP").focus();
+            }
+            else if (CURRENTROLL_MGRRATING =="") {
+                alert('Manager Rating cannot be left blank in PROFICIENCY IN CURRENT ROLE.');
+                $("#txt_CURRENTROLL_MGRRATING").focus();
+            }
+            else if (CURRENTROLL_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in PROFICIENCY IN CURRENT ROLE.');
+                $("#txt_CURRENTROLL_MGREXP").focus();
+            }
+            else if (QUALITYWORK_SELFRATING =="") {
+                alert('Self Rating cannot be left blank in QUALITY OF WORK.');
+                $("#txt_QUALITYWORK_SELFRATING").focus();
+            }
+            else if (QUALITYWORK_SELFEXP =="") {
+                alert('Self Explanation cannot be left blank in QUALITY OF WORK.');
+                $("#txt_QUALITYWORK_SELFEXP").focus();
+            }
+            else if (QUALITYWORK_MGRRATING =="") {
+                alert('Manager Rating cannot be left blank in QUALITY OF WORK.');
+                $("#txt_QUALITYWORK_MGRRATING").focus();
+            }
+            else if (QUALITYWORK_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in QUALITY OF WORK.');
+                $("#txt_QUALITYWORK_MGREXP").focus();
+            }
+           else if (ORGWORK_SELFRATING =="") {
+                alert('Self Rating cannot be left blank in Planning and Organization OF WORK.');
+                $("#txt_ORGWORK_SELFRATING").focus();
+           }
+           else if (ORGWORK_SELFEXP =="") {
+               alert('Self Explanation cannot be left blank in Planning and Organization OF WORK.');
+               $("#txt_ORGWORK_SELFEXP").focus();
+           }
+           else if (ORGWORK_MGRRATING =="") {
+               alert('Manager Rating cannot be left blank in Planning and Organization OF WORK.');
+               $("#txt_ORGWORK_MGRRATING").focus();
+           }
+           else if (ORGWORK_MGREXP =="") {
+               alert('Manager Explanation cannot be left blank in Planning and Organization OF WORK.');
+               $("#txt_ORGWORK_MGREXP").focus();
+           }
+           else if (INITIATE_SELFRATING =="") {
+               alert('Self Rating cannot be left blank in INITIATE.');
+               $("#txt_INITIATE_SELFRATING").focus();
+           }
+           else if (INITIATE_SELFEXP =="") {
+               alert('Self Explanation cannot be left blank in INITIATE.');
+               $("#txt_INITIATE_SELFEXP").focus();
+           }
+           else if (INITIATE_MGRRATING =="") {
+               alert('Manager Rating cannot be left blank in INITIATE.');
+               $("#txt_INITIATE_MGRRATING").focus();
+           }
+           else if (INITIATE_MGREXP =="") {
+               alert('Manager Explanation cannot be left blank in INITIATE.');
+               $("#txt_INITIATE_MGREXP").focus();
+           }
+           else if (PERSONAL_SELFRATING =="") {
+               alert('Self Rating cannot be left blank in INTERPERSONAL RELATIONS.');
+               $("#txt_PERSONAL_SELFRATING").focus();
+           }
+           else if (PERSONAL_SELFEXP =="") {
+               alert('Self Explanation cannot be left blank in INTERPERSONAL RELATIONS.');
+               $("#txt_PERSONAL_SELFEXP").focus();
+           }
+           else if (PERSONAL_MGRRATING =="") {
+               alert('Manager Rating cannot be left blank in INTERPERSONAL RELATIONS.');
+               $("#txt_PERSONAL_MGRRATING").focus();
+
+           }
+           else if (PERSONAL_MGREXP =="") {
+               alert('Manager Explanation cannot be left blank in INTERPERSONAL RELATIONS.');
+               $("#txt_PERSONAL_MGREXP").focus();
+           }
+           else if (VSKILL_SELFRATING =="") {
+               alert('Self Rating cannot be left blank in VERBAL & LISTENING SKILLS.');
+               $("#txt_VSKILL_SELFRATING").focus();
+           }
+           else if (VSKILL_SELFEXP =="") {
+               alert('Self Explanation cannot be left blank in VERBAL & LISTENING SKILLS.');
+               $("#txt_VSKILL_SELFEXP").focus();
+           }
+            else if (VSKILL_MGRRATING =="") {
+                alert('Manager Rating cannot be left blank in VERBAL & LISTENING SKILLS.');
+                $("#txt_VSKILL_MGRRATING").focus();
+            }
+            else if (VSKILL_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in VERBAL & LISTENING SKILLS.');
+                $("#txt_VSKILL_MGREXP").focus();
+            }
+            else if (WSKILL_SELFRATING =="" ) {
+                alert('Self Rating cannot be left blank in WRITING SKILLS.');
+                $("#txt_WSKILL_SELFRATING").focus();
+            }
+            else if (WSKILL_SELFEXP =="" ) {
+                alert('Self Explanation cannot be left blank in WRITING SKILLS.');
+                $("#txt_WSKILL_SELFEXP").focus();
+            }
+            else if (WSKILL_MGRRATING =="") {
+                alert('Manager Rating cannot be left blank in WRITING SKILLS.');
+                $("#txt_WSKILL_MGRRATING").focus();
+            }
+            else if (WSKILL_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in WRITING SKILLS.');
+                $("#txt_WSKILL_MGRRATING").focus();
+            }
+            else if (TEAM_SELFRATING =="" ) {
+                alert('Self Rating cannot be left blank in TEAM PARTICIPATION.');
+                $("#txt_TEAM_SELFRATING").focus();
+            }
+            else if (TEAM_SELFEXP =="" ) {
+                alert('Self Explanation cannot be left blank in TEAM PARTICIPATION.');
+                $("#txt_TEAM_SELFEXP").focus();
+            }
+            else if (TEAM_MGRRATING =="" ) {
+                alert('Manager Rating cannot be left blank in TEAM PARTICIPATION.');
+                $("#txt_TEAM_MGRRATING").focus();
+            }
+            else if (TEAM_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in TEAM PARTICIPATION.');
+                $("#txt_TEAM_MGREXP").focus();
+            }
+            else if (CONFIDENTIALITY_SELFRATING =="") {
+                alert('Self Rating cannot be left blank in DISCRETION AND CONFIDENTIALITY.');
+                $("#txt_CONFIDENTIALITY_SELFRATING").focus();
+
+            }
+            else if (CONFIDENTIALITY_SELFEXP =="") {
+                alert('Self Explanation cannot be left blank in DISCRETION AND CONFIDENTIALITY.');
+                $("#txt_CONFIDENTIALITY_SELFEXP").focus();
+            }
+            else if (CONFIDENTIALITY_MGRRATING =='') {
+                alert('Manager Rating cannot be left blank in DISCRETION AND CONFIDENTIALITY.');
+                $("#txt_CONFIDENTIALITY_MGRRATING").focus();
+            }
+            else if (CONFIDENTIALITY_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in DISCRETION AND CONFIDENTIALITY.');
+                $("#txt_CONFIDENTIALITY_MGREXP").focus();
+            }
+            else if ( ATTENDANCE_SELFRATING =="") {
+                alert('Self Rating cannot be left blank in PUNCTUALITY AND ATTENDANCE.');
+                $("#txt_ATTENDANCE_SELFRATING").focus();
+            }
+            else if (ATTENDANCE_SELFEXP =="" ) {
+                alert('Self Explanation cannot be left blank in PUNCTUALITY AND ATTENDANCE.');
+                $("#txt_ATTENDANCE_SELFEXP").focus();
+            }
+            else if (ATTENDANCE_MGRRATING =="") {
+                alert('Manager Rating cannot be left blank in PUNCTUALITY AND ATTENDANCE.');
+                $("#txt_ATTENDANCE_MGRRATING").focus();
+            }
+            else if (ATTENDANCE_MGREXP =="") {
+                alert('Manager Explanation cannot be left blank in PUNCTUALITY AND ATTENDANCE.');
+                $("#txt_ATTENDANCE_MGREXP").focus();
+            }
+        });
+    });
+    function ClearText() {
+        $(':input').each(function(){
+            $(this).val("");
+        });
+    }
+    function CancelOnClick() {
+        window.location.href = "/Home/Dashboard";
+    }
+    function isNumberKey(evt)
+    {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    function AvgCalculate()
+    {
+        var total =0;
+        var subtotal =0;
+        var overallRating =0;
+        var Avg =0;
+        var FINAL_RATING=parseFloat($("#txt_FinalRating").val());
+        var CURRENTROLL_MGRRATING =parseInt($("#txt_CURRENTROLL_MGRRATING").val());
+        var QUALITYWORK_MGRRATING =parseInt($("#txt_QUALITYWORK_MGRRATING").val());
+        var ORGWORK_MGRRATING =parseInt($("#txt_ORGWORK_MGRRATING").val());
+        var INITIATE_MGRRATING =parseInt($("#txt_INITIATE_MGRRATING").val());
+        var PERSONAL_MGRRATING =parseInt($("#txt_PERSONAL_MGRRATING").val());
+        var VSKILL_MGRRATING =parseInt($("#txt_VSKILL_MGRRATING").val());
+        var WSKILL_MGRRATING =parseInt($("#txt_WSKILL_MGRRATING").val());
+        var TEAM_MGRRATING =parseInt($("#txt_TEAM_MGRRATING").val());
+        var CONFIDENTIALITY_MGRRATING =parseInt($("#txt_CONFIDENTIALITY_MGRRATING").val());
+        var ATTENDANCE_MGRRATING =parseInt($("#txt_ATTENDANCE_MGRRATING").val());
+        total =CURRENTROLL_MGRRATING + QUALITYWORK_MGRRATING + ORGWORK_MGRRATING + INITIATE_MGRRATING + PERSONAL_MGRRATING + VSKILL_MGRRATING + WSKILL_MGRRATING + TEAM_MGRRATING + CONFIDENTIALITY_MGRRATING + ATTENDANCE_MGRRATING;
+        if ($.isNumeric(total)) {
+            Avg =parseFloat(total/10);
+        }
+        subtotal =parseFloat((FINAL_RATING + Avg));
+        overallRating =parseFloat(subtotal/2);
+        $("#txt_SECTION_SECOND_TOTALRATING").val(Avg);
+        $("#txt_SECTION_ONE_OVERALL_TOTALRATING").val(FINAL_RATING);
+        $("#txt_SECTION_2_OVERALL_TOTALRATING").val(Avg);
+        $("#txt_SUBTOTAL").val(subtotal);
+        $("#txt_OVERALL_RATING").val(overallRating);
+    }
+</script>
+<div class="row">
+    <div class="panel">
+        <div class="panel-heading" style="background-color:#00bff9;"><h4 align="left" style="font-size:15px;">Template Settings</h4></div>
+        <div class="panel-body">
+            @*@foreach (var item in Model)
+            {
+                
+            }*@                        
+            <div class="row">
+                <div class="col-sm-4">                    
+                    <div class="form-group">
+                        <label>Template ID:<span class="required">*</span></label>
+                        <select class="form-control" id="temp">
+                            <option value="0">Select Template ID</option>
+                            <option value="1">Template 1</option>
+                            <option value="2">Template 2</option>
+                            <option value="3">Template 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Select Approval/Rejection Level:<span class="required">*</span></label>
+                        <select class="form-control" id="temp">
+                            <option value="0">Select Level</option>
+                            <option value="1">First Level</option>
+                            <option value="2">Second Level</option>
+                            <option value="3">Third Level</option>
+                        </select>   
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">                                               
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="height:auto;">
+                    <h6 class="panel-title">Task Submission Process:</h6>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select class="form-control" id="temp">
+                                    <option value="0">Select RM</option>
+                                    <option value="1">Template 1</option>
+                                    <option value="2">Template 2</option>
+                                    <option value="3">Template 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-default" data-color="primary">Approval Mandatory</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>                              
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-default" data-color="primary">Final Approval</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>                              
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select class="form-control" id="temp">
+                                    <option value="0">H.O.D</option>
+                                    <option value="1">Template 1</option>
+                                    <option value="2">Template 2</option>
+                                    <option value="3">Template 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-default" data-color="primary">Approval Mandatory</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>                            
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-default" data-color="primary">Final Approval</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select class="form-control" id="temp">
+                                    <option value="0">H.R.</option>
+                                    <option value="1">Template 1</option>
+                                    <option value="2">Template 2</option>
+                                    <option value="3">Template 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-default" data-color="primary">Approval Mandatory</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="button-checkbox">
+                                <button type="button" class="btn btn-default" data-color="primary">Final Approval</button>
+                                <input type="checkbox" class="hidden" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-inline">
+                                <input type="radio" checked="checked" name="custSearch">
+                                <label>
+                                    Daily
+                                </label>
+                            </div>                                                                                                                                           
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-inline">
+                                <input type="radio" name="custSearch">
+                                <label>
+                                    Weekly
+                                </label>
+                            </div>                                                             
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-inline" style="margin-left:10px;">
+                                <input type="radio" name="custSearch">
+                                <label>
+                                    Fornighty
+                                </label>
+                            </div>                                                     
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-inline">
+                                <input type="radio" name="custSearch">
+                                <label>
+                                    Monthly
+                                </label>
+                            </div>                                                        
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-inline" style="margin-left:10px;">
+                                <input type="radio" name="custSearch">
+                                <label>
+                                    Calender
+                                </label>
+                            </div>                                                       
+                        </div>
+                        <div class="col-sm-2">
+                            
+                        </div>
+                    </div>
+                </div>               
+            </div>  
+            <div class="panel panel-table">
+                <br />
+                <div class="row" style="margin-left:auto">
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Send Mail</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Applicable Approval Workflow Don't Show</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>                        
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Save/Update/Submit Message</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>                       
+                    </div>
+                </div><br />
+                <div class="row" style="margin-left:auto">
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Show In-Out Time on Calender</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>                         
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox" style="width:92px;">
+                            <button type="button" class="btn btn-default" data-color="primary">Deduct Lunch Hours From Working Hours</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>
+                                                
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Show Actual Working Hours</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>                        
+                    </div>
+                </div><br />
+                <div class="row" style="margin-left:auto">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Edit Timesheet Till Back Day:</label>                            
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">                            
+                            <input type="text" id="#" class="form-control" style="width: 94%;"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>Edit Timesheet Till Back Month:</label>                            
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="margin-right:auto">
+                        <div class="form-group" style="margin-right:auto">                            
+                            <input type="text" id="#" class="form-control" style="width: 94%;"/>
+                        </div>
+                    </div>                   
+                </div>
+            </div>  
+            <div class="panel panel-table">
+                <br />
+                <div class="row" style="margin-left:auto">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label><mark>Project Code:</mark></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Select All</button>
+                            <input type="checkbox" class="hidden" />
+                        </span>                         
+                    </div>
+                </div>
+                <div class="row" style="margin-left:auto">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label><mark>Job Category:</mark></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Select All</button>
+                            <input type="checkbox" class="hidden" />
+                        </span> 
+                    </div>
+                </div>
+                <div class="row" style="margin-left:auto">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label><mark>Job Item:</mark></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <textarea rows="2" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn btn-default" data-color="primary">Select All</button>
+                            <input type="checkbox" class="hidden" />
+                        </span> 
+                    </div>
+                </div>
+
+            </div>                                                    
+        </div>
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-sm-5">
+                <div class="form-group">
+
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="form-group form-group-toggle" data-toggle="buttons">
+                    @*onclick="ClearText()"*@
+                    <button type="button" class="btn btn-primary" id="btn_Submit">Submit</button>
+                    <button type="button" class="btn btn-primary" id="btnReset" onclick="ClearText()">Reset</button>
+                    <button type="button" class="btn btn-primary" onclick="CancelOnClick()">Cancel</button>
+                    <input type="hidden" id="hdn_Appraisal_id" value="@ViewBag.Exit_idType" />
+                </div>
+            </div>
+        </div>
+    </div>          
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.button-checkbox').each(function () {
+
+            // Settings
+            var $widget = $(this),
+                $button = $widget.find('button'),
+                $checkbox = $widget.find('input:checkbox'),
+                color = $button.data('color'),
+                settings = {
+                    on: {
+                        icon: 'glyphicon glyphicon-check'
+                    },
+                    off: {
+                        icon: 'glyphicon glyphicon-unchecked'
+                    }
+                };
+
+            // Event Handlers
+            $button.on('click', function () {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+                $checkbox.triggerHandler('change');
+                updateDisplay();
+            });
+            $checkbox.on('change', function () {
+                updateDisplay();
+            });
+
+            // Actions
+            function updateDisplay() {
+                var isChecked = $checkbox.is(':checked');
+
+                // Set the button's state
+                $button.data('state', (isChecked) ? "on" : "off");
+
+                // Set the button's icon
+                $button.find('.state-icon')
+                    .removeClass()
+                    .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                // Update the button's color
+                if (isChecked) {
+                    $button
+                        .removeClass('btn-default')
+                        .addClass('btn-' + color + ' active');
+                }
+                else {
+                    $button
+                        .removeClass('btn-' + color + ' active')
+                        .addClass('btn-default');
+                }
+            }
+
+            // Initialization
+            function init() {
+
+                updateDisplay();
+
+                // Inject the icon if applicable
+                if ($button.find('.state-icon').length == 0) {
+                    $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                }
+            }
+            init();
+        });
+    });
+</script>
+
+

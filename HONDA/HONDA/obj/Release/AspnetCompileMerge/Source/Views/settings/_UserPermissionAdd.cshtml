@@ -1,0 +1,100 @@
+﻿@model TashiOTS.Models.UserPermissions
+
+    <h6 class="panel-title m-b-20">Assigned permissions</h6>
+    <input type="hidden" value="@Model.EMPLOYEE_ID" id="EmployeeId" />
+    <input type="hidden" value="@Model.ROLE_ID" id="RoleId" />
+
+    <div class="table-responsive">
+        <table class="table table-striped custom-table" id="tblPermissions">
+            <thead>
+                <tr>
+                    <th>Module Permission</th>
+                    @{int startRowCount = 0; }
+                    @foreach (System.Data.DataColumn column in ((System.Data.DataTable)Model.DATATABLE_VALUE).Columns)
+                    {
+                        startRowCount += 1;
+                        if (startRowCount > (int)Model.NO_FIXED_COLUMN)
+                        {
+                            <th class="text-center">
+                                @column.ColumnName
+                            </th>
+                        }
+                    }
+                </tr>
+            </thead>
+
+            <tbody id="tbodyAssignedPermission">
+                @if (Model != null)
+                {
+                    foreach (System.Data.DataRow row in ((System.Data.DataTable)Model.DATATABLE_VALUE).Rows)
+                    {
+                        <tr class=@row["MODULE_ID"]>
+                            <td class="text-left">@row["PAGE_NAME"].ToString() (@row["MODULE_NAME"].ToString())</td>
+
+                            @for (int rcount = (int)Model.NO_FIXED_COLUMN; rcount < ((System.Data.DataTable)Model.DATATABLE_VALUE).Columns.Count; rcount++)
+                            {
+                                <td class="text-center">
+                                    <input type="hidden" id="hdnRolePermission" value="@(row[rcount].ToString().Split('~')[0])">
+                                    @if (row[rcount].ToString().Split('~')[1] == "Active")
+                                    {
+                                        <input type="checkbox" class="chk_leave" checked>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                    @*<tr>
+                        <td>
+                            <input type="button" id="btnSave" class="btn btn-success btn-block" value="Save/Update" />
+                        </td>
+                    </tr>*@
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+<script type="text/javascript">
+
+    $('#btnSave').on('click', function () {
+
+        var userPermissions = new Array();
+
+        $("#tbodyAssignedPermission").find("tr").each(function () {            
+            $(this).find("td").each(function () {
+                if ($(this).find("#chk_view").is(":checked") == true) {
+                    var UserPermissionsStatus = {};
+                    UserPermissionsStatus.EMPLOYEE_ID = $("#EmployeeId").val();
+                    UserPermissionsStatus.ROLE_PERMISSION_ID = $(this).find("#hdnRolePermission").val();
+                    UserPermissionsStatus.ROLE_ID = $("#RoleId").val();
+                    UserPermissionsStatus.CHECKED_STATUS = $(this).find("#chk_view").is(":checked");
+                    userPermissions.push(UserPermissionsStatus);
+                }
+            });
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/settings/UpdateUserRolePermission',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(
+                {
+                    'userPermissions': userPermissions
+                }
+            ),
+            dataType: 'json',
+            success: function (response) {
+                var succ = response.SuccessMsg;
+                var err = response.ErrorMsg;
+                if (succ != "" && err == "") {
+                    alert("Add/Update successfully");
+                }
+                else {
+                    alert(err);
+                }
+            }
+        });
+
+    });
+</script>

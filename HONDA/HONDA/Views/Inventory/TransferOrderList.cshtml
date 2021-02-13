@@ -1,0 +1,199 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $('ul.list-unstyled  li a[href$="' + "/TransferOrderList" + '"]').addClass('active');
+        $('#datatableList').DataTable({
+            "columnDefs": [
+                { "targets": [4], "orderable": false }
+            ],
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Search"
+            }
+        });
+        $('#txt_from_date').datepicker({ dateFormat: 'mm/dd/yy' });
+        $('#txt_to_date').datepicker({ dateFormat: 'mm/dd/yy' });
+        var from_date = $('#txt_from_date').val();
+        var to_date = $('#txt_to_date').val();
+        if (from_date == "" && to_date == "") {
+            $.ajax({
+                type: "Get",
+                url: "/TransferOrder/GetTransferOrderList",
+                contentType: 'application/json; charset=utf-8',
+                //  data: { 'fromdate': from_date, 'todate': to_date },
+                dataType: 'Json',
+                success: function (data) {
+                    debugger;
+                    //var result = JSON.parse(data);
+                    if (data.length > 0) {
+                        var html = "";
+                        $.each(data, function (txt, val) {
+                            html += "<tr>";
+
+                            html += "<td>" + val.No + "</td>";
+                            html += "<td>" + val.Transfer_from_Code + "</td>";
+                            html += "<td>" + val.In_Transit_Code + "</td>";
+                            html += "<td>" + val.Transfer_to_Code + "</td>";
+                            html += "<td>" + val.In_Transit_Code + "</td>";
+                            html += "<td>" + val.Date + "</td>";
+                            html += "</tr>";
+                        });
+                        $("#tblBody").append(html);
+                    }
+
+                }
+
+            });
+        }
+        else {
+            alert();
+        }
+
+
+
+        $(document).on('click', '#btn_Search', function (e) {
+            debugger;
+            var from_date = $('#txt_from_date').val();
+            var to_date = $('#txt_to_date').val();
+            if (from_date != "" || to_date != "") {
+                $.ajax({
+                    type: 'GET',
+                    url: '/TransferOrder/GetTransferOrderoutwardList',
+                    contenttype: 'application/json; charset=utf-8',
+                    data: { 'fromdate': from_date, 'todate': to_date },
+                    datatype: 'json',
+                    success: function (data) {
+                        debugger;
+                        //var result = json.parse(data);
+                        if (data.length > 0) {
+                            var html = "";
+                            $.each(data, function (txt, val) {
+                                html += "<tr>";
+                                html += "<td>" + "<a href=''>'select</a>" + "</td>";
+                                html += "<td>" + val.no + "</td>";
+                                html += "<td>" + val.status + "</td>";
+                                html += "<td>" + val.transfer_from_code + "</td>";
+                                html += "<td>" + val.transfer_to_code + "</td>";
+                                html += "<td>" + val.in_transit_code + "</td>";
+                                html += "<td>" + val.date + "</td>";
+                                html += "</tr>";
+                            });
+                            $("#tblbody").append(html);
+                        }
+
+                    }
+
+                });
+            }
+            else {
+                alert("Please Enter any 1 date")
+            }
+
+        });
+        $(document).on('click', '.EditOutwardList', function () {
+            debugger;
+            var ListNo = $(this).closest('tr').find('td').eq(0).find("a").attr('data-id');
+            window.location.href = '/transferOrder/Transfer_order?ListNo=' + ListNo + '';
+
+            //if (ListNo != "")
+            //{
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: '/TransferOrder/OutwardlistForShip ',
+            //        contenttype: 'application/json; charset=utf-8',
+            //        data: { 'No': ListNo },
+            //        datatype: 'json',
+            //        success: function (data)
+            //        {
+            //            debugger;
+            //            var result = JSON.parse(data);
+            //            if (result.length > 0)
+            //            {
+            //                var html = "";
+            //                $.each(result, function (txt, val)
+            //                {
+            //                    $("#OrderNo").val(val.No).prop('disabled', true);
+            //                    $("#Load_Type").val();
+
+            //                });
+            //            }
+
+            //        }
+
+            //    });
+            //}
+        });
+
+    });
+
+
+
+</script>
+
+<style type="text/css">
+    #datatableList_filter input {
+        width: 157px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">Transfer Order List</h4>
+    </div>
+    <div class="col-sm-4 text-right m-b-30" id="buttons">
+    </div>
+</div>
+<div class="row filter-row">
+    <div class="col-sm-2 col-xs-6">
+        <div class="form-group form-focus ">
+            <label style="font-size: 12px;" class="control-label">From Date</label>
+            <div class="cal-icon">
+                <input type="text" id="txt_from_date" class="form-control floating mycal" style="border-radius: 24px;height: 48px;padding: 16px 11px 4px !important;" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2 col-xs-6">
+        <div class="form-group form-focus ">
+            <label style="font-size: 12px;" class="control-label">To Date</label>
+            <div class="cal-icon">
+                <input type="text" id="txt_to_date" class="form-control floating mycal" style="border-radius: 24px;height: 48px;padding: 16px 11px 4px !important;" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2 col-xs-6">
+        <div class="form-group form-focus">
+            <input type="button" class="btn btn-success btn-block" style="border-radius:35px;height: 39px;font-size:12px;" value="Search" id="btn_Search" />
+        </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+        <div class="form-group form-focus">
+            <input type='button' class="btn btn-success btn-block" style="border-radius:35px;height: 39px;font-size:12px;" value="New Transfer Order" id='btn_trnsfrOrder'>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="tbl_Attendance" class="table table-striped table-responsive custom-table text-left" cellspacing="0" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Transfer From Code</th>
+                        <th>Transfer To Code</th>
+                        <th>In Transit Code</th>
+                        <th>Status</th>
+                        <th>Direct Transfer </th>
+                        <th>Shortcut Dimension Code</th>
+                        <th>Shipment Date</th>
+                        <th>Shipping Advice</th>
+                        <th>Receipt Date</th>
+                    </tr>
+                </thead>
+                <tbody id="tblBody"></tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+
+

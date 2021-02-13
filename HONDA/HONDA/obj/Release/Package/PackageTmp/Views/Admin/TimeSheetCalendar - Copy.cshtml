@@ -1,0 +1,444 @@
+﻿
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js'></script>
+<link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" />
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<link href="~/assets/css/style.css" rel="stylesheet" />
+<style type="text/css">
+    .mytbl tr th{
+        border :1px solid gray;
+
+
+    }
+    .mytbl tr td {
+        border: 1px solid gray;
+    }
+    .field-validation-error {
+        color: #ff0000;
+    }
+
+    .myclass {
+        margin-top: 11px !important;
+        border-radius: 32px !important;
+    }
+
+    .input_search {
+        height: 39px !important;
+        padding: 10px 12px 0px !important;
+    }
+
+    .fc-other-month .fc-day-number {
+        display: none;
+    }
+
+    span {
+        font-size: 12px;
+        font-family: none;
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+
+        span.active {
+            background-color: #22e1fffa;
+        }
+
+    .vertical-line {
+        display: inline-block;
+        border-left: 1px solid #ccc;
+        margin: -3px 0px;
+        height: 14px;
+    }
+
+    .vertical-line1 {
+        display: inline-block;
+        border-left: 1px solid #ccc;
+        margin: -3px 0px;
+        height: 14px;
+        margin-right: -3px;
+        background-color: black;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(document).on("click", ".mypopup", function () {
+            $("#event-modal").modal("show");
+        });
+        var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        $('#calendar1').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [{
+                title: 'All Day Event',
+                start: '2018-09-12'
+            },],
+            dayRender: function (date, cell, view) {
+                debugger;
+
+                //if (date.start.getMonth() !== view.start.getMonth()) { return false; }
+
+                if (date.toDate().getMonth() != new Date().getMonth()) {
+                    return false;
+
+                }
+                else {
+
+                    if (weekday[date.toDate().getDay()] == "Sunday" || weekday[date.toDate().getDay()] == "Saturday") {
+                        cell.append('<div class="mypopup" style="text-align:center; background-color:#babacb; color:black;padding-top:35%;margin-top:20px;height:100%;width:100%">Weekly Off</div>');
+                    } else {
+                        cell.append('<div class="mypopup" style="text-align:left; background-color:#3cc9d6; color:black;padding-top:2%;margin-top:20px;height:20%;width:100%;line-height:1">ODAD : 07:00</div><div class="mypopup" style= "text-align:left; background-color:#3cc9d6; color:black;padding-top:2%;margin-top:2px;height:20%;width:100%;line-height:1" > ODAD : 03:00</div > ');
+
+                    }
+                    return true;
+                }
+            },
+            eventAfterAllRender: function (view) {
+                var dayEvents = $('#calendar').fullCalendar('clientEvents', function (event) {
+                    if (event.end) {
+                        var dates = getDates(event.start, event.end);
+                        $.each(dates, function (index, value) {
+                            var td = $('td.fc-day[data-date="' + value + '"]');
+                            td.find('div:first').remove();
+                        });
+                    } else {
+                        var td = $('td.fc-day[data-date="' + event.start.format('YYYY-MM-DD') + '"]');
+                        td.find('div:first').remove();
+                    }
+                });
+            }
+        });
+
+        var event = [];
+        //$('#calendar1').fullCalendar({
+        //    header: {
+        //        left: 'prev,next today',
+        //        center: 'title',
+        //        right: 'month,agendaWeek,agendaDay'
+        //    },
+        //    firstDay: 1, //The day that each week begins (Monday=1)
+        //    slotMinutes: 60,
+        //    displayEventTime: false,
+
+        //    events: {
+        //        url: "/Admin/GetEvents",
+        //        type: 'POST',
+        //        //contentType: 'application/json; charset=utf-8',
+        //        //dataType: 'json',
+        //        success: function (doc) {
+        //            $.each(doc, function (i, val) {
+
+        //                var rowevent = {}
+        //                rowevent.id = val.id;
+        //                //rowevent.start = new Date(val.start);
+        //                //rowevent.end = new Date(val.end);
+        //                rowevent.title = val.title;
+        //                event.push(rowevent);
+        //            });
+        //            event;
+
+        //        }
+        //    },
+        //    eventClick: function (event) {
+
+        //        if (event.id) {
+        //            $("#hd_event_id").val('');
+        //            $("#txt_event_name").val('');
+        //            $("#hd_event_id").val(event.id);
+        //            $("#txt_event_name").val(event.title);
+        //            $("#event-modal").modal("show");
+        //        }
+        //    }
+        //});
+
+
+        //$(".mypopup").on("click", function () {
+        //    //$.ajax({
+        //    //    url: "/Admin/ChangeEvents",
+        //    //    type: 'POST',
+        //    //    contentType: 'application/json; charset=utf-8',
+        //    //    dataType: 'json',
+        //    //    data: JSON.stringify(
+        //    //        {
+        //    //            'id': 1, 'event_name': $("#txt_event_name").val()
+        //    //        }),
+        //    //    success: function (data) {
+        //    //        alert(data);
+        //    //        $("#txt_event_name").val('');
+        //    //        $("#event-modal").modal("hide");
+
+        //    //    },
+        //    //    error: function () {
+        //    //        alert('error');
+        //    //        $("#txt_event_name").val('');
+        //    //        $("#event-modal").modal("hide");
+        //    //    }
+
+        //    //});
+        //    $("#event-modal").modal("hide");
+
+        //});
+
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">Master Settings</h4>
+    </div>
+    <div class="col-sm-4 text-right m-b-30">
+    </div>
+</div>
+<div class="card-box">
+    <div class="panel panel-table">
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-3">
+                    <div class="form-group form-focus select-focus myfocused">
+                        <label class="control-label" style="font-size: 12px;padding:6px!important">E.Code</label>
+                        <input class="form-control floating myclass input_search" style="border-radius:32px;height: 39px; padding:unset;min-height:unset" id="txt_emp_code" name="txt_emp_code" placeholder=" Eg. XX12" type="text" value="">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-focus select-focus myfocused">
+                        <label class="control-label" style="font-size: 12px;padding:6px!important">Date</label>
+                        <input class="form-control floating myclass mycal input_search" style="border-radius:32px;height: 39px; padding:unset;min-height:unset" id="txt_emp" name="txt_emp_code" placeholder="dd-MMM-yyyy" type="text" value="">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <input type="submit" id="btn_search" style="border-radius:32px;height: 39px; padding:unset;min-height:unset" class="btn btn-success btn-block myclass  " name="name" value="Search">
+                    <input type="hidden" id="hdn_roleID" value="2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-table">
+
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-10">
+                <div class="card-box m-b-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="calendar1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-lg-2"></div>*@
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN MODAL -->
+<div class="modal custom-modal fade none-border" id="event-modal">
+    <div class="modal-dialog ">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4 class="modal-title">TimeSheet</h4>
+            </div>
+            <form class="card-box" style="width:100% ;height:600px">
+                @*<label>Change event name</label>
+                    <div class="input-group"><input id="txt_event_name" class="form-control" type="text" value=""><span class="input-group-btn"><button type="button" id="btn_chagen_event" class="btn btn-success">Save</button></span></div>*@
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Project Code</label>
+                                    <select multiple id="1" class="form-control">
+                                        <option>ODAD</option>
+                                        <option selected>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Job Category</label>
+                                    <select multiple id="2" class="form-control">
+                                        <option>ODAD</option>
+                                        <option selected>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Job Item</label>
+                                    <select multiple id="3" class="form-control">
+                                        <option>ODAD</option>
+                                        <option selected>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                        <option>ODAD</option>
+                                        <option>ODAR</option>
+                                        <option>ODAX</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Task  Description</label>
+                                <textarea class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div style="float:left" >Existing Task(s)</div>
+                            <div style="float:right"><input class="btn-sm btn-primary" style=" width: 88px;" value="CLEAR ALL" /></div>
+                            <hr style="margin-top:33px" />
+                        </div>
+                        <div class="row">
+                                <table class="mytbl" >
+                                    <thead style="background-color:lightgray">
+                                        <tr>
+                                            <th width="20%">Project Code</th>
+                                            <th width="20%">Job Category</th>
+                                            <th width="20%">Job Item</th>
+                                            <th width="30%">Description</th>
+                                            <th width="10%">Time</th>
+                                            <th width="10%">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr> 
+                                            <td width="20%">0DAD</td>
+                                            <td width="20%">Budget Control</td>
+                                            <td width="20%"> Gathering Organization and analysis data</td>
+                                            <td width="30%"></td>
+                                            <td width="10%">02:50</td>
+                                            <td width="10%"><a style="visibility:visible" href="#" data-toggle="modal" class="editrecord" data-target="#edit_fuel" title="Edit"><i class="fa fa-pencil m-r-5"></i></a>  <a href="#" data-toggle="modal" style="visibility:visible" class="viewrecored" data-target="#view_fuel" title="View"><i class="fa fa-eye m-r-5"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <table style="width:100%;    margin-left: 3px;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:8%"> <label style="    font-size: 10px;font-family: none;"> Select Hour(S):</label> </td>
+                                    <td>
+                                        <select>
+                                        <option>Hours</option>
+                                            <option>01</option>
+                                            <option>02</option>
+                                            <option>03</option>
+                                            <option selected>04</option>
+                                            <option>05</option>
+                                            <option>06</option>
+                                        </select>
+                                        <select>
+                                            <option>Minuts</option>
+                                            <option>01</option>
+                                            <option>02</option>
+                                            <option>03</option>
+                                            <option selected>04</option>
+                                            <option>05</option>
+                                            <option>06</option>
+                                        </select>
+                                    </td>
+                                    <td> <span class="text-danger">[Remaning Hour(s):06:15 ]</span> [ <span>Input Hour(s):02:15</span>][ <span>Regular Working Hour(s):08:30</span>] [ <span>OT Hour(s):00:00</span>][ <span>Total Working Hour(s):08:30</span>]</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td colspan="3">
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td style="width:8%"> <label style="    font-size: 10px;font-family: none;"> Select Hour(S) :</label> </td>
+                                    <td colspan="8">
+                                        <table style="border:1px solid lightgray">
+                                            <tr>
+                                                <td>
+                                                    <span class="active">0:15</span><span class="vertical-line"></span><span class="active">0:30</span><span class="vertical-line"></span><span class="active">0:45</span><span class="vertical-line"></span><span class="active">1:00</span><span class="vertical-line1"></span>
+                                                    <span class="active">1:15</span><span class="vertical-line"></span><span class="active">1:30</span><span class="vertical-line"></span><span class="active">1:45</span><span class="vertical-line"></span><span class="active">2:00</span><span class="vertical-line1"></span>
+                                                    <span class="active">2:15</span><span class="vertical-line"></span><span class="active">2:30</span><span class="vertical-line"></span><span class="active">2:45</span><span class="vertical-line"></span><span class="active">3:00</span><span class="vertical-line1"></span>
+                                                    <span class="active">3:15</span><span class="vertical-line"></span><span class="active">3:30</span><span class="vertical-line"></span><span class="active">3:45</span><span class="vertical-line "></span><span class="active">4:00</span><span class="vertical-line1"></span>
+                                                    <span>4:15</span><span class="vertical-line"></span><span>4:30</span><span class="vertical-line "></span><span>4:45</span><span class="vertical-line "></span><span>5:00</span><span class="vertical-line1"></span>
+                                                    <span>5:15</span><span class="vertical-line"></span><span>5:30</span><span class="vertical-line"></span><span>5:45</span><span class="vertical-line"></span><span>6:00</span><span class="vertical-line1"></span>
+                                                    <span>6:15</span><span class="vertical-line"></span><span>6:30</span><span class="vertical-line"></span><span>6:45</span><span class="vertical-line"></span><span>7:00</span><span class="vertical-line1"></span>
+                                                    <span>7:15</span><span class="vertical-line"></span><span>7:30</span><span class="vertical-line"></span><span>7:45</span><span class="vertical-line"></span><span>8:00</span><span class="vertical-line1"></span>
+                                                    <span>8:15</span><span class="vertical-line"></span><span>8:30</span><span class="vertical-line"></span><span>8:45</span><span class="vertical-line"></span><span>9:00</span><span class="vertical-line1"></span>
+                                                    <span>9:15</span><span class="vertical-line"></span><span>9:30</span><span class="vertical-line"></span><span>9:45</span><span class="vertical-line"></span><span>10:00</span><span class="vertical-line1"></span>
+                                                    <span>10:15</span><span class="vertical-line"></span><span>10:30</span><span class="vertical-line"></span><span>10:45</span><span class="vertical-line"></span><span>11:00</span><span class="vertical-line1"></span>
+                                                    <span>11:15</span><span class="vertical-line"></span><span>11:30</span><span class="vertical-line"></span><span>11:45</span><span class="vertical-line"></span><span>12:00</span><span class="vertical-line1"></span>
+                                                    <span>12:15</span><span class="vertical-line"></span><span>12:30</span><span class="vertical-line"></span><span>12:45</span><span class="vertical-line"></span><span>13:00</span><span class="vertical-line1"></span>
+                                                    <span>13:15</span><span class="vertical-line"></span><span>13:30</span><span class="vertical-line"></span><span>13:45</span><span class="vertical-line"></span><span>14:00</span><span class="vertical-line1"></span>
+                                                    <span>14:15</span><span class="vertical-line"></span><span>14:30</span><span class="vertical-line"></span><span>14:45</span><span class="vertical-line"></span><span>15:00</span><span class="vertical-line1"></span>
+                                                    <span>15:15</span><span class="vertical-line"></span><span>15:30</span><span class="vertical-line"></span><span>15:45</span><span class="vertical-line"></span><span>16:00</span><span class="vertical-line1"></span>
+                                                    <span>16:15</span><span class="vertical-line"></span><span>16:30</span><span class="vertical-line"></span><span>16:45</span><span class="vertical-line"></span><span>17:00</span><span class="vertical-line"></span>
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                </div>
+                <div class="row">
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-4" style=" text-align: right;padding-top: 3px;"><input type="button" class="btn-sm btn-primary" value="Save" /><input type="button" class="btn-sm btn-primary" value="Save & Close" /> <input type="button" class="btn-sm btn-primary" value="Reset" /></div>
+                               </div>
+            </form>
+            <input type="hidden" id="hd_event_id" name="name" value="" />
+            @*<div class="modal-body"></div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success save-event">Create event</button>
+                    <button type="button" class="btn btn-danger delete-event" data-dismiss="modal">Delete</button>
+                </div>*@
+        </div>
+    </div>
+</div>

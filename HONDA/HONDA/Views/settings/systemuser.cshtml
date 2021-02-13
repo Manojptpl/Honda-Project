@@ -1,0 +1,1170 @@
+﻿@model IEnumerable<HONDA.Models.SystemUser>
+    
+@*@{ Html.RenderPartial("_SettingsMenu"); }*@
+<style>
+
+    .custom-table tr {
+        height: 34px !important;
+    }
+    .custom-table thead {
+    font-weight:bold !important;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+  
+      //  $('ul.list-unstyled  li a[href$="' + "/systemuser" + '"]').addClass('active');
+        $('a[href$="' + "/systemuser" + '"]').closest("li").addClass('active');
+        var table = $(".tbl_systemuser").DataTable(
+            {
+                "columnDefs": [
+                    { "targets": [5], "orderable": false }
+                ],
+                "language": {
+                    "search": "",
+                    "searchPlaceholder": "Search"
+                }
+            }
+        );
+
+        $(".tbl_leavecancelhistory #checkall").click(function () {
+            if ($(".tbl_leavecancelhistory #checkall").is(':checked')) {
+                $(".tbl_leavecancelhistory input[type=checkbox]").each(function () {
+                    $(this).closest('tr').find('.checkthis').prop("checked", true);
+                });
+
+            } else {
+                $(".tbl_leavecancelhistory input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+
+        $('#txt_endDate').prop('disabled', true).css('background-color', '#eee');
+
+        $('#btn_add_user').click(function () {
+            $('#add_user').modal('show');
+            ResetAddModal();
+   
+
+        });
+
+        $('#btnaddreset').click(function () {
+            $('#txtaddfirtname').val('');
+            $('#txtaddmiddlename').val('');
+            $('#txtaddlastname').val('');
+            $('#txtaddempcode').val('');
+            $('#ddladdstatus').val(0);
+            $('#ddladdrole').val(0);
+
+            $('#txt_addemail').val('');
+            $('#txtPassword').val('');
+            $('#txtRePassword').val('');
+            $('#txt_startDate').val('');
+            $('#txt_endDate').val('');
+            $('#leave_module111').prop('checked', false);
+        });
+
+        $('#btn_addClose').click(function () {
+            ResetAddModal();
+            $('#add_user').modal('hide');
+        });
+
+        $('#btn_editClose').click(function () {
+            //ResetAddModal();
+            $('#edit_user').modal('hide');
+        });
+
+        $('#btn_viewClose').click(function () {
+            //ResetAddModal();
+            $('#view_user').modal('hide');
+        });
+
+        $('#btn_createUser').click(function () {
+            var emp_id = $('#hdn_empID').val();
+            var status = $('#ddl_status option:selected').val();
+            var work_location = $('#ddl_storeName option:selected').val();
+            var password = $('#txt_Password').val();
+            var confirm_password = $('#txt_RePassword').val();
+            var user_code = $('#txt_usercode').val();
+            var role = $('#ddl_role option:selected').val();
+            var start_date = $('#txt_startDate').val();
+            var end_date = $('#txt_endDate').val();
+            var chkmanagement = $('#ckmanagement').is(":checked") == true?1:0;
+            var chkhr = $('#ckhr').is(":checked") == true ? 1 : 0;
+            var chkfh = $('#ckfh').is(":checked") == true ? 1 : 0;
+            var HRMS_chk = '0';
+            if ($('#chk_HRMS').prop('checked') == true) {
+                navone_chk = '1';
+            }
+            else {
+                navone_chk = '0';
+            }
+
+            var userPermissions = new Array();
+            $("#tbodyAssignedPermission").find("tr").each(function () {
+                $(this).find("td").each(function () {
+                    if ($(this).find(".chk_leave").is(":checked") == true) {
+                        var UserPermissionsStatus = {};
+                        UserPermissionsStatus.EMPLOYEE_ID = $("#EmployeeId").val();
+                        UserPermissionsStatus.ROLE_PERMISSION_ID = $(this).find("#hdnRolePermission").val();
+                        UserPermissionsStatus.ROLE_ID = $("#RoleId").val();
+                        UserPermissionsStatus.CHECKED_STATUS = $(this).find(".chk_leave").is(":checked");
+                        userPermissions.push(UserPermissionsStatus);
+                    }
+                });
+            });
+            debugger;
+            if (password != confirm_password) {
+                setTimeout(function () { $('#txt_RePassword').focus(); });
+                alert("Password and confirm password mismatch")
+            }
+            else if (emp_id != "" && status != "0" && password != "" && role != "" && confirm_password != "" && start_date != "" && work_location !="") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/CreateUser',
+                    contentType: 'application/json;charset=utf-8',
+                    data: JSON.stringify({ 'chkmanagement': chkmanagement, 'chkhr': chkhr, 'chkfh': chkfh, 'emp_id': emp_id, 'password': password, 'is_navone': navone_chk, 'status': status, 'role_id': role, 'emp_code': user_code, 'start_date': start_date, 'end_date': end_date, 'store_id': work_location, 'userPermissions': userPermissions }),
+                    dataType: 'json',
+                    success: function (data) {
+                        var len = Object.keys(data).length;
+                        var succ = data.success_msg;
+                        var err = data.error_msg;
+                        if (data != null && succ != null) {
+                            alert(succ);
+                            ResetAddModal();
+                            $('#add_user').modal('hide');
+                            ReloadPage();
+                        }
+                        else {
+                            alert(err);
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+            else if (emp_id == "") {
+                alert("Employee code can't be blank.");
+                setTimeout(function () { $('#ddl_empCode').focus(); });
+            }
+            else if (password == "") {
+                alert("Password can't be blank.");
+                setTimeout(function () { $('#txt_Password').focus(); });
+            }
+            else if (confirm_password == "") {
+                alert("Confirm Password can't be blank.");
+                setTimeout(function () { $('#txt_RePassword').focus(); });
+            }
+            else if (role == "") {
+                alert("Role can't be blank.");
+                setTimeout(function () { $('#ddl_role').focus(); });
+            }
+            else if (work_location == "") {
+                alert("Work Location can't be blank.");
+                setTimeout(function () { $('#ddl_storeName').focus(); });
+            }
+            else if (start_date == "") {
+                alert("Start date can't be blank.");
+                setTimeout(function () { $('#txt_startDate').focus(); });
+            }
+            else {
+                alert("Status can't be blank.");
+                setTimeout(function () { $('#ddl_status').focus(); });
+            }
+        });
+
+        $('#btn_update').click(function () {
+            var user_id = $('#hdn_editUserId').val();
+            var status = $('#ddl_editstatus option:selected').val();
+            var password = $('#txt_editPassword').val();
+            var confirm_password = $('#txt_editconfirmPassword').val();
+            var role = $('#ddl_editrole option:selected').val();
+            var work_location = $('#ddl_estoreName option:selected').val();
+            var start_date = $('#txt_estartDate').val();
+            var end_date = $('#txt_eendDate').val();
+
+            var chkmanagement = $('#ckmanagement_e').is(":checked") == true ? 1 : 0;
+            var chkhr = $('#ckhr_e').is(":checked") == true ? 1 : 0;
+            var chkfh = $('#ckfh_e').is(":checked") == true ? 1 : 0;
+            var navone_chk = '0';
+            if ($('#leave_module1').prop('checked') == true) {
+                navone_chk = '1';
+            }
+            else {
+                navone_chk = '0';
+            }
+
+            var userPermissions = new Array();
+            $("#tbodyAssignedPermission").find("tr").each(function () {
+                $(this).find("td").each(function () {
+                    if ($(this).find("#chk_view").is(":checked") == true) {
+                        var UserPermissionsStatus = {};
+                        UserPermissionsStatus.EMPLOYEE_ID = $("#EmployeeId").val();
+                        UserPermissionsStatus.ROLE_PERMISSION_ID = $(this).find("#hdnRolePermission").val();
+                        UserPermissionsStatus.ROLE_ID = $("#RoleId").val();
+                        UserPermissionsStatus.CHECKED_STATUS = $(this).find("#chk_view").is(":checked");
+                        userPermissions.push(UserPermissionsStatus);
+                    }
+                });
+            });
+
+            if (password != confirm_password) {
+                setTimeout(function () { $('#txt_RePassword').focus(); });
+                alert("Password and confirm password mismatch")
+            }
+            else if (status != "0" && password != "" && role != "" && confirm_password != "" && work_location !="" ) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/UpdateUser',
+                    contentType: 'application/json;charset=utf-8',
+                    data: JSON.stringify({ 'chkmanagement': chkmanagement, 'chkhr': chkhr, 'chkfh': chkfh,  'user_id': user_id, 'password': password, 'is_navone': navone_chk, 'status': status, 'role_id': role, 'start_date': start_date, 'end_date': end_date, 'store_id': work_location, 'userPermissions': userPermissions }),
+                    dataType: 'json',
+                    success: function (data) {
+                        var len = Object.keys(data).length;
+                        var succ = data.success_msg;
+                        var err = data.error_msg;
+                        if (data != null && succ != null) {
+                            alert(succ);
+                            $('#edit_user').modal('hide');
+                            ReloadPage();
+                        }
+                        else {
+                            alert(err);
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+            else if (password == "") {
+                alert("Password can't be blank.");
+                setTimeout(function () { $('#txt_editPassword').focus(); });
+            }
+            else if (confirm_password == "") {
+                alert("Confirm Password can't be blank.");
+                setTimeout(function () { $('#txt_editconfirmPassword').focus(); });
+            }
+            else if (work_location == "") {
+                alert("Work Location can't be blank.");
+                setTimeout(function () { $('#ddl_estoreName').focus(); });
+            }
+            else if (role == "") {
+                alert("Role can't be blank.");
+                setTimeout(function () { $('#ddl_editrole').focus(); });
+            }
+            else {
+                alert("Status can't be blank.");
+                setTimeout(function () { $('#ddl_editstatus').focus(); });
+            }
+        });
+
+        $('#txt_startDate').on('change', function () {
+            var start_date = $('#txt_startDate').val();
+            if (start_date != "") {
+                $('#txt_endDate').val('');
+                $('#txt_endDate').prop('disabled', false).css('background-color', 'white');
+                $('#txt_endDate').datepicker("destroy");
+                $('#txt_endDate').datepicker({
+                    dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeYear: true, changeMonth: true, onClose: function () {
+                        var event = arguments.callee.caller.caller.arguments[0];
+                        // If "Clear" gets clicked, then really clear it
+                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                            $(this).val('');
+                        }
+                    }
+                }).attr('readonly', true).css('background-color', 'White');  
+
+            }
+        });
+
+        $('#txt_endDate').on('change', function () {
+            var start_date = $('#txt_startDate').val();
+            var end_date = $('#txt_endDate').val();
+            if (new Date(end_date) < new Date(start_date)) {
+                alert("End Date Can't less than Start Date.");
+                //$('#txt_startDate').val('');
+                $('#txt_endDate').val('');
+                setTimeout(function () { $('#txt_endDate').focus(); });
+            }
+        });
+
+        $('#txt_estartDate').on('change', function () {
+            var start_date = $('#txt_estartDate').val();
+            if (start_date != "") {
+                $('#txt_eendDate').val('');
+                $('#txt_eendDate').prop('disabled', false).css('background-color', 'white');
+                $('#txt_eendDate').datepicker("destroy");
+                $('#txt_eendDate').datepicker({
+                    dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeYear: true, changeMonth: true, onClose: function () {
+                        var event = arguments.callee.caller.caller.arguments[0];
+                        // If "Clear" gets clicked, then really clear it
+                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                            $(this).val('');
+                        }
+                    }
+                }).attr('readonly', true).css('background-color', 'White');  
+
+            }
+        });
+
+        $('#txt_eendDate').on('change', function () {
+            var start_date = $('#txt_estartDate').val();
+            var end_date = $('#txt_eendDate').val();
+            if (new Date(end_date) < new Date(start_date)) {
+                alert("End Date Can't less than Start Date.");
+                //$('#txt_startDate').val('');
+                $('#txt_endDate').val('');
+                setTimeout(function () { $('#txt_eendDate').focus(); });
+            }
+        });
+
+        $(document).on('click', '#btn_edit', function (e) {
+            $('#txt_eendDate').datepicker("destroy");
+            $('#txt_eendDate').datepicker({
+                dateFormat: "dd-M-yy", closeText: 'Clear', showButtonPanel: true, changeYear: true,  changeMonth: true ,  onClose: function () {
+                    var event = arguments.callee.caller.caller.arguments[0];
+                    // If "Clear" gets clicked, then really clear it
+                    if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                        $(this).val('');
+                    }
+                }
+            }).attr('readonly', true).css('background-color', 'White');  
+
+
+
+            var emp_id = $(this).closest('tr td a').attr('data_id');
+            if (emp_id != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/GetEmployeeById',
+                    contentType: 'application/json;charset=utf-8',
+                    data: JSON.stringify({ 'EMP_ID': emp_id }),
+                    dataType: 'json',
+                    success: function (response) {
+                        var emp_data = response;
+                        var len = Object.keys(emp_data).length;
+                        if (len > 0) {
+                            $('#txt_editempCode').val(emp_data[0].Showemp_code);
+                            $('#txt_eusercode').val(emp_data[0].emp_code);
+                            $('#txt_efullname').val(emp_data[0].full_name);
+                            $('#ddl_editstatus').val(emp_data[0].status);
+                            //$('#txt_middlename').val(emp_data[0].middle_name);
+                            //$('#txt_lastname').val(emp_data[0].last_name);
+                            $('#txt_editemail').val(emp_data[0].email);
+                            $('#ddl_editrole').val(emp_data[0].role_id);
+                            $('#ddl_estoreName').val(emp_data[0].store_id);
+                            $('#txt_editPassword').val(emp_data[0].password);
+                            $('#txt_editconfirmPassword').val(emp_data[0].confirm_password);
+                            $('#txt_estartDate').val(emp_data[0].Showstart_date);
+                            $('#txt_eendDate').val(emp_data[0].Showend_date);
+                            if (emp_data[0].is_navone == 1) {
+                                $('#leave_module1').prop("checked", true);
+                            }
+                            else {
+                                $('#leave_module1').prop("checked", false);
+                            }
+
+
+
+                            if (emp_data[0].chkmanagement == 1) {
+                                $('#ckmanagement_e').prop("checked", true);
+                            }
+                            else {
+                                $('#ckmanagement_e').prop("checked", false);
+                            }
+
+                            if (emp_data[0].chkhr == 1) {
+                                $('#ckhr_e').prop("checked", true);
+                            }
+                            else {
+                                $('#ckhr_e').prop("checked", false);
+                            }
+
+                            if (emp_data[0].chkfh == 1) {
+                                $('#ckfh_e').prop("checked", true);
+                            }
+                            else {
+                                $('#ckfh_e').prop("checked", false);
+                            }
+
+                            $('#hdn_editUserId').val(emp_data[0].user_id);
+                            $('#hdn_editRoleId').val(emp_data[0].role_id);
+                            $('#hdn_editEmp_id').val(emp_data[0].emp_id);
+                          //  HideShowRoles(emp_data[0].role_id, emp_data[0].emp_id)
+                            $('#edit_user').modal('show');
+
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '#btn_view', function (e) {
+            var emp_id = $(this).closest('tr td a').attr('data_id');
+            if (emp_id != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/ViewEmployeeById',
+                    contentType: 'application/json;charset=utf-8',
+                    data: JSON.stringify({ 'EMP_ID': emp_id }),
+                    dataType: 'json',
+                    success: function (response) {
+                        var emp_data = response;
+                        var len = Object.keys(emp_data).length;
+                        if (len > 0) {
+                            $('#txt_vempCode').val(emp_data[0].Showemp_code);
+                            $('#txt_vusercode').val(emp_data[0].emp_code);
+                            $('#txt_vfullname').val(emp_data[0].full_name);
+                            $('#txt_vemail').val(emp_data[0].email);
+                            $('#txt_vrole').val(emp_data[0].roles);
+                            $('#txt_vPassword').val(emp_data[0].password);
+                            $('#txt_vRePassword').val(emp_data[0].confirm_password);
+                            $('#txt_vstatus').val(emp_data[0].status);
+                            $('#txt_vstartDate').val(emp_data[0].Showstart_date);
+                            $('#txt_vendDate').val(emp_data[0].Showend_date);
+                            $('#txt_vlocation').val(emp_data[0].store_name);
+                            if (emp_data[0].is_navone == 1) {
+                                $('#leave_module').prop("checked", true);
+                            }
+                            else {
+                                $('#leave_module').prop("checked", false);
+                            }
+
+
+
+                            if (emp_data[0].chkmanagement == 1) {
+                                $('#ckmanagement_v').prop("checked", true);
+                            }
+                            else {
+                                $('#ckmanagement_v').prop("checked", false);
+                            }
+
+                            if (emp_data[0].chkhr == 1) {
+                                $('#ckhr_v').prop("checked", true);
+                            }
+                            else {
+                                $('#ckhr_v').prop("checked", false);
+                            }
+
+                            if (emp_data[0].chkfh == 1) {
+                                $('#ckfh_v').prop("checked", true);
+                            }
+                            else {
+                                $('#ckfh_v').prop("checked", false);
+                            }
+                           // HideShowRolesView(emp_data[0].role_id, emp_data[0].emp_id);
+                            $('#view_user').modal('show');
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+
+            
+        });
+
+  
+    });
+
+    function EmpCodeOnchange(t) {
+        debugger;
+        var emp_id = $(t).val();
+        var len = emp_id.length;
+        var user_code = GenrateUserCode(len, emp_id);
+
+        if (emp_id != "") {
+            $.ajax({
+                type: 'POST',
+                url: '/settings/GetEmployee',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({ 'EMP_CODE': emp_id }),
+                dataType: 'json',
+                success: function (data) {
+                    var len = Object.keys(data).length;
+                    if (len > 0) {
+                        debugger;
+                        var full_name = data[0].full_name;
+                        var final_name = full_name.replace(/ +(?= )/g, '');
+                        $('#txt_fullname').val(final_name);
+                        $('#txt_email').val(data[0].email);
+                        $('#txt_usercode').val(user_code);
+                        $('#hdn_empID').val(data[0].emp_id);
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    }
+
+    function ResetAddModal() {
+        $('#ddl_empCode').val("");
+        $('#txt_usercode').val("");
+        $('#ddl_status').val("0");
+        $('#txt_fullname').val('');
+        //$('#txtaddfirtname').val('');
+        //$('#txtaddmiddlename').val('');
+        //$('#txtaddlastname').val('');
+        $('#ddl_role').val('');
+        $('#txt_email').val('');
+        $('#txt_Password').val('');
+        $('#txt_RePassword').val('');
+        $("#txt_startDate").val('');
+        $("#txt_endDate").val('').prop('disabled', true).css('background-color', '#eee');
+        PopupRoles('');
+    }
+
+    function GenrateUserCode(length, emp_id) {
+        var user_id = "";
+        if (length == 1) {
+            user_id = 'E0000' + emp_id;
+        }
+        else if (length == 2) {
+            user_id = 'E000' + emp_id;
+        }
+        else if (length == 3) {
+            user_id = 'E00' + emp_id;
+        }
+        else if (length == 4) {
+            user_id = 'E0' + emp_id;
+        }
+        else if (length == 5) {
+            user_id = 'E' + emp_id;
+        }
+        return user_id;
+    }
+
+    function ReloadPage() {
+        location.reload(true);
+    }
+
+    function PopupRoles(t)
+    {
+        var roleId = $(t).val();
+        var empId = 0;
+
+    //    HideShowRolesAdd(roleId, empId);
+    }
+
+    function PopupRolesEdit(t) {
+      
+        var roleId = $(t).val();
+        var empId = $('#hdn_editEmp_id').val();
+
+      //  HideShowRoles(roleId, empId);
+    }
+
+    function HideShowRolesAdd(roleId, empId) {
+
+         if (parseInt(roleId)>0 && parseInt(empId)==0) {
+         $('#tbodyAssignedPermission').empty();
+         $('#divAssignedPermissionsAdd').show();
+            $('#loader').show();
+            $("#divAssignedPermissionsAdd").load("@Url.Action("GetUserPermissionByRoleId", "Settings")", { 'roleId': roleId, 'empId': empId },
+                function (response, status, xhr) {
+                    $('#loader').hide();
+                    if (status == "error") {
+                        alert("An error occurred while loading the results.");
+                    }
+                });
+        }
+         else {
+             $('#divAssignedPermissionsAdd').hide();
+        }
+    }
+
+    function HideShowRoles(roleId, empId) {
+        if (parseInt(roleId) > 0 && parseInt(empId) > 0) {
+            $('#tbodyAssignedPermission').empty();
+            $('#loader').show();
+            $("#divAssignedPermissions").load("@Url.Action("GetUserPermissionByRoleId", "Settings")", { 'roleId': roleId, 'empId': empId },
+                function (response, status, xhr)
+                {
+                    $('#loader').hide();
+                    if (status == "error") {
+                        alert("An error occurred while loading the results.");
+                    }
+                    {
+                        $('#divAssignedPermissions').show();
+                        $('#edit_user').modal('show');
+                    }
+                });
+
+        }
+        else
+        {
+            $('#divAssignedPermissions').hide();
+        }
+    }
+    function HideShowRolesView(roleId, empId)
+    {
+        if (parseInt(roleId) > 0 && parseInt(empId) > 0)
+        {
+            $('#tbodyAssignedPermission').empty();
+            $('#loader').show();
+            $("#divAssignedPermissionsView").load("@Url.Action("GetUserPermissionByRoleId", "Settings")", { 'roleId': roleId, 'empId': empId },
+                function (response, status, xhr)
+                {
+                    $('#loader').hide();
+                    if (status == "error") {
+                        alert("An error occurred while loading the results.");
+                    }
+                    {
+                        $('#divAssignedPermissionsView').show();
+                        $('#view_user').modal('show');
+                    }
+                });
+
+        }
+        else
+        {
+            $('#divAssignedPermissionsView').hide();
+        }
+    }
+</script>
+<script>
+    function passvalidation(T) {      
+        if ($(T).val().length<8) {            {
+                alert('Please Enter Atleast 8 character !');
+                $(T).val("");
+                $(T).focus();
+            }
+       }
+    }
+
+    function funShowPwd(T,T1) {
+
+        var x = document.getElementById(T);
+        $("#"+T1).toggleClass("fa-eye fa-eye-slash");
+        if (x.type == "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
+    function randomPassword(length) {
+        var chars = "abcdefghijklmnopqrstuvwxyz#$%&ABCDEFGHIJKLMNOP1234567890";
+        var pass = "";
+        for (var x = 0; x < length; x++) {
+            var i = Math.floor(Math.random() * chars.length);
+            pass += chars.charAt(i);
+        }
+        return pass;
+    }
+
+    function generate() {
+        var getVal = randomPassword(8);
+        $("#txt_Password").val(getVal);
+        $("#txt_RePassword").val(getVal);
+    }
+
+    function Validation(T) {  
+        var email = $('#' + T).val();
+        if (isValidEmailAddress(email) != true) {
+            alert("Invalid Email ID !");
+            $('#' + T).val('');
+        }
+    }
+
+    function isValidEmailAddress(emailAddress) { 
+        var filter = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        if (filter.test(emailAddress)) {
+        return true;
+        }
+        else {
+        return false;
+        }
+    }
+
+</script>
+<style type="text/css">
+    .field-icon {
+        float: right;
+        margin-right: 15px;
+        margin-top: -25px;
+        position: relative;
+        z-index: 2;
+    }
+    .ui-datepicker{
+        width:280px;
+    }
+    .container {
+        padding-top: 50px;
+        margin: auto;
+    }
+    /*.multiselect-container {
+        width: 100% !important;
+        border-radius: 0px !important;
+    } 
+    .multiselect {
+        height: 40px !important;
+        text-align: left !important;
+    }*/
+</style>
+
+<div class="row">
+    <div class="col-xs-4">
+        <h4 class="page-title"> System User</h4>
+    </div>
+    <div class="col-xs-8 text-right m-b-30">
+        @*@if (ViewBag.event_permission.Create == 1) {*@
+        <a href="javascript:void(0);" class="btn btn-primary rounded" id="btn_add_user"><i class="fa fa-plus"></i> Add New</a>
+       @*}*@
+    </div>
+</div>
+
+<div class="row card-box" style="margin-top: -23px;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table  class="table table-striped custom-table tbl_systemuser">
+                <thead>
+                    <tr>
+                        <th>Sr.</th>
+                        <th style="width:30%;">Name</th>
+                        <th>Email</th>
+                        <th>Created Date</th>
+                        <th>Role</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@item.Sr_No</td>
+                        <td>
+                            <a href="javascript:;" class="avatar">@item.Letter</a>
+                            <h2><a href="javascript:;">@item.emp_name<span>@item.role_name</span></a></h2>
+                        </td>
+                        <td>@item.email</td>
+                        <td>@item.created_date</td>
+                        <td>
+                            @if (item.role_id == 1)
+                            {
+                                <span class="label label-info-border">@item.role_name</span>
+                            }
+                            else if (item.role_id == 2)
+                            {
+                                <span class="label label-info-border">@item.role_name</span>
+                            }
+                            else
+                            {
+                                <span class="label label-info-border">@item.role_name</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @*@if (ViewBag.event_permission.Update == 1){
+                            <a href="javascript:void(0);" data_id="@item.emp_id" id="btn_edit"><i class="fa fa-pencil m-r-5"></i></a>
+                            }
+                            @if (ViewBag.event_permission.View == 1){
+                            <a href="javascript:void(0);" data_id="@item.emp_id" id="btn_view"><i class="fa fa-eye m-r-5"></i></a>
+                            }*@
+
+                                <a href="javascript:void(0);" data_id="@item.emp_id" id="btn_edit"><i class="fa fa-pencil m-r-5"></i></a>
+                           
+                                <a href="javascript:void(0);" data_id="@item.emp_id" id="btn_view"><i class="fa fa-eye m-r-5"></i></a>
+                            
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="add_user" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" id="btn_addClose" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-b-30">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Employee Code<span class="text-danger">*</span></label> @*<small>(Only active employee)</small>*@
+                                    @Html.DropDownList("ddl_empCode", (IEnumerable<SelectListItem>)ViewBag.employeesCodeNotSystemUser, "Select", new { @class = "form-control", @onchange = "EmpCodeOnchange(this);" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4" style="display:none;visibility:hidden">
+                                <div class="form-group">
+                                    <label class="control-label">User Code<span class="text-danger">*</span></label><small>(This will be used as login id)</small>
+                                    <input class="form-control" id="txt_usercode" type="text" placeholder="e.g. E00001" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Full Name<span class="text-danger">*</span></label>
+                                    <input class="form-control" id="txt_fullname" type="text" placeholder="e.g. Mr. John Miller" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Email<span class="text-danger">*</span></label>
+                                    <input class="form-control" id="txt_email" onchange="Validation('txt_email');" type="email" placeholder="e.g. john@example.com" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="height: 20px;">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                </div>
+                                    </div>
+                                </div>
+                             
+                        <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Password<span class="text-danger">*</span></label><span class="label label-warning-border" style="cursor:pointer;float:right" onClick="generate();">Generate</span>
+                                            <input class="form-control floating" onchange="passvalidation('#txt_Password')" type="password" id="txt_Password" placeholder="Must have at least 1 characters.">
+                                            <span id="pwdshow" class="fa fa-fw fa-eye field-icon toggle-password" onclick="funShowPwd('txt_Password','pwdshow');"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Confirm Password<span class="text-danger">*</span></label>
+                                            <input class="form-control" id="txt_RePassword" type="password" placeholder="Should be same as Password.">
+                                            <span id="repwdshow" class="fa fa-fw fa-eye field-icon toggle-password" onclick="funShowPwd('txt_RePassword','repwdshow');"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Role<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("ddl_role", (IEnumerable<SelectListItem>)ViewBag.ROLE_List, "Select", new { @class = "form-control", @onchange = "PopupRoles(this);" })
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="col-sm-12" style="height: 20px;">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Status<span class="text-danger">*</span></label>
+                                            <input type="checkbox" id="ddl_status" value="Status" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" style="display:none">
+                                        <div class="form-group">
+                                            <label class="control-label">Work Location<span class="text-danger">*</span></label>
+                                            @Html.DropDownList("ddl_storeName", (IEnumerable<SelectListItem>)ViewBag.storenameli, "Select", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group" style="display:none">
+                                            <label class="control-label">Start Date<span class="text-danger">*</span></label>
+                                            <div class="cal-icon">
+                                                <input class="form-control mycal" id="txt_startDate" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-4" style="display:none">
+                                        <div class="form-group">
+                                            <label class="control-label">End Date</label>
+                                            <div class="cal-icon">
+                                                <input class="form-control mycal" id="txt_endDate" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        <div class="col-sm-12" style="display:none">
+                                    <div class="form-group">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="ckmanagement" name="comman" /> Management
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="ckhr" name="comman" /> Human Resource
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" id="ckfh" name="comman" /> Finance Head
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="m-t-20" id="divAssignedPermissionsAdd">
+                            </div>
+                            <div class="m-t-20 text-center">
+                                <button class="btn btn-primary" type="button" id="btn_createUser">Create User</button>
+                                <input type="hidden" id="hdn_empID" />
+                                <input type="button" id="btnaddreset" class="btn btn-primary" value="Reset" onclick="ResetAddModal();" />
+                            </div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit_user" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" id="btn_editClose" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit User</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-b-30">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Employee Code <span class="text-danger">*</span></label> @*<small>(Only active employee)</small>*@
+                                @*@Html.DropDownList("ddl_EditempCode", (IEnumerable<SelectListItem>)ViewBag.EMP_List, "Select", new { @class = "form-control", @onchange = "EmpCodeOnchange(this);" })*@
+                                <input type="text" id="txt_editempCode" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">User Code</label><small>(This will be used as login id)</small>
+                                <input class="form-control" id="txt_eusercode" type="text" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Full Name </label>
+                                <input class="form-control" id="txt_efullname" type="text" placeholder="e.g. Mr. John Miller" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Email </label>
+                                <input class="form-control" onchange="Validation('txt_editemail');" id="txt_editemail" type="email" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Password</label>
+                                <input class="form-control" onchange="passvalidation('#txt_editPassword')" id="txt_editPassword" type="password">
+                                <span id="editpwdshow" class="fa fa-fw fa-eye field-icon toggle-password" onclick="funShowPwd('txt_editPassword','editpwdshow');"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Confirm Password</label>
+                                <input class="form-control" id="txt_editconfirmPassword" type="password">
+                                <span id="editrepwdshow" class="fa fa-fw fa-eye field-icon toggle-password" onclick="funShowPwd('txt_editconfirmPassword','editrepwdshow');"></span>
+                            </div>
+                        </div>  
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Role</label>
+                                @Html.DropDownList("ddl_editrole", (IEnumerable<SelectListItem>)ViewBag.ROLE_List, new { @class = "form-control", @onchange = "PopupRolesEdit(this);" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">Work Location</label>
+                                @Html.DropDownList("ddl_estoreName", (IEnumerable<SelectListItem>)ViewBag.storenameli, "Select", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">Start Date<span class="text-danger">*</span></label>
+                                <div class="cal-icon">
+                                    <input class="form-control mycal" id="txt_estartDate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">End Date</label>
+                                <div class="cal-icon">
+                                    <input class="form-control mycal" id="txt_eendDate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Status</label>
+                                <input type="checkbox" id="ddl_editstatus" value="Status" />
+                            </div>
+                        </div>
+                        @*<div class="col-sm-4">
+                            <div class="form-group">
+                                <br />
+                                <label class="control-label"></label>
+                                <div class="material-switch">
+                                    <input id="leave_module1" type="checkbox" />
+                                    <label for="leave_module1" class="label-success"></label>    &nbsp;NAVOne User
+                                </div>
+                            </div>
+                        </div>*@ 
+                        <div class="col-sm-12" style="display:none">
+                            <div class="form-group">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="ckmanagement_e" name="comman_e" /> Management
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="ckhr_e" name="comman_e" /> Human Resource
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="ckfh_e" name="comman_e" /> Finance Head
+                                </label>
+                            </div>
+                        </div>
+                        @*<div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">First Name </label>
+                                <input class="form-control" id="txt_firstname" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Middle Name</label>
+                                <input class="form-control" id="txt_middlename" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Last Name <span class="text-danger">*</span></label>
+                                <input class="form-control" id="txt_lastname" type="text">
+                            </div>
+                        </div>                       
+                        *@                                                                                        
+                    </div> 
+                    <div class="m-t-20" id="divAssignedPermissions">
+                    </div>
+                    <div class="m-t-20 text-center">
+                        <input type="hidden" id="hdn_editUserId" />
+                        <input type="hidden" id="hdn_editRoleId" />
+                        <input type="hidden" id="hdn_editEmp_id" />
+                        <button class="btn btn-primary" id="btn_update" type="button">Update</button>
+                        @*<button class="btn btn-primary" id="btn_editCancel">Cancel</button>*@
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="view_user" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <button type="button" class="close" id="btn_viewClose" data-dismiss="modal">&times;</button>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h4 class="modal-title">View User</h4>
+            </div>
+            <div class="modal-body">
+                <form class="m-b-30">
+                    <div class="row">                       
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Employee Code  </label>
+                                <input class="form-control"  readonly="readonly" id="txt_vempCode" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">User Code</label><small>(This will be used as login id)</small>
+                                <input class="form-control" id="txt_vusercode" type="text" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Full Name</label>
+                                <input class="form-control" readonly="readonly" id="txt_vfullname" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Email </label>
+                                <input class="form-control" readonly="readonly" id="txt_vemail" type="email">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Password</label>
+                                <input class="form-control" readonly="readonly" id="txt_vPassword" type="password">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Confirm Password</label>
+                                <input class="form-control" readonly="readonly" id="txt_vRePassword" type="password">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">Role</label>
+                                <input type="text" id="txt_vrole" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">Work Location</label>
+                                <input type="text" id="txt_vlocation" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">Start Date</label>
+                                <input type="text" id="txt_vstartDate" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label">End Date</label>
+                                <input type="text" id="txt_vendDate" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-4" >
+                            <div class="form-group">
+                                <label class="control-label">Status</label>
+                                <input type="text" id="txt_vstatus" readonly="readonly" class="form-control" />
+                            </div>
+                        </div>
+                        @*<div class="col-sm-4">
+                            <div class="form-group"> 
+                                <br />
+                                <label class="control-label"></label>
+                                <div class="material-switch  ">
+                                    <input id="leave_module" disabled type="checkbox" />
+                                    <label for="leave_module" class="label-success"></label>&nbsp;NAVOne User      
+                                </div>
+                            </div>
+                        </div>*@ 
+                        <div class="col-sm-12">
+                            <div class="form-group" style="display:none">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="ckmanagement_v" disabled name="comman_v" /> Management
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="ckhr_v" disabled name="comman_v" /> Human Resource
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="ckfh_v" disabled name="comman_v" /> Finance Head
+                                </label>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="m-t-20" id="divAssignedPermissionsView">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loader" style="display:none;">
+    <div class="loader-bg"></div>
+    <div class="loader"></div>
+</div>

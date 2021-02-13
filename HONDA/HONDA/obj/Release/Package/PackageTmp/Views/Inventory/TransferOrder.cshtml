@@ -1,0 +1,327 @@
+﻿
+@{
+    ViewBag.Title = "TransferOrder";
+}
+
+<style type="text/css">
+    .required {
+        color: red;
+    }
+
+    .myclass {
+        text-transform: capitalize;
+    }
+
+    .form-group {
+        margin: 4px !important;
+    }
+
+    .form-control {
+        height: 10% !important;
+    }
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+        padding-right: unset !important;
+    }
+</style>
+<script type="text/javascript" lang="en">
+    $('ul.list-unstyled  li a[href$="' + "/TransferOrder" + '"]').addClass('active');
+    $(document).ready(function () {
+        $(document).on("click", "#btn", function () {
+            debugger;
+            var Type = $("#txt_Type").val();
+            var itemno = $("#txt_ItemNo").val();
+            var description = $("#txt_Description").val();
+            var LocationCode = $("#txt_LocationCode").val();
+            var qty = $("#txt_Qty").val();
+            var UOM = $("#txtUOM").val();
+            var UnitPriceExTax = $("#txtUnitPriceExcludeTax").val();
+            var LineAmtExTax = $("#txtLineAmtExcludeTax").val();
+            var LineDiscountPercent = $("#txtLineDiscountPercent").val();
+            var MRP = $("#txtMRP").val();
+            var TaxPercent = $("#txtTaxPercent").val();
+            var TaxAmt = $("#txtTaxAmount").val();
+            var AltrQty = $("#txtAltrQty").val();
+            var AltrUOM = $("#txtAltrUOM").val();
+
+            var html = "";
+            html += "<tr style='font-size:10px;'>";
+            html += "<td>" + Type + "</td>" +
+                "<td>" + itemno + "</td>" +
+                "<td>" + description + "</td>" +
+                "<td>" + LocationCode + "</td>" +
+                "<td>" + qty + "</td>" +
+                "<td>" + UOM + "</td>" +
+                "<td>" + UnitPriceExTax + "</td>";
+            html += "<td>" + LineAmtExTax + "</td>" +
+                "<td>" + LineDiscountPercent + "</td>" +
+                "<td>" + MRP + "</td>" ;
+           
+            html += "<td><a href='avascript:void(0)' id='btnEdit' title='Edit' ><i class='fa fa-pencil m-r-5'></i></a>&nbsp;&nbsp;&nbsp;<a href='avascript:void(0)' id='btnDelete' title='Delete' ><i class='fa fa-trash'></i></a></td>";
+            html += "</tr>";
+            $("#tbodySalesCredit_add").append(html);
+            $('#txt_itemNo').focus();
+        });
+        $(document).on("click", "#btnDelete", function () {
+            $(this).closest('tr').remove();
+        });
+    });
+
+</script>
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="page-title">Transfer Order</h4>
+    </div>
+
+    <div class="col-sm-1 text-right m-b-30">
+
+    </div>
+    <div class="col-sm-3 text-right m-b-30" id="buttons">
+    </div>
+</div>
+<div class="row" style="margin-bottom:1%;">
+    <div class="col-md-12" style="width: 99%;">
+        <div class="table-responsive">
+            <table class="table table-striped custom-table m-b-0" style="border-bottom:1px solid;">
+                <tbody>
+                    <tr>
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        Transfer Header
+                                    </h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                            <strong>Document No:<span class="text-danger">*</span></strong>
+                                            <div class="form-group  ">
+                                                <input type="text" id="txt_custNo" class="form-control floating" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                            <strong>Transfer form code:<span class="text-danger">*</span></strong>
+                                            <div class="form-group  ">
+                                                <input type="text" id="txt_custName" class="form-control floating" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                            <strong>Transfer to code:<span class="text-danger">*</span></strong>
+                                            <div class="form-group  ">
+                                                <input id="txt_address" class="form-control floating" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                            <strong>In transit code:<span class="text-danger">*</span></strong>
+                                            <div class="form-group  ">
+                                                <input id="txt_address1" class="form-control floating" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                            <strong>Posting date:<span class="text-danger">*</span></strong>
+                                            <div class="form-group  ">
+                                                <div class="cal-icon">
+                                                    <input id="txt_city" class="form-control floating mycal" type="text" />
+                                                </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                            <strong>LOB:<span class="text-danger">*</span></strong>
+                                            <div class="form-group  ">
+                                                <input id="txt_postCode" class="form-control floating" type="text" />
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                                <strong>Area Code:<span class="text-danger">*</span></strong>
+                                                <div class="form-group  ">
+                                                    <input type="text" id="txt_CountryRegion" class="form-control floating" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                                <strong>Transporter name:<span class="text-danger">*</span></strong>
+                                                <div class="form-group  ">
+                                                    <input type="text" id="txt_contactno" class="form-control floating" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                                <strong>Vehicle no:</strong>
+                                                <div class="form-group  ">
+
+                                                    <input type="text" id="txt_postingdate" class="form-control floating " />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                                <strong>Driver mobile no:</strong>
+                                                <div class="form-group  ">
+                                                    <input id="txt_documentdate" class="form-control floating " type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                                <strong>RPO No:</strong>
+                                                <div class="form-group  ">
+
+                                                    <input type="text" id="txt_Duedate" class="form-control floating " />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-2 col-xs-12 .col-lg-6">
+                                                <strong>New LOB:</strong>
+                                                <div class="form-group  ">
+                                                    <input type="text" id="txt_ExtrDocNo" class="form-control floating" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="panel" style="width: 99%;">
+    <div class="panel-heading" style="background-color:lightsalmon;">
+        Line
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12" style="overflow:scroll;">
+                <table class="table table-striped table-bordered nowrap dataTable table-responsive" id="testtable" style="width:100%;overflow:scroll;">
+                    <thead style="width:100%">
+                        <tr>
+                            <th>Item NO</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Unit of measurement</th>
+                            <th>Qty to ship</th>
+                            <th>Qty shipped</th>
+                            <th>Qty to receive</th>
+                            <th>Alternate qty</th>
+                            <th>Alternate uom</th>
+                            <th>Flock No.</th>
+                           
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodySalesCredit_add">
+                        <tr style="font-size:10px;">
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txt_Type" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" id="txt_ItemNo" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" id="txt_Description" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" id="txt_LocationCode" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txt_Qty">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txtUOM">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txtUnitPriceExcludeTax">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txtLineAmtExcludeTax">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txtLineDiscountPercent">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control myclass" type="text" id="txtMRP">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="m-t-20 text-center">
+                                    <button class="btn btn-primary" id="btn" type="button" style="margin-top: -25px;"><i class="glyphicon glyphicon-plus"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row text-center">
+    <button class="btn btn-primary" id="btn_Insert" type="button">Add</button>  <button class="btn btn-primary" id="btn_create" type="button">Post & Print</button> <button class="btn btn-primary" type="button" id="btn_close">Close</button>
+
+</div>
+<a id="back2Top" title="Back to top" href="#">&#10148;</a>
+<style type="text/css" lang="en">
+    #back2Top {
+        width: 40px;
+        line-height: 40px;
+        overflow: hidden;
+        z-index: 999;
+        display: none;
+        cursor: pointer;
+        -moz-transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        transform: rotate(270deg);
+        position: fixed;
+        bottom: 50px;
+        right: 0;
+        background-color: #DDD;
+        color: #555;
+        text-align: center;
+        font-size: 30px;
+        text-decoration: none;
+    }
+
+        #back2Top:hover {
+            background-color: #DDF;
+            color: #000;
+        }
+</style>
+<script type="text/javascript" lang="en">
+    $(window).scroll(function () {
+        var height = $(window).scrollTop();
+        if (height > 100) {
+            $('#back2Top').fadeIn();
+        } else {
+            $('#back2Top').fadeOut();
+        }
+    });
+    $(document).ready(function () {
+        $("#back2Top").click(function (event) {
+            event.preventDefault();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
+    });
+
+
+</script>
+

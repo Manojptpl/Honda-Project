@@ -1,0 +1,982 @@
+﻿@using System.Data
+@{ Html.RenderPartial("_SettingsMenu"); }
+<script src="~/assets/js/CommanJS.js"></script>
+
+<style>
+    .table-responsive {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    input[type=search] {
+        width: 76%!important;
+    }
+
+</style>
+<script>
+    $(document).ready(function () {
+        //$("input['Search']").css("width", "232%;");
+        $('a[href$="' + "/approval_rules" + '"]').closest("li").addClass('active');
+        $('#div_dynamic').hide();
+        $('#hierarchy').hide();
+        $('#btn_AddLevel').hide();
+    
+        //var table1 = $("#tblcountry").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [3], "orderable": false }
+        //        ],
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+        //var table2 = $("#tblexpence").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [3], "orderable": false }
+        //        ],
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+        //var table3 = $("#tblLoan_Advance").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [3], "orderable": false }
+        //        ],
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+        //var table4 = $("#tblleaveencashment").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [3], "orderable": false }
+        //        ],
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+        //var table5 = $("#tblstorelocation").DataTable(
+        //    {
+        //        "columnDefs": [
+        //            { "targets": [3], "orderable": false }
+        //        ],
+        //        "language": {
+        //            "search": "",
+        //            "searchPlaceholder": "Search"
+        //        }
+        //    }
+        //);
+
+
+        $('#btn_add').on('click', function () {
+            window.location.href = "/settings/approval_rules_setting";
+        });
+        $('#btn_hierarchy').click(function () {
+            //GetHierarchy();
+            //$('#modal_hierarchy').modal('show');
+            window.location.href = '/settings/hierarchy';
+        });
+        $('#btn_HierarchyClose').click(function () {
+            $('#modal_hierarchy').modal('hide');
+        });
+        $('#btn_AddLevel').click(function () {
+
+            $.ajax({
+                type: 'POST',
+                url: '/settings/GetLevelValue',
+                contentType: 'application/json;charset=utf-8',
+                data: {},
+                dataType: 'json',
+                success: function (data) {
+                    var len = Object.keys(data).length;
+                    if (len > 0) {
+                        $("#ddl_Level").html("");
+                        $("#ddl_Level").append($('<option></option>').html("Select"));
+                        //Append each row to dropdown
+                        for (var i = 0; i < len; i++) {
+                            $("#ddl_Level").append($('<option></option>').val(data[i].level_id).html(data[i].level_name));
+                        }
+                        $('#div_dynamic').show();
+
+                        let levelcount = document.getElementById('hdn_addlevelcount').value;
+                        var count = parseInt(parseInt(levelcount) + 1);
+                        $('#hdn_addlevelcount').val(count);
+                        $("label[for='lbl_level']").text(count);
+                        $('#btn_AddLevel').prop('disabled', true);
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        });
+        $('#btn_levelSave').click(function () {
+            var level_number = 'Level ' + $("label[for='lbl_level']").text();
+            var value = $('#ddl_Level option:selected').val();
+            if (value != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/save_hierarchy',
+                    contentType: 'application/json;charset=utf-8',
+                    data: JSON.stringify({ 'level_number': level_number, 'value': value }),
+                    dataType: 'json',
+                    success: function (data) {
+                        var succ = data.success_msg;
+                        var err = data.error_msg;
+                        if (data != null && succ != null) {
+                            alert(succ);
+                            GetHierarchy();
+                            $('#btn_AddLevel').prop('disabled', false);
+                            $('#div_dynamic').hide();
+                        }
+                        else {
+                            alert(err);
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+            else {
+                alert("Level can't be blank");
+                setTimeout(function () { $('#ddl_Level').focus(); });
+            }
+        });
+        $(document).on('click', '#btn_edit', function (e) {
+            $('#myModal').modal('show');
+        });
+        $(document).on('click', '.leave_btnview', function (e) {
+
+            view_Approval_rule('Leave', $(this).closest('tr').find('td').eq(6).attr('data_id'), 'V');
+
+            $('#Modal_Leave_view').modal('show');
+        });
+        $(document).on('click', '.leave_btnview4', function (e) {
+
+            view_Approval_rule('Leave Encashment', $(this).closest('tr').find('td').eq(6).attr('data_id'), 'V');
+
+            $('#Modal_Leave_view').modal('show');
+        });
+        $(document).on('click', '.leave_btnEdit', function (e) {
+            window.location.href = "/settings/edit_approval_rules_setting/" + $(this).closest("tr td ").attr("data_id");
+        }) 
+        $(document).on('click', '.expence_btnview4', function (e) {
+
+            view_Approval_rule('Expense', $(this).closest('tr').find('td').eq(6).attr('data_id'), 'V');
+
+            $('#Modal_Leave_view').modal('show');
+        });
+        $(document).on('click', '.expence_btnEdit', function (e) {
+            window.location.href = "/settings/edit_approval_rules_setting/" + $(this).closest("tr td ").attr("data_id");
+        })
+        $(document).on('click', '.Loan_btnEdit', function (e) {
+            window.location.href = "/settings/edit_approval_rules_setting/" + $(this).closest("tr td ").attr("data_id");
+        })
+
+        $(document).on('click', '.Loan_btnview4', function (e) {
+            debugger;
+            view_Approval_rule('Loan Advance', $(this).closest('tr').find('td').eq(6).attr('data_id'), 'V');
+
+            $('#Modal_Leave_view').modal('show');
+ 
+        })
+
+        bind_Approval_Rule('Leave');
+
+         
+    });
+    function mytab(T) {
+        if (T == 1) {
+            bind_Approval_Rule('Leave');
+        }
+        else if (T == 2) {
+
+            bind_Approval_Rule('Expense');
+        }
+        else if (T == 3) {
+
+            bind_Approval_Rule('Loan Advance');
+        }
+        else if (T == 4) {
+
+            bind_Approval_Rule('Leave Encashment');
+        }
+
+    }
+    function GetHierarchy() {
+        $.ajax({
+            type: 'POST',
+            url: '/settings/GetHierarchy',
+            contentType: 'application/json;charset=utf-8',
+            data: {},
+            dataType: 'json',
+            success: function (data) {
+                var len = Object.keys(data).length;
+                if (len > 0) {
+                    $('#tbl_hierarchy tbody').empty();
+                    var html = '';
+                    for (var i = 0; i < len; i++) {
+                        html += "<tr>";
+                        html += "<td>" + data[i].sr_no + "</td>";
+                        html += "<td>" + data[i].hierarchy_level + "</td>";
+                        html += "<td>" + data[i].level_name + "</td>";
+                        html += "<td><a href='javascript:void(0);' title='Edit' id='btn_edit' data_id='" + data[i].hierarchy_id + "'><i class='fa fa-pencil m-r-5'></i></a>";
+                        html += "<a href='javascript:void(0);' title='Delete' id='btn_del' data_id='" + data[i].hierarchy_id + "'><i class='fa fa-trash m-r-5'></i></a>";
+                        html += "</td>";
+                        html += "</tr>";
+                    }
+                    $('#tbl_hierarchy tbody').append(html);
+                    $('#hierarchy').show();
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function bind_Approval_Rule(T) {
+        var table1 = $("#tblcountry").DataTable();
+        var table2 = $("#tblexpence").DataTable();
+        var table3 = $("#tblLoan_Advance").DataTable();
+        var table4 = $("#tblleaveencashment").DataTable();
+            table1.rows().remove().draw();
+            table2.rows().remove().draw();
+            table3.rows().remove().draw();
+            table4.rows().remove().draw();
+        if (T=='Leave') {
+
+            $.ajax({
+                type: 'POST',
+                url: '/settings/get_approval_rules',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({ 'approval_for': T, 'id': '%' }),
+                dataType: 'json',
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        var markup = "";
+                        markup += "<tr>";
+                        markup += "<td>" + (i + 1) + " </td>";
+                        markup += "<td>" + data[i].Type + " </td>";
+                        markup += "<td>" + data[i].RuleName + " </td>";
+                        markup += "<td>" + data[i].StartDate + " </td>";
+                        markup += "<td>" + data[i].EndDate + " </td>";
+                        markup += "<td>" + data[i].Status + " </td>";
+                        if (@ViewBag.event_permission.Update == 1 && @ViewBag.event_permission.View == 1) {
+                            markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 leave_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> <a href='javascript:void(0)' class='leave_btnview' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                        } else {
+                            if (@ViewBag.event_permission.Update == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 leave_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> </td>";
+                            }
+                            if (@ViewBag.event_permission.View == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'>  <a href='javascript:void(0)' class='leave_btnview' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                            }
+                        }
+
+                        markup += "</tr>";
+                            table1.row.add($(markup)).draw();
+                    }
+
+            },
+            error: function (data) {
+                //alert(data.responseText);
+                }
+
+        });
+        } else if (T == "Leave Encashment") {
+              $.ajax({
+                type: 'POST',
+                url: '/settings/get_approval_rules',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({ 'approval_for': T, 'id': '%' }),
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var markup = "";
+                        markup += "<tr>";
+                        markup += "<td>" + (i + 1) + " </td>";
+                        markup += "<td>" + data[i].Type + " </td>";
+                        markup += "<td>" + data[i].RuleName + " </td>";
+                        markup += "<td>" + data[i].StartDate + " </td>";
+                        markup += "<td>" + data[i].EndDate + " </td>";
+                        markup += "<td>" + data[i].Status + " </td>";
+                        if (@ViewBag.event_permission.Update == 1 && @ViewBag.event_permission.View == 1) {
+                            markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 leave_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> <a href='javascript:void(0)' class='leave_btnview4' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                        } else {
+                            if (@ViewBag.event_permission.Update == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 leave_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> </td>";
+                            }
+                            if (@ViewBag.event_permission.View == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'>  <a href='javascript:void(0)' class='leave_btnview4' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                            }
+                        }
+                        markup += "</tr>";
+                            table4.row.add($(markup)).draw();
+                    }
+
+            },
+            error: function (data) {
+                //alert(data.responseText);
+                }
+              });
+            }
+        else if (T == "Expense") {
+              $.ajax({
+                type: 'POST',
+                url: '/settings/get_approval_rules',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({ 'approval_for': T, 'id': '%' }),
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var markup = "";
+                        markup += "<tr>";
+                        markup += "<td>" + (i + 1) + " </td>";
+                        markup += "<td>" + data[i].Type + " </td>";
+                        markup += "<td>" + data[i].RuleName + " </td>";
+                        markup += "<td>" + data[i].StartDate + " </td>";
+                        markup += "<td>" + data[i].EndDate + " </td>";
+                        markup += "<td>" + data[i].Status + " </td>";
+                        if (@ViewBag.event_permission.Update == 1 && @ViewBag.event_permission.View == 1) {
+                            markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 expence_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> <a href='javascript:void(0)' class='expence_btnview4' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                        } else {
+                            if (@ViewBag.event_permission.Update == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 expence_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> </td>";
+                            }
+                            if (@ViewBag.event_permission.View == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'>  <a href='javascript:void(0)' class='expence_btnview4' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                            }
+                        }
+                        markup += "</tr>";
+                            table2.row.add($(markup)).draw();
+                    }
+
+            },
+            error: function (data) {
+                //alert(data.responseText);
+                }
+              });
+            }
+
+        else if (T == "Loan Advance") {
+              $.ajax({
+                type: 'POST',
+                url: '/settings/get_approval_rules',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({ 'approval_for': T, 'id': '%' }),
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var markup = "";
+                        markup += "<tr>";
+                        markup += "<td>" + (i + 1) + " </td>";
+                        markup += "<td>" + data[i].Type + " </td>";
+                        markup += "<td>" + data[i].RuleName + " </td>";
+                        markup += "<td>" + data[i].StartDate + " </td>";
+                        markup += "<td>" + data[i].EndDate + " </td>";
+                        markup += "<td>" + data[i].Status + " </td>";
+                        if (@ViewBag.event_permission.Update == 1 && @ViewBag.event_permission.View == 1) {
+                            markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 Loan_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> <a href='javascript:void(0)' class='Loan_btnview4' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                        } else {
+                            if (@ViewBag.event_permission.Update == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'> <a href='javascript:void(0)' class='font-18 Loan_btnEdit' title='Edit'><i class='fa fa-pencil m-r-5' aria-hidden='true'></i></a> </td>";
+                            }
+                            if (@ViewBag.event_permission.View == 1) {
+                                markup += "<td data_id='" + data[i].ID + "'>  <a href='javascript:void(0)' class='Loan_btnview4' title='View'><i class='glyphicon glyphicon-eye-open' aria-hidden='true'></i></a></td>";
+                            }
+                        }
+                        markup += "</tr>";
+                            table3.row.add($(markup)).draw();
+                    }
+
+            },
+            error: function (data) {
+                //alert(data.responseText);
+                }
+              });
+            }
+    
+    }
+
+    function view_Approval_rule(T, ID,Type) {
+
+
+        debugger;
+          $.ajax({
+            type: 'POST',
+            url: '/settings/get_approval_rules',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify({ 'approval_for': T, 'id': ID }),
+            dataType: 'json',
+
+            success: function (data) {
+                if (Type == 'V') {
+                    $("#v_For").html(data[0].For);
+                    $("#v_Type").html(data[0].Type);
+                    $("#v_RuleName").html(data[0].RuleName);
+                    $("#v_StartDate").html(data[0].StartDate);
+
+                    $("#v_EndDate").html(data[0].EndDate);
+                    $("#v_Status").html(data[0].Status);
+
+                    var data_formula = data[0].condition
+                    if (data_formula != null) {
+                        $("#tbl_all_condition tbody").empty();
+                        for (var i = 0; i < data_formula.length; i++) {
+                            var markup = "";
+                            markup += "<tr>";
+                            markup += "<td  style='display: none;' ></td>";
+
+                            markup += "<td style='width: 40% ;'>" + data_formula[i].formula + "</td>";
+
+                            if (data_formula[i].chk_hierarch == 1) {
+                                markup += "<td  data_chk='1' style='width: 20% ;'>" + data_formula[i].hierarchyname + "</td>";
+                                markup += "<td   style='display: none;'> </td>";
+                            } else {
+                                markup += "<td  data_chk='0' style='width:20% ;'>No</td>";
+                                markup += "<td  style='display: none;'></td>";
+                            }
+                            if (data_formula[i].chk_singleuser == 1) {
+                                markup += "<td  data_chk='1'   style='width: 20% ;'>" + data_formula[i].singleuser_code + "</td>";
+                            } else {
+                                markup += "<td  data_chk='0'   data_id='" + "" + "' style='width: 20% ;'>No</td>";
+                            }
+                            if (data_formula[i].chk_approval == 1) {
+                                markup += "<td  data_chk='1' data_id='1'  style='width: 15% ;'>Yes</td>";
+                            } else {
+                                markup += "<td data_chk='0' data_id='0' style='width: 15% ;'>No</td>";
+                            }
+
+                            markup += "<td  data_chk='0' style='display: none;'></td>";
+                            markup += "<td style='display: none;'></td>";
+                            markup += "<td   data_id='" + "" + "' style='display: none;'></td>";
+                            markup += "<td></td>";
+
+
+                            $("#tbl_all_condition tbody").append(markup);
+                        }
+
+
+
+                    }
+
+                }
+
+            },
+            error: function (data) {
+                //alert(data.responseText);
+                return (data);
+            }
+        });
+
+    }
+
+</script>
+<div class="row">
+    <div class="col-sm-6">
+        <h4 class="page-title">Approval Rules</h4>
+    </div>
+    <div class="col-sm-2 text-right m-b-10">
+
+    </div>
+    <div class="col-sm-2 text-right m-b-30">
+        @if (ViewBag.event_permission.Create == 1) {
+        <a href="javascript:void(0);" class="btn btn-primary rounded" id="btn_add"><i class="fa fa-plus"></i> Add New</a>
+        }
+    </div>
+    <div class="col-sm-2 text-right m-b-30">
+        @*<a href="javascript:void(0);" class="btn btn-primary rounded" id="btn_hierarchy"><i class="fa fa-plus"></i> Hierarchy</a>*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <section>
+                <div class="wizard card-box">
+                    <div class="wizard-inner">
+                        <div class="connecting-line"></div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#step1" onclick="mytab(1)" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                                    <label>Leave</label>
+                                </a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step2" onclick="mytab(2)" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                                    <label>Expense</label>
+                                </a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step3" onclick="mytab(3)" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                                    <label>Loan/Advance</label>
+                                </a>
+                            </li>
+                            <li role="presentation" class="disabled">
+                                <a href="#step4" onclick="mytab(4)" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                                    <label>Leave Encashment</label>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form id="example-form" action="#">
+                        <div class="tab-content">
+                            <div class="tab-pane active" role="tabpanel" id="step1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped custom-table m-b-0    " id="tblcountry">
+                                            <thead>
+                                                <tr>
+                                                    <th width="45px" class="text-left">Sr.</th>
+                                                    <th   class="text-left">Type</th>
+                                                    <th    class="text-left">Rule Name</th>                                                   
+                                                    <th class="text-left">Start Date</th>
+                                                    <th class="text-left">End Date</th> 
+                                                    <th>Status</th>
+                                                    <th width="60px" class="text-left">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>                                            
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="step2">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped custom-table m-b-0 " id="tblexpence">
+                                            <thead>
+                                                <tr>
+                                                    <th width="45px" class="text-left">Sr.</th>
+                                                    <th  class="text-left">Type</th>
+                                                    <th   class="text-left">Rule Name</th>
+                                                    <th class="text-left">Start Date</th>
+                                                    <th class="text-left">End Date</th>
+                                                    <th>Status</th>
+                                                    <th width="60px" class="text-left">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="step3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped custom-table m-b-0 " id="tblLoan_Advance">
+                                            <thead>
+                                                <tr>
+                                                    @*<th width="45px" class="text-left">Sr.</th>
+                                                    <th width="150px" class="text-left">Code</th>
+                                                    <th>Region Name</th>
+                                                    <th width="425px">Country </th>
+                                                    <th width="60px" class="text-left">Status</th>*@
+                                                    <th width="45px" class="text-left">Sr.</th>
+                                                    <th  class="text-left">Type</th>
+                                                    <th   class="text-left">Rule Name</th>
+                                                    <th class="text-left">Start Date</th>
+                                                    <th class="text-left">End Date</th>
+                                                    <th>Status</th>
+                                                    <th width="60px" class="text-left">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                              
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="step4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped custom-table m-b-0 " id="tblleaveencashment">
+                                            <thead>
+                                                <tr>
+                                                    <th width="45px" class="text-left">Sr.</th>
+                                                    <th  class="text-left">Type</th>
+                                                    <th class="text-left">Rule Name</th>
+                                                    <th class="text-left">Start Date</th>
+                                                    <th class="text-left">End Date</th>
+                                                    <th>Status</th>
+                                                    <th width="60px" class="text-left">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                                                            
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="modal custom-modal fade" role="dialog" id="modal_hierarchy">
+    <div class="modal-dialog" style="padding-right:17px !important ;padding-left:30px !important">
+        <button type="button" class="close" id="btn_HierarchyClose">&times;</button>
+        <div class="modal-content">
+            <div class="modal-header m-b-100">
+                <h4 class="modal-title">Hierarchy</h4>
+            </div>            
+            <div class="modal-body">
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" id="btn_AddLevel">Add Level</button>
+                    <input type="hidden" id="hdn_addlevelcount" value="0" />
+                </div>
+                <br />
+                <div class="row" id="div_dynamic">
+                    <div class="col-sm-12">
+                        <table class="table table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td><label for="lbl_level">1</label></td>
+                                    <td>@Html.DropDownList("ddl_Level", (IEnumerable<SelectListItem>)ViewBag.level, new { @class = "form-control", })</td>
+                                    <td><button type="button" class="btn btn-primary" id="btn_levelSave">Save</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>   
+                <div class="row" id="hierarchy">
+                    <div class="col-md-12">
+                        <table class="table table-striped custom-table m-b-0 " id="tbl_hierarchy">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No.</th>
+                                    <th>Level</th>
+                                    <th>Value</th>
+                                    <th width="60px" class="text-left">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal custom-modal fade" role="dialog" id="Modal_Leave_view">
+    <div class="modal-dialog" style="padding-right:17px !important ;padding-left:30px !important">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-content">
+            <div class="modal-header m-b-100">
+                <h4 class="modal-title">View Approval Rules</h4>
+            </div>
+            <div class="modal-body card-box">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>For</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_For"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Type</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_Type"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Rule Name</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_RuleName"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Start Date</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_StartDate"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>End Date</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_EndDate"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Status</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_Status"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-header m-b-100">
+                    <h4 class="modal-title">Conditions</h4>
+                </div>
+                 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="tbl_all_condition" class="table table-striped custom-table m-b-0 ">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">
+                                            Type
+                                        </th>
+                                        <th style="width:40%">
+                                            Formula
+                                        </th>
+                                        <th style="width:20%">
+                                            Hierarchy Name
+                                        </th>
+                                        <th style="display:none;">
+                                            Hierarchy Max Level
+                                        </th>
+                                        <th style="width:20%">
+                                            Single User
+                                        </th>
+
+                                        <th style="width:15%">
+                                            Auto Approval
+                                        </th>
+                                        <th style="display:none;">
+                                            FYI-Frequency
+                                        </th>
+                                        <th style="display:none;">
+                                            FYI-Email
+                                        </th>
+                                        <th style="display:none;">
+                                            FYI- Employee
+                                        </th>
+                                        <th style="width:5%">
+                                            @*Action*@
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                @*<div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Formula </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label id="v_formula"></label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-header m-b-100">
+                    <h4 class="modal-title">Approval</h4>
+                </div>
+
+                <div class="row v_div_hierarchy">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Hierarchy </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row v_div_hierarchy">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+
+                            <label>Name </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_h_Name"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row v_div_hierarchy">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+
+                            <label>Max Level </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_h_max_lavel"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row v_div_singleuser">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Single User </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row v_div_singleuser">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Name </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+
+                            <span id="v_su_Name"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" id="v_div_autoapproval">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Auto Approval </label>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_au_autoapproval"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-header m-b-100">
+                    <h4 class="modal-title">FYI</h4>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Frequency </label>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_fyi_frequency"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Email </label>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_fyi_Email"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Employee </label>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <span id="v_fyi_Employee"></span>
+                        </div>
+                    </div>
+
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+

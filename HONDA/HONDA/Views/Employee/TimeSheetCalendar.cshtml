@@ -1,0 +1,1133 @@
+﻿
+
+<link rel="stylesheet" href="~/assets/css/monthly.css" />
+<script type="text/javascript" src="~/assets/js/monthly.js"></script>
+<link rel="stylesheet" type="text/css" href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+<script src="~/assets/datetimepicker/js/moment-with-locales.min.js"></script>
+<script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+@*<script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.fr.js"></script>*@
+
+
+
+<style type="text/css">
+    select[multiple]{
+        height:200px !important;
+    }
+    rect {
+        width: 25%;
+    }
+    .monthly-day-event > .monthly-day-number span {
+        margin-left: 55px;
+    }
+    .monthly-header-title a:last-of-type {
+        font-weight: bold;
+    }
+        span {
+        font-family: unset !important;
+    }
+    input[type=text], input[type=password] {
+        -webkit-appearance: inner-spin-button !important;
+    }
+    .monthly-event-indicator span {
+        font-size: 11px;
+    }
+    .myClass {
+        /* border-radius: 30px; */
+        margin-top: 8px !important;
+        border-radius: 32px !important;
+        height: 39px !important;
+    }
+
+    .monthly-indicator-wrap span {
+        color: #000000a8 !important;
+        text-align: left;
+    }
+
+    .monthly-indicator-wrap {
+        width: 94% !important;
+    }
+
+    .sickleave {
+        background-color: #ffd1d1;
+        text-align: center;
+        margin: 20px auto;
+        font-size: 12px;
+    }
+
+    .holiday {
+        background-color: #d9d9d9;
+    }
+
+    .field-validation-error {
+        color: #ff0000;
+    }
+
+    .myclass {
+        margin-top: 11px !important;
+        border-radius: 32px !important;
+    }
+
+    .input_search {
+        height: 39px !important;
+        padding: 10px 12px 0px !important;
+    }
+
+    /*modal css*/
+    span {
+        font-size: 12px;
+        font-family: none;
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+
+        span.active {
+            background-color: #22e1fffa;
+        }
+
+    .vertical-line {
+        display: inline-block;
+        border-left: 1px solid #ccc;
+        margin: -3px 0px;
+        height: 14px;
+    }
+
+    .vertical-line1 {
+        display: inline-block;
+        border-left: 1px solid #ccc;
+        margin: -3px 0px;
+        height: 14px;
+        margin-right: -3px;
+        background-color: black;
+    }
+
+    .mytbl tr th {
+        border: 1px solid gray;
+    }
+
+    .mytbl tr td {
+        border: 1px solid gray;
+    }
+</style>
+
+
+<script type="text/javascript">
+    //$(".form_datetime").datetimepicker('remove');
+    //$('.mycal1').datetimepicker('update');
+   // $(".form_datetime").datetimepicker({ format: "dd MM yyyy - hh:ii", autoclose: true, changeMonth: true, changeYear: true, useCurrent: false }).datetimepicker("setDate", new Date());
+
+
+    $(document).ready(function ()
+    {
+        $('a[href$="' + "/TimeSheetCalendar" + '"]').closest("li").addClass('active');
+        //$(".form_datetime").datetimepicker('remove');
+        $(".mycal1").datepicker({ format: "dd MM yyyy - hh:ii", autoclose: true, changeMonth: true, changeYear: true, useCurrent: false }).datepicker("setDate", new Date());
+        var sampleEvents = {
+            "monthly": [
+                //{
+                //    "id": 1,
+                //    "name": "Weekend",
+                //    "startdate": "2019-12-01",
+                //    "enddate": "2019-12-01",
+                //    "starttime": "12:00",
+                //    "endtime": "2:00",
+                //    "color": "#b2f7ee",
+                //    "url": ""
+                //},
+
+                {
+                    "id": 2,
+                    "name": "ODAR &nbsp;&nbsp;  3:00 &nbsp;Hrs.",
+                    "startdate": "2019-12-02",
+                    "enddate": "2019-12-02",
+                    "starttime": "04:00",
+                    "endtime": "6:00",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 2,
+                    "name": "ODAR &nbsp;&nbsp; 4:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-02",
+                    "enddate": "2019-12-02",
+                    "starttime": "12:00",
+                    "endtime": "2:00",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 2,
+                    "name": "ODAR &nbsp;&nbsp; 5:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-02",
+                    "enddate": "2019-12-02",
+                    "starttime": "12:00",
+                    "endtime": "2:00",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 2,
+                    "name": "ODAR &nbsp;&nbsp;  4:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-03",
+                    "enddate": "2019-12-03",
+                    "starttime": "12:00",
+                    "endtime": "2:00",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 3,
+                    "name": "ODAR &nbsp;&nbsp; :5:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-04",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 3,
+                    "name": "ODAR &nbsp;&nbsp; :6:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-04",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 3,
+                    "name": "ODAR &nbsp;&nbsp; :7:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-04",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 8,
+                    "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-05",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 8,
+                    "name": "ODAR &nbsp;&nbsp;  :4:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-05",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 8,
+                    "name": "ODAR &nbsp;&nbsp;  :5:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-05",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 8,
+                    "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-06",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 8,
+                    "name": "ODAR &nbsp;&nbsp;  :5:00  &nbsp;Hrs.",
+                    "startdate": "2019-12-06",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": "https://www.google.com/"
+                },
+                {
+                    "id": 4,
+                    "name": "Test single day with time",
+                    "startdate": "2016-11-07",
+                    "enddate": "",
+                    "starttime": "12:00",
+                    "endtime": "02:00",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 5,
+                    "name": "Test splits month",
+                    "startdate": "2016-11-25",
+                    "enddate": "2016-12-04",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 6,
+                    "name": "Test events on same day",
+                    "startdate": "2016-11-25",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 7,
+                    "name": "Test events on same day",
+                    "startdate": "2016-12-25",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+                {
+                    "id": 9,
+                    "name": "Test events on same day",
+                    "startdate": "2016-11-25",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "#c6efff",
+                    "url": ""
+                },
+
+                  {
+                    "id": 10,
+                    "name": "Sick Leave",
+                    "startdate": "2019-12-12",
+                    "enddate": "",
+                    "starttime": "",
+                    "endtime": "",
+                    "color": "black",
+                    "url": "",
+                    // "backgroundColor": "red"
+                    "class": "sickleave",
+
+                },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :5:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-09",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :6:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-09",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :7:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-09",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-10",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :4:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-10",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :5:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-10",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :5:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-11",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :7:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-11",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :7:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-16",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :6:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-16",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-16",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00 &nbsp;Hrs.",
+                      "startdate": "2019-12-17",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-17",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-17",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-18",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-18",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+                  {
+                      "id": 8,
+                      "name": "ODAR &nbsp;&nbsp;  :3:00  &nbsp;Hrs.",
+                      "startdate": "2019-12-18",
+                      "enddate": "",
+                      "starttime": "",
+                      "endtime": "",
+                      "color": "#c6efff",
+                      "url": "https://www.google.com/"
+                  },
+            ]
+        };
+
+        $('#calendar1').monthly({
+            mode: 'event',
+            dataType: 'json',
+            events: sampleEvents,
+            weekStart: 'Mon',
+            eventClick: function (event) {
+                 
+                alert(1);
+            }
+
+        });
+
+        //$('.monthly-day-event .monthly-day-number').append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;W.Hrs:8:00');
+
+        //var is_weekend = function (date1) {
+        //    var dt = new Date(date1);
+
+        //    if (dt.getDay() == 6 || dt.getDay() == 0) {
+        //        return "weekend";
+        //    }
+        //}
+
+
+        //var myDate = new Date();
+        //myDate.setFullYear(2019);
+        //myDate.setMonth(12);
+        //myDate.setDate(1);
+
+        //var wk = is_weekend('2019-12-01');
+
+        //var d = new Date();
+
+        //var getTot = daysInMonth(d.getMonth(), d.getFullYear()); //Get total days in a month
+        //var sat = new Array();   //Declaring array for inserting Saturdays
+        //var sun = new Array();   //Declaring array for inserting Sundays
+
+        //for (var i = 1; i <= getTot; i++) {    //looping through days in month
+        //    var newDate = new Date(d.getFullYear(), d.getMonth(), i)
+        //    if (newDate.getDay() == 0) {   //if Sunday
+        //        sun.push(i);
+        //    }
+        //    if (newDate.getDay() == 6) {   //if Saturday
+        //        sat.push(i);
+        //    }
+
+        //}
+        //function daysInMonth(month, year) {
+        //    return new Date(year, month, 0).getDate();
+        //}
+
+        ////$('#calendar1 .monthly-day-wrap .monthly-week .monthly-day-event').each(function () {
+
+        //$('#calendar1 ._weekoff').each(function () {
+        //    var wk = $(this).attr('data-number');
+        //    //var cdiv = $(this).closest('div.monthly-day-number').html();
+
+        //    for (var i = 0; i <= sun.length; i++)
+        //    {
+        //        if (wk == sun[i])
+        //        {
+        //            //$('.monthly-day-event .monthly-day-number').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input Hrs:8:00');
+        //            var str = ($(this).closest('div').find('div.monthly-day-number').html()).replace('W.Hrs:8:00', '');
+        //            $(this).closest('div').find('div.monthly-day-number').html(str);
+        //            $(this).closest('div').find('div.monthly-indicator-wrap').html("<span class='spanWeekoff'>Weekly Off</span>");
+        //            $(this).closest('div').find('div.monthly-indicator-wrap').css("padding-top", "10%");
+        //            $(this).css('background-color', 'lightgray');
+        //        }
+        //    }
+        //    for (var i = 0; i <= sat.length; i++) {
+        //        if (wk == sat[i]) {
+        //            //$('.monthly-day-event .monthly-day-number').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input Hrs:8:00');
+        //            var str = ($(this).closest('div').find('div.monthly-day-number').html()).replace('W.Hrs:8:00', '');
+        //            $(this).closest('div').find('div.monthly-day-number').html(str);
+        //            $(this).closest('div').find('div.monthly-indicator-wrap').html("<span class='spanWeekoff'>Weekly Off</span>");
+
+        //            $(this).closest('div').find('div.monthly-indicator-wrap').css("padding-top", "10%");
+        //            $(this).css('background-color', 'lightgray')
+        //        }
+        //    }
+        //});
+
+        //$(document.body).on("click", parent + " .listed-event", function (event) {
+        //    alert(1);
+        //    var href = $(this).attr("href");
+        //    // If there isn't a link, don't go anywhere
+        //    if (!href) {
+        //        event.preventDefault();
+        //    }
+        //});
+
+        $(document).on("click", ".monthly-event-indicator", function () {
+             
+            $("event-modal").modal("show");
+        });
+        //$('#calendar1').fullCalendar({
+        //    header: {
+        //        left: 'prev,next today',
+        //        center: 'title',
+        //        right: 'month,basicWeek,basicDay'
+        //    },
+        //    firstDay: 1,
+        //    defaultView: 'month',
+        //    showNonCurrentDates: false,
+        //    navLinks: true, // can click day/week names to navigate views
+        //    editable: true,
+        //    eventLimit: true, // allow "more" link when too many events
+        //    viewRender: function (view, element) {
+        //         
+        //    },
+        //    dayRender: function (date, cell)
+        //    {
+        //        //if (date.toDate().getMonth() != new Date().getMonth()) {
+        //        //    return false;
+
+        //        //}
+        //        //else
+        //        //{
+        //        //    if (weekday[date.toDate().getDay()] == "Sunday" || weekday[date.toDate().getDay()] == "Saturday")
+        //        //    {
+        //        //        cell.append('<div style="text-align:center; background-color:#5424483b; color:black;padding-top:35%;margin-top:20px;height:100%;width:100%">Weekly Off</div>');
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        cell.append('<div style="text-align:left; background-color:#d6d1cc63; color:black;padding-top:2%;margin-top:20px;height:20%;width:100%;line-height:1">ODAR &nbsp;&nbsp; : 07:00</div><div style= "text-align:left; background-color:#d6d1cc63; color:black;padding-top:2%;margin-top:2px;height:20%;width:100%;line-height:1" > ODAR &nbsp;&nbsp; : 03:00</div > ');
+
+        //        //    }
+        //        //}
+        //    },
+        //    eventRender: function (event, element, view)
+        //    {
+        //        if (event.start.getMonth() !== view.start.getMonth()) { return false; }
+        //    },
+        //    eventAfterAllRender: function (view)
+        //    {
+        //        $('#calendar').fullCalendar('clientEvents', function (event)
+        //        {
+        //             
+        //            if (event.end)
+        //            {
+        //                var dates = getDates(event.start, event.end);
+        //                $.each(dates, function (index, value) {
+        //                    var td = $('td.fc-day[data-date="' + value + '"]');
+        //                    td.find('div:first').remove();
+        //                });
+        //            }
+        //            else
+        //            {
+        //                var td = $('td.fc-day[data-date="' + event.start.format('YYYY-MM-DD') + '"]');
+        //                td.find('div:first').remove();
+        //            }
+        //        });
+        //    }
+        //});
+
+        var event = [];
+        //$('#calendar1').fullCalendar({
+        //    header: {
+        //        left: 'prev,next today',
+        //        center: 'title',
+        //        right: 'month,agendaWeek,agendaDay'
+        //    },
+        //    firstDay: 1, //The day that each week begins (Monday=1)
+        //    slotMinutes: 60,
+        //    displayEventTime: false,
+
+        //    events: {
+        //        url: "/Admin/GetEvents",
+        //        type: 'POST',
+        //        //contentType: 'application/json; charset=utf-8',
+        //        //dataType: 'json',
+        //        success: function (doc) {
+        //            $.each(doc, function (i, val) {
+
+        //                var rowevent = {}
+        //                rowevent.id = val.id;
+        //                //rowevent.start = new Date(val.start);
+        //                //rowevent.end = new Date(val.end);
+        //                rowevent.title = val.title;
+        //                event.push(rowevent);
+        //            });
+        //            event;
+
+        //        }
+        //    },
+        //    eventClick: function (event) {
+
+        //        if (event.id) {
+        //            $("#hd_event_id").val('');
+        //            $("#txt_event_name").val('');
+        //            $("#hd_event_id").val(event.id);
+        //            $("#txt_event_name").val(event.title);
+        //            $("#event-modal").modal("show");
+        //        }
+        //    }
+        //});
+
+
+        //$(".fc-past").on("click", function () {
+        //     
+        //    $.ajax({
+        //        url: "/Admin/ChangeEvents",
+        //        type: 'POST',
+        //        contentType: 'application/json; charset=utf-8',
+        //        dataType: 'json',
+        //        data: JSON.stringify(
+        //            {
+        //                'id': 1, 'event_name': $("#txt_event_name").val()
+        //            }),
+        //        success: function (data) {
+        //            alert(data);
+        //            $("#txt_event_name").val('');
+        //            $("#event-modal").modal("hide");
+
+        //        },
+        //        error: function () {
+        //            alert('error');
+        //            $("#txt_event_name").val('');
+        //            $("#event-modal").modal("hide");
+        //        }
+
+        //    });
+
+        //});
+
+        $("input[name='Range']").click(function ()
+        {
+             
+            if ($('input:radio[name=Range]:checked').val() == "M")
+            {
+                $('#ddl_month_year').show();
+                $('#txt_date_range').hide();
+                $('#lbl_mnt_yr').html("Month-Year:");
+            }
+            else
+            {
+                $('#ddl_month_year').hide();
+                $('#txt_date_range').show();
+                $('#lbl_mnt_yr').html("Date:");
+            }
+        });
+
+        var actual_hrs = [135];
+        var input_hrs = [105];
+        window.chartColors = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var dt = new Date();
+        var mon = dt.getMonth() + 1;
+        var date = dt.getDate();
+        var yr = dt.getFullYear();
+        var months = {
+            '1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': "May", '6': 'Jun',
+            '7': 'Jul', '8': 'Aug', '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'
+        };
+        var selectedMonthName = months[mon];
+        var final_date = date + '-' + selectedMonthName + '-' + yr;
+        $("#txt_dateview").val(final_date);
+        //$("#txt_dateview").datepicker({ dateFormat: "dd-MM-yy", maxDate: "+0m +0w", minDate: minDate, firstDay: 1 }).datepicker('setDate', 'today').attr('readonly', true).css('background-color', 'white');
+
+        $('#txtDateFrom').datetimepicker('remove');
+        $('#txtDateTo').datetimepicker('remove');
+
+        $('#txtDateFrom').datetimepicker({ weekStart: 1, clearBtn: 1, autoclose: 1, todayHighlight: 1, startView: 1, forceParse: 0, showMeridian: 1, maxView: 1, startDate: new Date($("#txt_dateview").val() + " 00:00"), endDate: new Date($("#txt_dateview").val() + " 23:59") });
+
+        $('#txtDateTo').datetimepicker({ weekStart: 1, clearBtn: 1, autoclose: 1, todayHighlight: 1, startView: 1, forceParse: 0, showMeridian: 1, maxView: 1, startDate: new Date($("#txt_dateview").val() + " 00:00"), endDate: new Date($("#txt_dateview").val() + " 23:59") }).prop('disabled', false);
+    });
+</script>
+
+@*<div class="card-box" style="margin-left:-80px;margin-right:-85px;font-size:11px;margin-top: -29px;">*@
+@*<div style="margin-left:20px;margin-right:5px;font-size:11px;">*@
+    <div >
+        <div class="panel panel-table">
+            <div class="row">
+                <div class="col-lg-2">
+
+                    <div class="row" style="    margin-left: 25px!important;margin-top:10px">
+                        <div class="col-sm-12">
+                            <div class="form-group-sm form-focus select-focus myfocused">
+                                <label class="control-label">Employee Name/Code</label>
+                                <input class=" form-control-sm   input_search" id="txt_emp_code" name="txt_emp_code" placeholder=" Eg. XX12" type="text" value="Neeraj Kumar/E00384">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="    margin-left: 25px!important; margin-top:10px">
+                        <div class="col-sm-12">
+                            <div class="form-group-sm form-focus select-focus myfocused">
+                                <label class="control-label">Date</label>
+                                <input class="form-control-sm  input_search mycal1" autocomplete="off" id="txt_date" placeholder="dd MMM YYYY" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr style="width: 126%;margin-top:0;margin-bottom:10px">
+                    @*<div class="row" style="margin-top: -20px;"> <hr class="col-sm-12" style="margin-left:15px;width:100%;" /></div>*@
+                    <!--  <div class="row" >
+                              <div class="form-group form-focus select-focus myfocused" style="margin-left:-6px;">
+                                  <label class="control-label" style="font-size: 11px;padding:10px!important;width: 40%;top: -30px;">Select Month/ Date Range:</label>
+                                  @*<div class="col-sm-12" style="margin-left:95px;">
+
+                                      <label class="radio-inline">
+                                          <input type="radio" id="rb_month" value="M" name="Range" checked />Month-Year
+                                      </label>
+
+                                  </div>
+                                  <div class="col-sm-6">
+
+                                      <label class="radio-inline">
+                                          <input type="radio" id="rb_date" value="D" name="Range" />Date Range
+                                      </label>
+                                  </div>*@
+                                  <div class="form-group" style="padding-left:115px">
+                                      <label class="radio-inline">
+                                          <input type="radio" id="rb_month" value="M" name="Range" checked />Month-Year
+                                      </label>
+
+                                      <label class="radio-inline">
+                                          <input type="radio" id="rb_date" value="D" name="Range" />Date Range
+                                      </label>
+                                  </div>
+
+                              </div>
+                      </div>
+                      <div class="row">
+                          @*<div class="col-sm-12">*@
+                              <div class="form-group form-focus select-focus myfocused" style="margin-left:-6px;">
+                                  <label class="control-label" id="lbl_mnt_yr" style="font-size: 11px;padding:10px!important;">Month-Year:</label>
+                                  <select class="" id="ddl_month_year" style="margin-left:92px;width:84px;border-radius:18px; padding: 6px!important; height: 34px!important;">
+                                      <option value="Jan-2019">Jan-2019</option>
+                                  </select>
+
+                                  <input type="text" id="txt_date_range" style="font-size:11px; display:none;margin-left: 92px; width: 84px;border-radius: 29px;height:34px;padding-top:5px;height: 34px!important;" class="form-control mycal1" />
+                                  <button class="btn btn-primary" style="font-size:11px;border-radius:39px;margin-left:2px;height:34px;" id="btn_Insert" type="button">Generate Report</button>
+                              </div>
+                          @*</div>*@
+                      </div>
+                      -->
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="" style="    margin-left: 2px;">
+                                <div id="bar-chart" style="    margin-left: 20px !important;"></div>
+                                @*<div>
+                                    <label id="lbl1"> Regular Working Hrs:130</label>
+                                </div>
+                                <div style="margin-right:-30px;margin-top:-20px;float:right;">
+                                    <label id="lbl1"> Leave Hrs:10</label>
+                                </div>
+                                <div>
+                                    <label id="lbl1"> Over Time Hrs:10</label>
+                                </div>*@
+                                <div class="row"  style="    margin-left: 2px;">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>Regular Working Hrs</td><td>:</td> <td>157.5</td>
+                                           
+
+                                        </tr>
+                                        <tr>
+                                            <td>Leave Hrs</td>
+                                            <td>:</td>
+                                            <td>15	</td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>Overtime Hrs</td>
+                                            <td>:</td>
+                                            <td>21	</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class=" m-b-0" style="margin-left: 20px;">
+                        <div class="row  " style="margin-bottom:4px;">
+                            @*<div class=" col-sm-2"> <label class="  btn-sm " style="background-color:gray">Selected Date</label></div>
+                                <div class=" col-sm-3"> <label class="  btn-sm " style="background-color:gray">Weekly Off/Holiday</label></div>
+                                <div class=" col-sm-2"> <label class="  btn-sm " style="background-color:gray">Leave/LWP</label></div>
+                                <div class=" col-sm-2"> <label class="  btn-sm " style="background-color:gray">OD/Tour</label></div>
+                                <div class=" col-sm-3"> <label class="  btn-sm " style="background-color:gray">Absent/Timesheet Mismatch</label></div>*@
+                            <div class="col-sm-12">
+                                <div class=" btn-sm col-sm-2" style="background-color:#CC99CC; width: 16%;margin-right:3px">Selected Date</div>
+                                <div class=" btn-sm col-sm-3" style="background-color:lightgray;width: 18%;margin-right:3px">Weekly Off/Holiday</div>
+                                <div class=" btn-sm  col-sm-2" style="background-color:#fcc0c2;margin-right:3px">Leave/LWP</div>
+                                <div class=" btn-sm  col-sm-2" style="background-color:yellow;margin-right:3px">OD/Tour</div>
+                                <div class=" btn-sm   col-sm-3" style="background-color:red;margin-right:3px">Absent/Timesheet Mismatch</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <div id="calendar1" style="border: 1px solid lightgray;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- BEGIN MODAL -->
+<div class="modal custom-modal fade none-border" id="event-modal">
+    <div class="modal-dialog ">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="modal-content modal-md">
+            @*<div class="modal-header">
+                    <h4 class="modal-title">TimeSheet</h4>
+                </div>*@
+            <form class="card-box" style="width: 115%;margin-left: -83PX;margin-top: -8px;">
+
+                <div class="row">
+                    <div class="col-sm-1 form-group">Date</div>
+                    <div class="col-sm-1 form-group" style="margin-left:-74px;width: 25%;">
+                        <input class="form-control mycal1" style="height: 39px;padding:6px;width:150px;text-align: center;" id="txt_dateView" placeholder="dd MMM YYYY" type="text">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Project Code</label>
+                                    <select multiple size="10" class="form-control" id="1" >
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option selected>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Job Category</label>
+                                    <select multiple id="2" class="form-control">
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option selected>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Job Item</label>
+                                    <select multiple id="3" class="form-control">
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option selected>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                        <option>ODAR</option>
+                                        <option>ODAR &nbsp;&nbsp;</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-sm-1 form-group">From</div>
+                            <div class="col-sm-1 form-group" style="margin-left: -19px;width: 25%;">
+                                <input type="text" class="form-control floating" id="txtDateFrom" tabindex="5" autocomplete="off" style="height: 39px; font-size:11px;text-align:center;">
+                            </div>
+                            <div class="col-sm-1 form-group">To</div>
+                            <div class="col-sm-1 form-group" style="margin-left: -37px;width: 25%;">
+                                <input type="text" class="form-control floating" id="txtDateTo" tabindex="6" autocomplete="off" style="height: 39px; font-size:11px;text-align:center;">
+                            </div>
+                        </div>
+                        <div class="row"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row" style="margin-right: -2px;">
+                            <label>Task  Description</label>
+                            <textarea class="form-control"></textarea>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="form-group">
+                                <label>Existing Tasks</label>
+                            </div>
+                            <table class="mytbl" style="margin-right: 10px;">
+                                <thead style="background-color:lightgray">
+                                    <tr>
+                                        <th width="15%">Project Code</th>
+                                        <th width="20%">Job Category</th>
+                                        <th width="30%">Job Item</th>
+                                        <th width="15%">Description</th>
+                                        <th width="8%">Time</th>
+                                        <th width="10%">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td width="15%">0DAD</td>
+                                        <td width="20%">Budget Control</td>
+                                        <td width="30%">Gathering Organization and analysis data</td>
+                                        <td width="15%"></td>
+                                        <td width="8%">02:50</td>
+                                        <td width="10%" style="text-align: center;"><a style="visibility:visible" href="#" data-toggle="modal" class="editrecord" data-target="#edit_fuel" title="Edit"><i class="fa fa-pencil m-r-5"></i></a>  <a href="#" data-toggle="modal" style="visibility:visible" class="viewrecored" data-target="#view_fuel" title="View"><i class="fa fa-eye m-r-5"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <table style="width:100%;    margin-left: 3px;">
+                        <tbody>
+                            <tr>
+                                <td style="width:8%"> <label style="    font-size: 10px;font-family: none;"> Select Hour(S):</label> </td>
+                                <td>
+                                    <select>
+                                        <option>Hours</option>
+                                        <option>01</option>
+                                        <option>02</option>
+                                        <option>03</option>
+                                        <option selected>04</option>
+                                        <option>05</option>
+                                        <option>06</option>
+                                    </select>
+                                    <select>
+                                        <option>Minuts</option>
+                                        <option selected>00</option>
+                                        <option>01</option>
+                                        <option>02</option>
+                                        <option>03</option>
+                                        <option>04</option>
+                                        <option>05</option>
+                                        <option>06</option>
+                                    </select>
+                                </td>
+                                <td> <span class="text-danger">[Remaning Hour(s):06:15 ]</span> [ <span>Input Hour(s):02:15</span>][ <span>Regular Working Hour(s):08:30</span>] [ <span>OT Hour(s):00:00</span>][ <span>Total Working Hour(s):08:30</span>]</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+
+                                <td style="width:8%"> <label style="    font-size: 10px;font-family: none;"> Select Hour(S) :</label> </td>
+                                <td colspan="8">
+                                    <table style="border:1px solid lightgray">
+                                        <tr>
+                                            <td>
+                                                <span class="active">0:15</span><span class="vertical-line"></span><span class="active">0:30</span><span class="vertical-line"></span><span class="active">0:45</span><span class="vertical-line"></span><span class="active">1:00</span><span class="vertical-line1"></span>
+                                                <span class="active">1:15</span><span class="vertical-line"></span><span class="active">1:30</span><span class="vertical-line"></span><span class="active">1:45</span><span class="vertical-line"></span><span class="active">2:00</span><span class="vertical-line1"></span>
+                                                <span class="active">2:15</span><span class="vertical-line"></span><span class="active">2:30</span><span class="vertical-line"></span><span class="active">2:45</span><span class="vertical-line"></span><span class="active">3:00</span><span class="vertical-line1"></span>
+                                                <span class="active">3:15</span><span class="vertical-line"></span><span class="active">3:30</span><span class="vertical-line"></span><span class="active">3:45</span><span class="vertical-line "></span><span class="active">4:00</span><span class="vertical-line1"></span>
+                                                <span>4:15</span><span class="vertical-line"></span><span>4:30</span><span class="vertical-line "></span><span>4:45</span><span class="vertical-line "></span><span>5:00</span><span class="vertical-line1"></span>
+                                                <span>5:15</span><span class="vertical-line"></span><span>5:30</span><span class="vertical-line"></span><span>5:45</span><span class="vertical-line"></span><span>6:00</span><span class="vertical-line1"></span>
+                                                <span>6:15</span><span class="vertical-line"></span><span>6:30</span><span class="vertical-line"></span><span>6:45</span><span class="vertical-line"></span><span>7:00</span><span class="vertical-line1"></span>
+                                                <span>7:15</span><span class="vertical-line"></span><span>7:30</span><span class="vertical-line"></span><span>7:45</span><span class="vertical-line"></span><span>8:00</span><span class="vertical-line1"></span>
+                                                <span>8:15</span><span class="vertical-line"></span><span>8:30</span><span class="vertical-line"></span><span>8:45</span><span class="vertical-line"></span><span>9:00</span><span class="vertical-line1"></span>
+                                                <span>9:15</span><span class="vertical-line"></span><span>9:30</span><span class="vertical-line"></span><span>9:45</span><span class="vertical-line"></span><span>10:00</span><span class="vertical-line1"></span>
+                                                <span>10:15</span><span class="vertical-line"></span><span>10:30</span><span class="vertical-line"></span><span>10:45</span><span class="vertical-line"></span><span>11:00</span><span class="vertical-line1"></span>
+                                                <span>11:15</span><span class="vertical-line"></span><span>11:30</span><span class="vertical-line"></span><span>11:45</span><span class="vertical-line"></span><span>12:00</span><span class="vertical-line1"></span>
+                                                <span>12:15</span><span class="vertical-line"></span><span>12:30</span><span class="vertical-line"></span><span>12:45</span><span class="vertical-line"></span><span>13:00</span><span class="vertical-line1"></span>
+                                                <span>13:15</span><span class="vertical-line"></span><span>13:30</span><span class="vertical-line"></span><span>13:45</span><span class="vertical-line"></span><span>14:00</span><span class="vertical-line1"></span>
+                                                <span>14:15</span><span class="vertical-line"></span><span>14:30</span><span class="vertical-line"></span><span>14:45</span><span class="vertical-line"></span><span>15:00</span><span class="vertical-line1"></span>
+                                                <span>15:15</span><span class="vertical-line"></span><span>15:30</span><span class="vertical-line"></span><span>15:45</span><span class="vertical-line"></span><span>16:00</span><span class="vertical-line1"></span>
+                                                <span>16:15</span><span class="vertical-line"></span><span>16:30</span><span class="vertical-line"></span><span>16:45</span><span class="vertical-line"></span><span>17:00</span><span class="vertical-line"></span>
+
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <br />
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-4" style=" text-align: right;padding-top: 3px;margin-bottom: -7px;">
+                        <input type="button" class="btn-sm btn-primary" value="Save" />
+                        <input type="button" class="btn-sm btn-primary" value="Save & Close" />
+                        <input type="button" class="btn-sm btn-primary" value="Reset" />
+                    </div>
+
+
+                </div>
+
+
+            </form>
+            <input type="hidden" id="hd_event_id" name="name" value="" />
+            @*<div class="modal-body"></div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success save-event">Create event</button>
+                    <button type="button" class="btn btn-danger delete-event" data-dismiss="modal">Delete</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+<style>
+    .monthly-week > .m-d monthly-day monthly-day-event dt2019-12-06 {
+        background-color: aqua !important;
+    }
+</style>

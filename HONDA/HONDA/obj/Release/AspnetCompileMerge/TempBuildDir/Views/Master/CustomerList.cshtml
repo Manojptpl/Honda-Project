@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "CustomerHistory";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('ul.list-unstyled  li a[href$="' + "/CustomerList" + '"]').addClass('active');
+        $.ajax({
+            type: "GET",
+            url: "/Master/GetCustomerList",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                var result = data;
+                if (result) {
+                    $('#tblBody').empty();
+                    var html = "";
+                    $.each(result, function (txt, val) {
+                        html += "<tr>";
+                        html += "<td data_id ='" + val.Customer_No + "' >" + val.Customer_No + "</td>";
+                        html += "<td>" + val.Description + "</td>";
+                        html += "<td>" + val.Balance + "</td>";
+                        html += "<td>" + val.Blocked + "</td>";
+                        html += "<td>" + val.Sale_Person_Code + "</td>";
+                        html += "<td>" + val.FarmerLocation + "</td>";
+                        html += "<td>" + val.CustomerType + "</td>";
+                        html += "<td>" + val.CreditLimit + "</td>";
+                        html += "<td>" + val.Address + "</td>";
+                        html += "<td>" + val.Address2 + "</td>";
+                        html += "<td>" + val.City + "</td>";
+                        html += "<td>" + val.PostCode + "</td>";
+                        html += "<td>" + val.Country_RegionCode + "</td>";
+                        html += "<td>" + val.PhoneNo + "</td>";
+                        html += "<td>" + val.Email_id + "</td>";
+                        html += "<td>" + val.LanguageCode + "</td>";
+                        html += "<td>" + val.VatRegistrationCode + "</td>";
+                        html += "<td>" + val.GLN + "</td>";
+                        html += "<td>" + val.GenBusPostingSetup + "</td>";
+                        html += "<td>" + val.VatBusPostingSetup + "</td>";
+                        html += "<td>" + val.CustomerPostingSetup + "</td>";
+                        html += "<td>" + val.CurrencyCode + "</td>";
+                        html += "<td>" + val.LocationCode + "</td>";
+                        html += "<td>" + val.RemainingCrLimit + "</td>";
+                        html += "<td><a href='javascript:void(0)' class='mycustomerview' title='View' ><i class='fa fa-eye m-r-5' ></i></a></td>";
+                        html += "</tr>";
+                    })
+                    
+                    $('#tblBody').append(html);
+                    $(".tbl_customer").DataTable(
+                        {
+                            "order": [[0, "desc"]],
+                            "language": {
+                                "search": "",
+                                "searchPlaceholder": "Search"
+                            },
+                            "fixedHeader": true
+                        });
+
+                   
+                }
+            }
+        });
+
+       
+    });
+
+</script>
+<div class="row">
+    <div class="col-sm-5">
+        <h4 class="page-title">Customer List</h4>
+    </div>
+    <div class="col-sm-7 text-right m-b-30">
+        <a class="btn btn-primary rounded" href="~/Master/Create">Add Customer</a>
+    </div>
+    @*<div class="col-sm-3" id="buttons">
+    </div>*@
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped custom-table table-responsive m-b-0 tbl_customer">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Description</th>
+                        <th>Balance(LCY)</th>
+                        <th>Blocked</th>
+                        <th>Sale Person Code</th>
+                        <th>Farmer Location</th>
+                        <th>Customer Type</th>
+                        <th>Cr. Limit</th>
+                        <th>Address</th>
+                        <th>Address2</th>
+                        <th>City</th>
+                        <th>Post Code</th>
+                        <th>Country/RegionCode</th>
+                        <th>Phone No</th>
+                        <th>Email ID</th>
+                        <th>Language Code</th>
+                        <th>Vat Registration No</th>
+                        <th>GLN</th>
+                        <th>Gen Bus Posting Setup</th>
+                        <th>Vat Bus Posting Setup</th>
+                        <th>Customer Posting Setup</th>
+                        <th>Currency Code</th>
+                        <th>Location Code</th>
+                        <th>Remaining Cr. Lt.</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tblBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

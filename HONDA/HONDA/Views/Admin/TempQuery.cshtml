@@ -1,0 +1,174 @@
+﻿@model IEnumerable<HONDA.Models.EModel>
+    @{ 
+        Layout = null;
+    }
+    @ViewBag.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnSubmit").click(function () {
+                //var rresult = $('input[type="radio"]:checked');
+                //if (rresult.length > 0) {
+                //    $("#divResult").html(rresult.val() + " is checked");
+                //}
+                //else {
+                //    $("#divResult").html("no radio button checked");
+                //}
+                var result = $('input[name="skill"]:checked');
+                if (result.length > 0) {
+                    var resultString = result.length + " checkbox checked<br/>";
+                    result.each(function () {
+                        resultString += $(this).val() + "<br/>";
+                    });
+                    $("#divResult").html(resultString);
+                }
+                else {
+                    $("#divResult").html("No checkbox checked");
+                }
+            });
+            $("#btnCities").click(function () {
+                var cities = $('input[name="cities"]:checked');
+                if (cities.length > 0) {
+                    var citiesString = cities.length + " checkbox checked<br/>";
+                    cities.each(function () {
+                        citiesString += $(this).val() + "<br/>";
+                    });
+                    $("#divcities").html(citiesString);
+                }
+                else {
+                    $("#divcities").html("No checkbox checked");
+                }
+            });
+            $("#btnGetSelectedSkill").click(function () {
+                GetCheckedCheckboxes('skill');
+            });
+            $("#btnGetSelectedCities").click(function () {
+                GetCheckedCheckboxes('cities');
+            });
+            $('input[name="skill"]').click(function () {
+                GetCheckedCheckboxes('skill');
+            });
+            $('input[name="cities"]').click(function () {
+                GetCheckedCheckboxes('cities');
+            });
+            $("#btnGetSelectedValueAndText").click(function () {
+                GetCheckedCheckboxesValueAndText('cities');
+            });
+            $("#language").change(function () {
+                var selectedValue = $("#language option:selected");
+                $("#divCoutries").html('value=' + selectedValue.val() + ", text=" + selectedValue.text());
+            });
+            $('input[type="text"]:disabled').css('border', '2px solid red');
+            $("#btnGetListValue").click(function () {
+                var result = '';
+                $('li').each(function () {
+                    result += '<br/>' + $(this).text();
+                    $("#divList").html(result);
+                    //alert($(this).text());
+                });
+            });
+            $('li')
+                .css('color', 'blue')
+                .slideUp(1000)
+                .slideDown(1000)
+                .attr('Title', 'My Title');             
+            var GetCheckedCheckboxes = function (groupName) {
+                var result = $('input[name="' + groupName + '"]:checked');
+                if (result.length > 0) {
+                    var resultString = result.length + " checkbox checked<br/>";
+                    result.each(function () {
+                        resultString += $(this).val() + "<br/>";
+                    });
+                    $("#div" + groupName).html(resultString);
+                }
+                else {
+                    $("#div" + groupName).html("No checkbox checked");
+                }
+            }
+            var GetCheckedCheckboxesValueAndText = function (groupName) {
+                var result = $('input[name="' + groupName + '"]:checked');
+                if (result.length > 0) {
+                    var resultString = result.length + " checkbox checked<br/>";
+                    result.each(function () {
+                        //var selectedValue = $(this).val();
+                        resultString += $(this).val() + "-" + $('label[for="cb-' + $(this).val() + '"]').text() + "<br/>";
+                    });
+                    $("#div" + groupName).html(resultString);
+                }
+                else {
+                    $("#div" + groupName).html("No checkbox checked");
+                }
+            }
+        });
+
+    </script>
+</head>
+<body>
+    First Name :<input type="text" id="txtFirstName" value="Manoj" disabled="disabled" /><br /><br />
+    Last Name :<input type="text" id="txtLastName" value="Kumar" disabled="disabled" /><br /><br />
+    Gender:
+    <input type="radio" name="gender" value="Male" />Male
+    <input type="radio" name="gender" value="Female" />Female<br /><br />
+    Skill:
+    <input type="checkbox" name="skill" value="C#" />C#
+    <input type="checkbox" name="skill" value="javascript" />javascript
+    <input type="checkbox" name="skill" value="Jquery" />Jquery
+    <br /><br />
+    Skill Value and Text:
+    <input type="checkbox" name="skill" value="cs" />
+    <label for="cb-cs">C#</label>
+    <input type="checkbox" name="skill" value="js" />
+    <label for="cb-js">javascript</label>
+    <input type="checkbox" name="skill" value="jq" />
+    <label for="cb-jq">Jquery</label>
+    <br /><br />
+    Preferred Cities:
+    <input type="checkbox" name="cities" value="New Delhi" />New Delhi
+    <input type="checkbox" name="cities" value="Old Delhi" />Old Delhi
+    <input type="checkbox" name="cities" value="Jaipur" />Jaipur<br /><br />
+    Preferred Cities Value and Text:
+    <input type="checkbox" name="cities" value="nd" />
+    <label for="cb-nd">New Delhi</label>
+    <input type="checkbox" name="cities" value="od" />
+    <label for="cb-od">Old Delhi</label>
+    <input type="checkbox" name="cities" value="j" />
+    <label for="cb-j">Jaipur</label><br /><br />
+    Country:
+    <select id="countries" disabled="disabled">
+        <option value="in">India</option>
+        <option value="usa">USA</option>
+        <option value="j"></option>
+    </select><br /><br />
+    <select id="language">
+        <option value="Eng">English</option>
+        <option value="Hnd">Hindi</option>
+        <option value="Aus">Australian</option>
+    </select><br /><br />
+    <ul>
+        <li>India</li>
+        <li>Rus</li>
+        <li>America</li>
+        <li>Japan</li>
+        <li>South Africa</li>
+        <li>Nepal</li>
+        <li>Ethopia</li>
+    </ul>
+    Summary:
+    <textarea>I am Manoj Kumar</textarea><br /><br />
+    <div id="divResult"></div><br /><br />
+    <div id="divskill"></div><br /><br />
+    <div id="divcities"></div>
+    <div id="divCoutries"></div>
+    <div id="divList"></div>
+    <input type="button" value="Submit" id="btnSubmit" name="Submit" />
+    <input type="button" value="GetCities" id="btnCities" name="Get" />
+    <input type="button" value="GetSelectedSkill" id="btnGetSelectedSkill" name="skill" />
+    <input type="button" value="GetSelectedCities" id="btnGetSelectedCities" name="cities" />
+    <input type="button" value="GetSelectedCheckboxValueAndText" id="btnGetSelectedValueAndText" name="Checkbox" /><br />
+    <input type="button" value="Getdropdownboxvalueandtext" id="btnGetDropDownbox" name="Submit" />
+    <input type="button" value="GetListValue" id="btnGetListValue" name="Submit" />
+</body>
+</html>
